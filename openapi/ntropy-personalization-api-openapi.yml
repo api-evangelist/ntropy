@@ -1,0 +1,809 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder personalization API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: personalization
+paths:
+  /v3/rules:
+    post:
+      operationId: filter-post-v-3-rules-post
+      summary: Create a rule.
+      description: Append a rule to the personalization ruleset.
+      tags:
+      - personalization
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionModelOutput'
+        '400':
+          description: Provided rule has invalid structure
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '413':
+          description: Ruleset after append was larger than 50KiB
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+    get:
+      operationId: filter-get-v-3-rules-get
+      summary: List all rules
+      description: List all rules
+      tags:
+      - personalization
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/rules/replace:
+    post:
+      operationId: filter-replace-v-3-rules-replace-post
+      summary: Replace all rules
+      description: Replace all rules
+      tags:
+      - personalization
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Provided ruleset has invalid structure
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '413':
+          description: Ruleset was larger than 50KiB
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterModel'
+  /v3/rules/{id}:
+    patch:
+      operationId: filter-patch-v-3-rules-id-patch
+      summary: Modify an existing rule
+      description: Modify an existing rule in the ruleset.
+      tags:
+      - personalization
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionModelOutput'
+        '400':
+          description: Provided index does not exist in ruleset
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+    delete:
+      operationId: filter-delete-v-3-rules-id-delete
+      summary: Delete a rule
+      description: Delete the rule at the specified index from the personalization ruleset.
+      tags:
+      - personalization
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '400':
+          description: Provided index does not exist in ruleset
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/rules/:
+    get:
+      tags:
+      - personalization
+      summary: Get the current personalization ruleset.
+      description: Get the current personalization ruleset.
+      operationId: filter_get_v2_rules__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterModel_2'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+    post:
+      tags:
+      - personalization
+      summary: Set the personalization ruleset.
+      description: Set the personalization ruleset.
+      operationId: filter_post_v2_rules__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterModel_2'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Provided ruleset has invalid structure
+        '413':
+          description: Ruleset was larger than 50KiB
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/rules/\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '[\n    {\n        \"if\": {\n            \"is_substring\": [\n                {\"get\": \"website\"},\n                \"ntropy\"\n            ]\n        },\n        \"then\": [\n            {\"set\": \"logo\", \"to\": \"http://example.com/favicon.ico\"}\n        ],\n        \"else\": [\n            {\"remove_label\": \"example label\"}\n        ]\n    }\n  ]'\n"
+  /v2/rules/append:
+    post:
+      tags:
+      - personalization
+      summary: Append a rule.
+      description: Append a rule to the personalization ruleset.
+      operationId: filter_append_v2_rules_append_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action_2'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Provided rule has invalid structure
+        '413':
+          description: Ruleset after append was larger than 50KiB
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/rules/append\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"set\": \"logo\", \"to\": \"http://example.com/favicon.ico\"}'\n"
+  /v2/rules/{index}:
+    delete:
+      tags:
+      - personalization
+      summary: Delete a rule.
+      description: Delete the rule at the specified index from the personalization ruleset.
+      operationId: filter_delete_v2_rules__index__delete
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: index
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Index
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Provided index does not exist in ruleset
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"DELETE\" \\\n  \"https://api.ntropy.com/v2/rules/0\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n"
+    patch:
+      tags:
+      - personalization
+      summary: Modify an existing rule.
+      description: Modify an existing rule at the specified index on the ruleset.
+      operationId: filter_patch_v2_rules__index__patch
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: index
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Index
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action_2'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Provided index does not exist in ruleset
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"PATCH\" \\\n  \"https://api.ntropy.com/v2/rules/0\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"set\": \"logo\", \"to\": \"http://example.com/favicon.ico\"}'\n"
+components:
+  schemas:
+    FnCall13:
+      type: object
+      properties:
+        is_substring:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - is_substring
+      title: FnCall13
+    FnCall18:
+      type: object
+      properties:
+        has_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - has_label
+      title: FnCall18
+    ModifyLabels:
+      oneOf:
+      - $ref: '#/components/schemas/ModifyLabels0'
+      - $ref: '#/components/schemas/ModifyLabels1'
+      - $ref: '#/components/schemas/ModifyLabels2'
+      - $ref: '#/components/schemas/ModifyLabels3'
+      - $ref: '#/components/schemas/ModifyLabels4'
+      - $ref: '#/components/schemas/ModifyLabels5'
+      title: ModifyLabels
+    FnCall20:
+      type: object
+      properties:
+        get:
+          $ref: '#/components/schemas/TxProp'
+      required:
+      - get
+      title: FnCall20
+    ModifyLabels2:
+      type: object
+      properties:
+        set_labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - set_labels
+      title: ModifyLabels2
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FnCall2:
+      type: object
+      properties:
+        ==:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - ==
+      title: FnCall2
+    FnCall17:
+      type: object
+      properties:
+        to_upper:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - to_upper
+      title: FnCall17
+    FilterModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/Action'
+      title: FilterModel
+    FnCall5:
+      type: object
+      properties:
+        '*':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '*'
+      title: FnCall5
+    ValidationError_2:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    If:
+      type: object
+      properties:
+        if:
+          $ref: '#/components/schemas/Expr'
+        then:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+        else:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+      required:
+      - if
+      title: If
+    FnCall9:
+      type: object
+      properties:
+        <=:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - <=
+      title: FnCall9
+    FnCall3:
+      type: object
+      properties:
+        +:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - +
+      title: FnCall3
+    FnCall14:
+      type: object
+      properties:
+        starts_with:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - starts_with
+      title: FnCall14
+    Setter:
+      type: object
+      properties:
+        set:
+          $ref: '#/components/schemas/EditableTxProp'
+        to:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - set
+      - to
+      title: Setter
+    FilterModel_2:
+      items: {}
+      type: array
+      title: FilterModel
+    TxProp:
+      type: string
+      enum:
+      - logo
+      - website
+      - merchant
+      - description
+      - merchant_id
+      - location
+      - person
+      - transaction_type
+      - amount
+      - entry_type
+      - account_holder_type
+      - account_holder_id
+      - account_holder_name
+      - country
+      title: TxProp
+    FnCall15:
+      type: object
+      properties:
+        ends_with:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - ends_with
+      title: FnCall15
+    FnCall:
+      oneOf:
+      - $ref: '#/components/schemas/FnCall0'
+      - $ref: '#/components/schemas/FnCall1'
+      - $ref: '#/components/schemas/FnCall2'
+      - $ref: '#/components/schemas/FnCall3'
+      - $ref: '#/components/schemas/FnCall4'
+      - $ref: '#/components/schemas/FnCall5'
+      - $ref: '#/components/schemas/FnCall6'
+      - $ref: '#/components/schemas/FnCall7'
+      - $ref: '#/components/schemas/FnCall8'
+      - $ref: '#/components/schemas/FnCall9'
+      - $ref: '#/components/schemas/FnCall10'
+      - $ref: '#/components/schemas/FnCall11'
+      - $ref: '#/components/schemas/FnCall12'
+      - $ref: '#/components/schemas/FnCall13'
+      - $ref: '#/components/schemas/FnCall14'
+      - $ref: '#/components/schemas/FnCall15'
+      - $ref: '#/components/schemas/FnCall16'
+      - $ref: '#/components/schemas/FnCall17'
+      - $ref: '#/components/schemas/FnCall18'
+      - $ref: '#/components/schemas/FnCall19'
+      - $ref: '#/components/schemas/FnCall20'
+      title: FnCall
+    FnCall19:
+      type: object
+      properties:
+        has_mcc:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - has_mcc
+      title: FnCall19
+    FnCall7:
+      type: object
+      properties:
+        //:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - //
+      title: FnCall7
+    EditableTxProp:
+      type: string
+      enum:
+      - logo
+      - website
+      - merchant
+      - merchant_id
+      - location
+      - person
+      - transaction_type
+      title: EditableTxProp
+    ModifyLabels5:
+      type: object
+      properties:
+        set_mcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - set_mcc
+      title: ModifyLabels5
+    FnCall11:
+      type: object
+      properties:
+        '>=':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '>='
+      title: FnCall11
+    FnCall4:
+      type: object
+      properties:
+        '-':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '-'
+      title: FnCall4
+    ModifyLabels0:
+      type: object
+      properties:
+        add_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - add_label
+      title: ModifyLabels0
+    FnCall1:
+      type: object
+      properties:
+        '||':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '||'
+      title: FnCall1
+    ModifyLabels1:
+      type: object
+      properties:
+        remove_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - remove_label
+      title: ModifyLabels1
+    HTTPValidationError_2:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError_2'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Action:
+      oneOf:
+      - $ref: '#/components/schemas/If'
+      - $ref: '#/components/schemas/ModifyLabels'
+      - $ref: '#/components/schemas/Setter'
+      title: Action
+    FnCall6:
+      type: object
+      properties:
+        /:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - /
+      title: FnCall6
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    ModifyLabels3:
+      type: object
+      properties:
+        add_mcc:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - add_mcc
+      title: ModifyLabels3
+    Action_2:
+      additionalProperties: true
+      type: object
+      title: Action
+    FnCall10:
+      type: object
+      properties:
+        '>':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '>'
+      title: FnCall10
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    Expr:
+      oneOf:
+      - type: boolean
+      - type: string
+      - type: number
+        format: double
+      - $ref: '#/components/schemas/FnCall'
+      title: Expr
+    FnCall0:
+      type: object
+      properties:
+        '&&':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '&&'
+      title: FnCall0
+    FnCall16:
+      type: object
+      properties:
+        to_lower:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - to_lower
+      title: FnCall16
+    ActionModelOutput:
+      type: object
+      properties:
+        id:
+          type: integer
+      required:
+      - id
+      title: ActionModelOutput
+    ModifyLabels4:
+      type: object
+      properties:
+        remove_mcc:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - remove_mcc
+      title: ModifyLabels4
+    FnCall8:
+      type: object
+      properties:
+        <:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - <
+      title: FnCall8
+    FnCall12:
+      type: object
+      properties:
+        '!':
+          $ref: '#/components/schemas/Expr'
+      required:
+      - '!'
+      title: FnCall12
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,1566 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: Account Holder
+  description: Ledger operations
+paths:
+  /v2/account-holder:
+    post:
+      tags:
+      - Account Holder
+      summary: Create an account holder.
+      description: Create an account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.
+      operationId: create_account_holder_v2_account_holder_post
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountHolderCreate'
+      responses:
+        '200':
+          description: The created account holder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ntropy_server__schemas__account_holder__AccountHolder'
+        '400':
+          description: Bad Request
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/account-holder\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n  \"id\": \"67890\",\n  \"type\": \"business\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"industry\": \"fintech\",\n  \"website\": \"ntropy.com\"\n}'\n"
+      - lang: python
+        label: Python SDK
+        source: "from ntropy_sdk.v2 import SDK, Transaction, AccountHolder\nimport os\n\nsdk = SDK(os.environ[\"NTROPY_API_KEY\"])\naccount_holder = AccountHolder(\n    id=\"67890\",\n    type=\"business\",\n    name=\"Ntropy Network Inc.\",\n    industry=\"fintech\",\n    website=\"ntropy.com\"\n)\nsdk.create_account_holder(account_holder)\n"
+    get:
+      tags:
+      - Account Holder
+      summary: Gets a list of the registered account holders
+      operationId: get_account_holders_v2_account_holder_get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Page
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          title: Per Page
+      - name: query
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          type: string
+          default: created_at
+          title: Sort By
+      - name: sort_order
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          default: desc
+          title: Sort Order
+      - name: named_only
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: false
+          title: Named Only
+      - name: with_confidence
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          default: false
+          title: With Confidence
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ntropy_server__schemas__account_holder__AccountHolder'
+                title: Response Get Account Holders V2 Account Holder Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/account-holder/{account_holder_id}:
+    put:
+      tags:
+      - Account Holder
+      summary: Replace an existing account holder.
+      description: Replace a existing account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.
+      operationId: replace_account_holder_v2_account_holder__account_holder_id__put
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountHolderWrite'
+      responses:
+        '200':
+          description: Replaced account holder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ntropy_server__schemas__account_holder__AccountHolder'
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Account Holder
+      summary: Retrieve the information of an account holder.
+      description: Retrieve the information of an account holder.
+      operationId: get_account_holder_v2_account_holder__account_holder_id__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      responses:
+        '200':
+          description: Retrieved account holder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountHolderWithCounts'
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"GET\" \\\n  \"https://api.ntropy.com/v2/account-holder/{account_holder_id}\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
+      - lang: python
+        label: Python SDK
+        source: 'from ntropy_sdk.v2 import SDK, Transaction, AccountHolder
+
+          import os
+
+          import uuid
+
+
+          sdk = SDK(os.environ["NTROPY_API_KEY"])
+
+          account_holder = sdk.get_account_holder("{account_holder_id}")
+
+          '
+    patch:
+      tags:
+      - Account Holder
+      summary: Renames an existing account-holder
+      operationId: patch_account_holder_v2_account_holder__account_holder_id__patch
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_patch_account_holder_v2_account_holder__account_holder_id__patch'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Account Holder
+      summary: Delete an account holder.
+      description: Delete an account holder and all of its ledger. This operation is permanent.
+      operationId: delete_account_holder_v2_account_holder__account_holder_id__delete
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      responses:
+        '200':
+          description: Deleted account holder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"DELETE\" \\\n  \"https://api.ntropy.com/v2/account-holder/{account_holder_id}\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
+      - lang: python
+        label: Python SDK
+        source: 'from ntropy_sdk.v2 import SDK, Transaction, AccountHolder
+
+          import os
+
+          import uuid
+
+
+          sdk = SDK(os.environ["NTROPY_API_KEY"])
+
+          account_holder = sdk.get_account_holder("{account_holder_id}")
+
+          '
+  /v2/account-holder/{account_holder_id}/transactions:
+    get:
+      tags:
+      - Account Holder
+      summary: List transactions of an account holder.
+      description: Fetch all the transactions in the transaction ledger of an account holder.
+      operationId: get_account_holder_transactions_v2_account_holder__account_holder_id__transactions_get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Page number
+          default: 0
+          title: Page
+        description: Page number
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: How many items per page
+          default: 100
+          title: Per Page
+        description: How many items per page
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Column to sort items by, allowed values are `['date']`. When not specified the default order will be used.
+          title: Sort By
+        description: Column to sort items by, allowed values are `['date']`. When not specified the default order will be used.
+      - name: sort_order
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/SortOrder'
+          description: Sorting direction `asc` or `desc`
+          default: desc
+        description: Sorting direction `asc` or `desc`
+      responses:
+        '200':
+          description: List of transactions for the account holder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountHolderTransactions'
+        '400':
+          description: Bad request
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"GET\" \\\n  \"https://api.ntropy.com/v2/account-holder/{account_holder_id}/transactions?page=0&per_page=1000\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
+    post:
+      tags:
+      - Account Holder
+      summary: Get transactions of an account holder by transaction id.
+      description: Fetch all the transactions matching given transaction ids in the transaction ledger of an account holder. Transactions returned will be in arbitrary order.
+      operationId: get_account_holder_transactions_by_id_v2_account_holder__account_holder_id__transactions_post
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          description: Page number
+          default: 0
+          title: Page
+        description: Page number
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          description: How many items per page
+          default: 100
+          title: Per Page
+        description: How many items per page
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Column to sort items by, allowed values are `['date']`. When not specified the default order will be used.
+          title: Sort By
+        description: Column to sort items by, allowed values are `['date']`. When not specified the default order will be used.
+      - name: sort_order
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/SortOrder'
+          description: Sorting direction `asc` or `desc`
+          default: desc
+        description: Sorting direction `asc` or `desc`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+              title: Body
+      responses:
+        '200':
+          description: List of transactions for the account holder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAccountHolderTransactions'
+        '400':
+          description: Bad request
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"GET\" \\\n  \"https://api.ntropy.com/v2/account-holder/{account_holder_id}/transactions?page=0&per_page=1000\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
+    put:
+      tags:
+      - Account Holder
+      summary: Correct any property for multiple transactions.
+      description: Provide a correction for any field of a set of previously enriched transactions by transaction_id.
+      operationId: correct_transactions_v2_account_holder__account_holder_id__transactions_put
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichedTransactionCorrectionList'
+      responses:
+        '200':
+          description: Enriched transaction with the corrected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrichedTransaction'
+                title: Response 200 Correct Transactions V2 Account Holder  Account Holder Id  Transactions Put
+        '404':
+          description: Provided account holder or transaction not found by id
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/account-holder/{account_holder_id}/transactions/{transaction_id}:
+    put:
+      tags:
+      - Account Holder
+      summary: Correct any transaction property.
+      description: Provide a correction for any field of a previously enriched transaction.
+      operationId: correct_transaction_v2_account_holder__account_holder_id__transactions__transaction_id__put
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: transaction_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Transaction Id
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichedTransactionCorrection'
+      responses:
+        '200':
+          description: Enriched transaction with the corrected fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichedTransaction'
+        '404':
+          description: Provided account holder or transaction not found by id
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/account-holder/{account_holder_id}/recurring-payments:
+    post:
+      tags:
+      - Account Holder
+      summary: Identify existing recurring payments for an account holder's transaction history.
+      description: Given the history of transactions of an account holder, determines existing recurring payments and related properties such as the type (subscription or bill), amount, periodicity, etc...
+      operationId: get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Account Holder Id
+      responses:
+        '200':
+          description: 'Result containing existing RecurringPaymentsGroups for an account holder.  '
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecurringPaymentsGroup'
+                title: Response 200 Get Account Holder Recurring Payments V2 Account Holder  Account Holder Id  Recurring Payments Post
+        '400':
+          description: Bad request
+        '404':
+          description: Account holder not found.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RecurringPaymentsGroup:
+      properties:
+        recurrence_group_id:
+          type: string
+          title: Recurrence Group Id
+        periodicity:
+          anyOf:
+          - $ref: '#/components/schemas/PayFrequency'
+          - type: 'null'
+        latest_payment_amount:
+          type: number
+          title: Latest Payment Amount
+        total_amount:
+          type: number
+          title: Total Amount
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        merchant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant Id
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        first_payment_date:
+          type: string
+          title: First Payment Date
+        latest_payment_date:
+          type: string
+          title: Latest Payment Date
+        transaction_ids:
+          items:
+            type: string
+          type: array
+          title: Transaction Ids
+        is_active:
+          type: boolean
+          title: Is Active
+        next_expected_payment_date:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Next Expected Payment Date
+        latest_payment_description:
+          type: string
+          title: Latest Payment Description
+        type:
+          type: string
+          title: Type
+        is_essential:
+          type: boolean
+          title: Is Essential
+        iso_currency_code:
+          type: string
+          title: Iso Currency Code
+        entry_type:
+          type: string
+          title: Entry Type
+        periodicity_in_days:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Periodicity In Days
+        average_amount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Average Amount
+      type: object
+      required:
+      - recurrence_group_id
+      - latest_payment_amount
+      - total_amount
+      - first_payment_date
+      - latest_payment_date
+      - transaction_ids
+      - is_active
+      - latest_payment_description
+      - type
+      - is_essential
+      - iso_currency_code
+      - entry_type
+      title: RecurringPaymentsGroup
+      description: Represents one recurring payments group for an account holder id
+    Body_patch_account_holder_v2_account_holder__account_holder_id__patch:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: Body_patch_account_holder_v2_account_holder__account_holder_id__patch
+    PayFrequency:
+      type: string
+      enum:
+      - daily
+      - weekly
+      - bi-weekly
+      - monthly
+      - bi-monthly
+      - quarterly
+      - semi-yearly
+      - yearly
+      - other
+      title: PayFrequency
+    TransactionType:
+      type: string
+      enum:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    AccountHolderCompany:
+      properties:
+        loan_state:
+          $ref: '#/components/schemas/LoanState'
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      required:
+      - loan_state
+      title: AccountHolderCompany
+    SortOrder:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortOrder
+    EntryType-Output:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    EnrichedTransactionCorrection:
+      properties:
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        location_structured:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Location Structured
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        recurrence:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Recurrence
+        person:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Person
+        transaction_type:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Transaction Type
+        intermediaries:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Intermediaries
+        review_state:
+          anyOf:
+          - $ref: '#/components/schemas/ReviewState'
+          - type: 'null'
+      additionalProperties: false
+      type: object
+      title: EnrichedTransactionCorrection
+    ReviewState:
+      type: string
+      enum:
+      - incomplete
+      - satisfied
+      - forced
+      title: ReviewState
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
+      type: object
+      title: LocationStructuredPublic
+    EnrichedTransactionCorrectionList:
+      properties:
+        transaction_ids:
+          items:
+            type: string
+          type: array
+          title: Transaction Ids
+        corrections:
+          items:
+            $ref: '#/components/schemas/EnrichedTransactionCorrection'
+          type: array
+          title: Corrections
+      type: object
+      required:
+      - transaction_ids
+      - corrections
+      title: EnrichedTransactionCorrectionList
+    EnrichedTransaction:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        location_structured:
+          anyOf:
+          - $ref: '#/components/schemas/LocationStructuredPublic'
+          - type: 'null'
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        merchant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant Id
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        recurrence:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceType'
+          - type: 'null'
+        recurrence_group:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceGroup'
+          - type: 'null'
+        recurrence_group_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recurrence Group Id
+        person:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Person
+        transaction_type:
+          anyOf:
+          - $ref: '#/components/schemas/TransactionType'
+          - type: 'null'
+        intermediaries:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/EntityOut'
+            type: array
+          - type: 'null'
+          title: Intermediaries
+        mcc:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Mcc
+      type: object
+      required:
+      - transaction_id
+      title: EnrichedTransaction
+      examples:
+      - intermediaries:
+        - id: 916bc837-55ef-3106-88f6-5a8269ca9f2a
+          logo: https://logos.ntropy.com/squareup.com
+          name: Square
+          website: squareup.com
+        labels:
+        - Cafes and coffee shop
+        location: 10 Union Square East, New York, New York 10003, US
+        location_structured:
+          address: 10 Union Square East
+          apple_maps_url: https://maps.apple.com/?q=Starbucks+10+Union+Square+East&sll=40.734834,-73.989782
+          city: New York
+          country: US
+          country_name: United States
+          google_maps_url: https://www.google.com/maps/search/?api=1&query=Starbucks%2C10+Union+Square+East%2C+New+York%2C+New+York+10003%2C+US
+          latitude: '48.734834'
+          longitude: '-73.989782'
+          postcode: '10003'
+          state: New York
+        logo: https://logo.clearbit.com/aws.amazon.com
+        merchant: Starbucks
+        merchant_id: d4bc3c80-ec1a-3da2-836e-2a4ca4758be5
+        recurrence: recurring
+        recurrence_group:
+          average_amount: 10.0
+          first_payment_date: '2020-02-02'
+          id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+          latest_payment_date: '2022-02-02'
+          other_party: starbucks.com
+          periodicity: monthly
+          periodicity_in_days: 31
+          total_amount: 240.0
+          transaction_ids:
+          - b708fbd8-be76-41c2-86d5-83f8ba05ed85
+          - 0e34b24d-646d-416e-8d51-fda5b6e10684
+        recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+        transaction_id: xbx8YP14g565Xk
+        website: starbucks.com
+    PaginatedAccountHolderTransactions:
+      properties:
+        transactions:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/AccountHolderTransaction'
+            type: array
+          - type: 'null'
+          title: Transactions
+        pages:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Pages
+      type: object
+      title: PaginatedAccountHolderTransactions
+    AccountHolderTransaction:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+        account_holder_id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Account Holder Id
+          description: The unique ID of the account holder of the transaction
+        account_holder_type:
+          anyOf:
+          - $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+          - type: 'null'
+          description: The type of an account holder, may be one of 'consumer', 'business' or 'unknown'. Only used when create_account_holder is true.
+        amount:
+          type: number
+          minimum: 0.0
+          title: Amount
+          description: The amount of the transaction
+        entry_type:
+          $ref: '#/components/schemas/EntryType-Output'
+          description: The direction of the transaction (incoming or outgoing)
+        date:
+          type: string
+          format: date
+          title: Date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        iso_currency_code:
+          type: string
+          title: Iso Currency Code
+          description: The currency of the transaction in ISO 4217 format
+        description:
+          type: string
+          maxLength: 1024
+          minLength: 0
+          title: Description
+          description: The description string of the transaction
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        country:
+          anyOf:
+          - type: string
+            pattern: '[A-Z]{2}(-[A-Z0-9]{1,3})?'
+          - type: 'null'
+          title: Country
+          description: The country where the transaction was made in ISO 3166-2 format
+        mcc:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Mcc
+        account_holder_name:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 0
+          - type: 'null'
+          title: Account Holder Name
+          description: The name of the account holder
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        location_structured:
+          anyOf:
+          - $ref: '#/components/schemas/LocationStructuredPublic'
+          - type: 'null'
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        merchant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant Id
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        recurrence:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceType'
+          - type: 'null'
+        recurrence_group:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceGroup'
+          - type: 'null'
+        recurrence_group_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recurrence Group Id
+        person:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Person
+        transaction_type:
+          anyOf:
+          - $ref: '#/components/schemas/TransactionType'
+          - type: 'null'
+        intermediaries:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/EntityOut'
+            type: array
+          - type: 'null'
+          title: Intermediaries
+      additionalProperties: true
+      type: object
+      required:
+      - transaction_id
+      - amount
+      - entry_type
+      - date
+      - iso_currency_code
+      - description
+      title: AccountHolderTransaction
+      examples:
+      - intermediaries:
+        - id: 916bc837-55ef-3106-88f6-5a8269ca9f2a
+          logo: https://logos.ntropy.com/squareup.com
+          name: Square
+          website: squareup.com
+        labels:
+        - Cafes and coffee shop
+        location: 10 Union Square East, New York, New York 10003, US
+        location_structured:
+          address: 10 Union Square East
+          apple_maps_url: https://maps.apple.com/?q=Starbucks+10+Union+Square+East&sll=40.734834,-73.989782
+          city: New York
+          country: US
+          country_name: United States
+          google_maps_url: https://www.google.com/maps/search/?api=1&query=Starbucks%2C10+Union+Square+East%2C+New+York%2C+New+York+10003%2C+US
+          latitude: '48.734834'
+          longitude: '-73.989782'
+          postcode: '10003'
+          state: New York
+        logo: https://logo.clearbit.com/aws.amazon.com
+        merchant: Starbucks
+        merchant_id: d4bc3c80-ec1a-3da2-836e-2a4ca4758be5
+        recurrence: recurring
+        recurrence_group:
+          average_amount: 10.0
+          first_payment_date: '2020-02-02'
+          id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+          latest_payment_date: '2022-02-02'
+          other_party: starbucks.com
+          periodicity: monthly
+          periodicity_in_days: 31
+          total_amount: 240.0
+          transaction_ids:
+          - b708fbd8-be76-41c2-86d5-83f8ba05ed85
+          - 0e34b24d-646d-416e-8d51-fda5b6e10684
+        recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+        transaction_id: xbx8YP14g565Xk
+        website: starbucks.com
+    EntityOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      title: EntityOut
+    AccountHolderCreate:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+        id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Id
+      type: object
+      required:
+      - type
+      title: AccountHolderCreate
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    ntropy_server__schemas__account_holder__AccountHolder:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+        id:
+          type: string
+          title: Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        mean_labeler_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Mean Labeler Confidence
+        total_revenue:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Revenue
+        application_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Application Time
+        alerts:
+          additionalProperties: true
+          type: object
+          title: Alerts
+          default: {}
+        review_percentage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Review Percentage
+      type: object
+      required:
+      - type
+      - id
+      title: AccountHolder
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AccountHolderWithCounts:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+        id:
+          type: string
+          title: Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        mean_labeler_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Mean Labeler Confidence
+        total_revenue:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Revenue
+        application_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Application Time
+        alerts:
+          additionalProperties: true
+          type: object
+          title: Alerts
+          default: {}
+        review_percentage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Review Percentage
+        num_transactions:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Num Transactions
+      type: object
+      required:
+      - type
+      - id
+      title: AccountHolderWithCounts
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    Status:
+      type: string
+      enum:
+      - success
+      - error
+      title: Status
+    AccountHolderWrite:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+      type: object
+      required:
+      - type
+      title: AccountHolderWrite
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    RecurrenceGroup:
+      properties:
+        id:
+          type: string
+          title: Id
+        first_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: First Payment Date
+        latest_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Payment Date
+        total_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Amount
+        average_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Amount
+        periodicity_in_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Periodicity In Days
+        periodicity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Periodicity
+        confidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Confidence
+        transaction_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Transaction Ids
+          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+      type: object
+      required:
+      - id
+      title: RecurrenceGroup
+    LoanState:
+      type: string
+      enum:
+      - tbd
+      - ongoing
+      - done
+      title: LoanState
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
+    EmptyResponse:
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+      type: object
+      required:
+      - status
+      title: EmptyResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

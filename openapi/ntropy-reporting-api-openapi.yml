@@ -1,0 +1,244 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder Reporting API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: Reporting
+paths:
+  /v2/report:
+    post:
+      tags:
+      - Reporting
+      summary: Report a wrongly classified transaction.
+      description: Report a wrongly classified transaction specifying expected enrichment values.
+      operationId: report_post_v2_v2_report_post
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichmentReport'
+      responses:
+        '200':
+          description: List of available custom labelling models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichmentReportResponse'
+        '404':
+          description: No available models found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/report\" \\\n  -H \"accept: */*\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"transaction_id\": \"xbx8YP14g565Xk\",\n    \"website\": \"www.expected.website\",\n    \"merchant\": \"Other Merchant\"\n  }'\n"
+      - lang: python
+        label: Python SDK
+        source: "from ntropy_sdk.v2 import SDK, EnrichedTransaction\nimport os\n\nsdk = SDK(os.environ[\"NTROPY_API_KEY\"])\ntx = EnrichedTransaction(\n    sdk,\n    transaction_id=\"xbx8YP14g565Xk\",\n    website=\"www.expected.website\",\n    merchant=\"Other Merchant\"\n)\ntx.report()\n"
+    get:
+      tags:
+      - Reporting
+      summary: List all submited reports (paginated and filterable).
+      description: Given a page size and page number, lists a specific page of previously submitted reports, optionally filtered by status and transaction_id.
+      operationId: report_list_v2_report_get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 10000
+          minimum: 1
+          default: 1000
+          title: Per Page
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+          title: Page
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: transaction_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Transaction Id
+      responses:
+        '200':
+          description: List of reported transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrichmentReportResponse'
+                title: Response 200 Report List V2 Report Get
+        '400':
+          description: One or more provided values for the query are invalid
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/report/{id}:
+    get:
+      tags:
+      - Reporting
+      summary: Returns a report by id
+      description: Returns all the available information about a previously submitted report by it's identifier.
+      operationId: report_get_specific_v2_report__id__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Id
+      responses:
+        '200':
+          description: Report with the provided id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnrichmentReportResponse'
+                title: Response 200 Report Get Specific V2 Report  Id  Get
+        '400':
+          description: Provided report_it has an invalid format
+        '404':
+          description: Requested report does not exist
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    EnrichmentReportResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        status:
+          $ref: '#/components/schemas/ReportStatus'
+        transaction_id:
+          type: string
+          title: Transaction Id
+        fields:
+          anyOf:
+          - additionalProperties:
+              type: string
+            type: object
+          - type: 'null'
+          title: Fields
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Webhook Url
+      type: object
+      required:
+      - id
+      - status
+      - transaction_id
+      title: EnrichmentReportResponse
+    EnrichmentReport:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Webhook Url
+      additionalProperties: {}
+      type: object
+      required:
+      - transaction_id
+      title: EnrichmentReport
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReportStatus:
+      type: string
+      enum:
+      - open
+      - resolved
+      - invalid
+      - pending
+      title: ReportStatus
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

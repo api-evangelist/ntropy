@@ -1,0 +1,771 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder bankStatements API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: bankStatements
+paths:
+  /v3/bank_statements:
+    post:
+      operationId: post-bank-statement-v-3-bank-statements-post
+      summary: Submit a bank statement PDF
+      description: "Upload a PDF file for the main extraction workflow. Once the bank statement has finished processing, you can\n    retrieve the results using [/v3/bank_statements/{id}/results](./get-bank-statement-result).\n\n    Complete guide: [Bank Statements](../../../bank-statements)"
+      tags:
+      - bankStatements
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatement'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+    get:
+      operationId: get-bank-statements-v-3-bank-statements-get
+      summary: List all bank statements
+      description: Return a list of submitted bank statements starting with the most recent one.
+      tags:
+      - bankStatements
+      parameters:
+      - name: created_after
+        in: query
+        description: Only return bank statements older or equal than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: created_before
+        in: query
+        description: Only return bank statements newer than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: cursor
+        in: query
+        description: Starting point for the set of bank statements
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: limit
+        in: query
+        description: The limit of bank statements to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+      - name: status
+        in: query
+        description: If specified, only return bank statements with this status
+        required: false
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/DocumentStatus'
+          - type: 'null'
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResponse_BankStatement'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}:
+    get:
+      operationId: get-bank-statement-v-3-bank-statements-id-get
+      summary: Retrieve a bank statement
+      tags:
+      - bankStatements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatement'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      operationId: delete-bank-statement-v-3-bank-statements-id-delete
+      summary: Deletes a bank statement
+      tags:
+      - bankStatements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}/results:
+    get:
+      operationId: get-bank-statement-result-v-3-bank-statements-id-results-get
+      summary: Retrieve the extraction results
+      description: Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `completed`.
+      tags:
+      - bankStatements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatementResults'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}/verify:
+    post:
+      operationId: get-bank-statement-statement-info-v-3-bank-statements-id-verify-post
+      summary: Quickly extract account holder, institution and first account
+      description: 'Extracts account holder, bank and account information extracted from the first page of the bank statement, which is typically available before the full results. This is a synchronous call.
+
+
+        Complete guide: [Fast verification](../../../fast-verification)'
+      tags:
+      - bankStatements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatementInfo'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BankStatementFile:
+      type: object
+      properties:
+        no_pages:
+          type: integer
+          description: The number of pages in the bank statement file.
+        size:
+          type:
+          - integer
+          - 'null'
+          description: The size of the bank statement file in bytes, if available.
+      required:
+      - no_pages
+      title: BankStatementFile
+    BankStatementTransaction:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        running_balance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The account's balance when this transaction was performed
+        page_number:
+          type:
+          - integer
+          - 'null'
+          description: The page number this transaction appears on, where 1 is the first page.
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      title: BankStatementTransaction
+    BankStatement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the bank statement job.
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the bank statement file, if available.
+        status:
+          $ref: '#/components/schemas/BankStatementStatus'
+          description: The current status of the document.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time when the job was created.
+        file:
+          $ref: '#/components/schemas/BankStatementFile'
+          description: Information about the bank statement file being processed.
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/BankStatementError'
+          - type: 'null'
+      required:
+      - id
+      - status
+      - created_at
+      - file
+      description: Represents a bank statement with details about the file and its status.
+      title: BankStatement
+    Address:
+      type: object
+      properties:
+        street:
+          type:
+          - string
+          - 'null'
+        postcode:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        country:
+          type:
+          - string
+          - 'null'
+      title: Address
+    PagedResponse_BankStatement:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankStatement'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_BankStatement
+    DocumentStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - processed
+      - failed
+      title: DocumentStatus
+    Account:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        number:
+          type:
+          - string
+          - 'null'
+        opening_balance:
+          type:
+          - number
+          - 'null'
+          format: double
+        closing_balance:
+          type:
+          - number
+          - 'null'
+          format: double
+        iso_currency_code:
+          type:
+          - string
+          - 'null'
+      title: Account
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    BankStatementAccount:
+      type: object
+      properties:
+        number:
+          type:
+          - string
+          - 'null'
+          description: The account number, if available.
+        name:
+          type:
+          - string
+          - 'null'
+          description: The account name, if available.
+        opening_balance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The opening balance of the account for the statement period.
+        closing_balance:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The closing balance of the account for the statement period.
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: The start date of the statement period.
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: The end date of the statement period.
+        is_balance_reconciled:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates whether the balance has been reconciled.
+        total_incoming:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The sum of amounts of all incoming transactions.
+        total_outgoing:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The sum of amounts of all outgoing transactions.
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankStatementTransaction'
+          description: List of transactions for this account.
+      required:
+      - transactions
+      title: BankStatementAccount
+    BankStatementError:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/BankStatementErrorCode'
+        message:
+          type: string
+      required:
+      - code
+      - message
+      title: BankStatementError
+    Currency:
+      type: string
+      enum:
+      - EUR
+      - AED
+      - AFN
+      - XCD
+      - ALL
+      - AMD
+      - AOA
+      - ARS
+      - USD
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - XOF
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - INR
+      - NOK
+      - BWP
+      - BYR
+      - BZD
+      - CAD
+      - CDF
+      - XAF
+      - CHF
+      - NZD
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUP
+      - CVE
+      - ANG
+      - CZK
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - EGP
+      - MAD
+      - ERN
+      - ETB
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HUF
+      - IDR
+      - ILS
+      - IQD
+      - IRR
+      - ISK
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - ZAR
+      - LYD
+      - MDL
+      - MGA
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MRO
+      - MUR
+      - MVR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - XPF
+      - NGN
+      - NIO
+      - NPR
+      - OMR
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SRD
+      - SSP
+      - STD
+      - SYP
+      - SZL
+      - THB
+      - TJS
+      - TMT
+      - TND
+      - TOP
+      - TRY
+      - TTD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - UYU
+      - UZS
+      - VEF
+      - VND
+      - VUV
+      - WST
+      - YER
+      - ZMW
+      - ZWL
+      - HRK
+      title: Currency
+    StatementInfo:
+      type: object
+      properties:
+        institution:
+          type:
+          - string
+          - 'null'
+        start_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        end_date:
+          type:
+          - string
+          - 'null'
+          format: date
+        account_holder:
+          oneOf:
+          - $ref: '#/components/schemas/AccountHolder'
+          - type: 'null'
+        accounts:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Account'
+      title: StatementInfo
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    BankStatementResults:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankStatementAccount'
+          description: List of accounts in the bank statement.
+      required:
+      - accounts
+      title: BankStatementResults
+    AccountHolder:
+      type: object
+      properties:
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        address:
+          oneOf:
+          - $ref: '#/components/schemas/Address'
+          - type: 'null'
+      title: AccountHolder
+    AccountType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountType
+    BankStatementStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      - error
+      title: BankStatementStatus
+    Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204
+    BankStatementErrorCode:
+      type: string
+      enum:
+      - invalid_bank_statement
+      - internal_error
+      title: BankStatementErrorCode
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

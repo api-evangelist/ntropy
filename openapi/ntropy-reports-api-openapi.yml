@@ -1,0 +1,313 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder reports API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: reports
+paths:
+  /v3/reports:
+    post:
+      operationId: post-report-v-3-reports-post
+      summary: Create a report
+      description: 'Report a transaction with incorrect fields.
+
+
+        Complete guide: [Reports](../../../enrichment/reports).'
+      tags:
+      - reports
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The newly created report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportBase'
+    get:
+      operationId: get-reports-v-3-reports-get
+      summary: List all reports
+      description: List all reports
+      tags:
+      - reports
+      parameters:
+      - name: created_after
+        in: query
+        description: Only return report older or equal than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: created_before
+        in: query
+        description: Only return report newer than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: cursor
+        in: query
+        description: Starting point for the set of report
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: limit
+        in: query
+        description: The limit of report to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+      - name: status
+        in: query
+        description: If specified, only return reports with this status
+        required: false
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/ReportStatus'
+          - type: 'null'
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResponse_Report_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/reports/{id}:
+    get:
+      operationId: get-report-v-3-reports-id-get
+      summary: Retrieve a report
+      description: Retrieve a report
+      tags:
+      - reports
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+        '404':
+          description: Report with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      operationId: delete-report-v-3-reports-id-delete
+      summary: Delete a report
+      description: Delete a report
+      tags:
+      - reports
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reports_delete_report_v3_reports__id__delete_Response_204'
+        '404':
+          description: Report with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    PagedResponse_Report_:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_Report_
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    Report:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          description: The unique identifier of the transaction
+        description:
+          type: string
+          description: A description of what is wrong in the transaction
+        fields:
+          type: array
+          items:
+            type: string
+          description: A list of the fields that are incorrect
+        id:
+          type: string
+          description: A generated unique identifier for the report.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time when the report was created.
+        status:
+          $ref: '#/components/schemas/ReportStatus'
+          description: 'The status of the report.
+
+
+            * `open`: a newly created report
+
+            * `pending`: the report is being investigated
+
+            * `rejected`: the original enrichment output was deemed correct or we couldn''t resolve it, check `rejection_reason`
+
+            * `resolved`: the issue has been resolved'
+        rejection_reason:
+          type:
+          - string
+          - 'null'
+          description: If the report was rejected, an explanation for the rejection.
+      required:
+      - transaction_id
+      - description
+      - fields
+      - id
+      - created_at
+      - status
+      title: Report
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ReportBase:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          description: The unique identifier of the transaction
+        description:
+          type: string
+          description: A description of what is wrong in the transaction
+        fields:
+          type: array
+          items:
+            type: string
+          description: A list of the fields that are incorrect
+      required:
+      - transaction_id
+      - description
+      - fields
+      title: ReportBase
+    ReportStatus:
+      type: string
+      enum:
+      - open
+      - pending
+      - resolved
+      - rejected
+      title: ReportStatus
+    Reports_delete_report_v3_reports__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Reports_delete_report_v3_reports__id__delete_Response_204
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

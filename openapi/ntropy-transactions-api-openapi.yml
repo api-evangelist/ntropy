@@ -1,0 +1,1117 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder transactions API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: transactions
+paths:
+  /v3/transactions:
+    post:
+      operationId: post-transaction-v-3-transactions-post
+      summary: Synchronously enrich transactions
+      description: "Enriches a transaction with information about entities, locations and categories. Besides the original `id` that was\nsubmitted, the response only contains the enriched fields. \n\nTo view the complete transaction, including the original fields, such\nas description or amount, you can use any of the Transactions API listing methods.\n\nComplete guide: [Transaction Enrichment](../../../enrichment/introduction)."
+      tags:
+      - transactions
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Enriched transactions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichedTransaction'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionInput'
+    get:
+      operationId: list-transactions-v-3-transactions-get
+      summary: List all transactions
+      description: Return a list of enriched transactions starting with the most recent one.
+      tags:
+      - transactions
+      parameters:
+      - name: created_after
+        in: query
+        description: Only return transactions older or equal than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: created_before
+        in: query
+        description: Only return transactions newer than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: cursor
+        in: query
+        description: Starting point for the set of transactions
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: limit
+        in: query
+        description: The limit of transactions to be returned
+        required: false
+        schema:
+          type: integer
+          default: 25
+      - name: account_holder_id
+        in: query
+        description: If specified, only return the transactions of this account holder
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResponse_Transaction'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/transactions/{id}:
+    get:
+      operationId: get-transaction-v-3-transactions-id-get
+      summary: Retrieve a transaction
+      tags:
+      - transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      operationId: delete-transaction-v-3-transactions-id-delete
+      summary: Deletes a transaction
+      description: Deleting a transaction will also delete it from our systems. This operation is permanent.
+      tags:
+      - transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transactions_delete_transaction_v3_transactions__id__delete_Response_204'
+        '404':
+          description: Transaction with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/transactions/{id}/assign:
+    post:
+      operationId: set-transaction-ah-v-3-transactions-id-assign-post
+      summary: Assign a transaction to an account holder
+      description: Changes the account holder associated with the transaction. The old and new account holder must share the same `type`.
+      tags:
+      - transactions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction or account holder with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_set_transaction_ah_v3_transactions__id__assign_post'
+components:
+  schemas:
+    TransactionError:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/TransactionErrorCode'
+        message:
+          type: string
+      required:
+      - code
+      - message
+      title: TransactionError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Location:
+      type: object
+      properties:
+        raw_address:
+          type:
+          - string
+          - 'null'
+          description: An unstructured string containing the address
+        structured:
+          oneOf:
+          - $ref: '#/components/schemas/LocationStructured'
+          - type: 'null'
+          description: When raw is set, a structured representation of it.
+      title: Location
+    LocationInput:
+      type: object
+      properties:
+        raw_address:
+          type:
+          - string
+          - 'null'
+          description: An unstructured string containing the address
+        country:
+          oneOf:
+          - $ref: '#/components/schemas/Country'
+          - type: 'null'
+          description: The country where the transaction was made in ISO 3166-2 format
+      description: 'Location of where the transaction has taken place. This can greatly improve entity identification, especially
+
+        under ambiguity.'
+      title: LocationInput
+    TransactionInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        account_holder_id:
+          type:
+          - string
+          - 'null'
+          description: The unique ID of the account holder. Unsetting it will disable [categorization](/enrichment/categories).
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/LocationInput'
+          - type: 'null'
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      title: TransactionInput
+    CounterpartyType:
+      type: string
+      enum:
+      - person
+      - organization
+      title: CounterpartyType
+    PagedResponse_Transaction:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_Transaction
+    Country:
+      type: string
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BL
+      - BM
+      - BN
+      - BO
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CW
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FR
+      - GA
+      - GB
+      - GD
+      - GE
+      - GF
+      - GG
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IM
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JE
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - UM
+      - US
+      - UY
+      - UZ
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZW
+      title: Country
+    Intermediary:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
+          type: array
+          items:
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+      title: Intermediary
+    Entities:
+      type: object
+      properties:
+        counterparty:
+          oneOf:
+          - $ref: '#/components/schemas/Counterparty'
+          - type: 'null'
+        intermediaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intermediary'
+      description: Entities found by identity identification
+      title: Entities
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    Counterparty:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
+          type: array
+          items:
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+        type:
+          $ref: '#/components/schemas/CounterpartyType'
+      required:
+      - type
+      title: Counterparty
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    EnrichedTransaction:
+      type: object
+      properties:
+        entities:
+          oneOf:
+          - $ref: '#/components/schemas/Entities'
+          - type: 'null'
+        categories:
+          oneOf:
+          - $ref: '#/components/schemas/Categories'
+          - type: 'null'
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionError'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+        id:
+          type: string
+          description: A unique identifier for the transaction. If two transactions are submitted with the same `id` the most recent one will replace the previous one.
+      required:
+      - created_at
+      - id
+      title: EnrichedTransaction
+    Currency:
+      type: string
+      enum:
+      - EUR
+      - AED
+      - AFN
+      - XCD
+      - ALL
+      - AMD
+      - AOA
+      - ARS
+      - USD
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - XOF
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - INR
+      - NOK
+      - BWP
+      - BYR
+      - BZD
+      - CAD
+      - CDF
+      - XAF
+      - CHF
+      - NZD
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUP
+      - CVE
+      - ANG
+      - CZK
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - EGP
+      - MAD
+      - ERN
+      - ETB
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HUF
+      - IDR
+      - ILS
+      - IQD
+      - IRR
+      - ISK
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - ZAR
+      - LYD
+      - MDL
+      - MGA
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MRO
+      - MUR
+      - MVR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - XPF
+      - NGN
+      - NIO
+      - NPR
+      - OMR
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SRD
+      - SSP
+      - STD
+      - SYP
+      - SZL
+      - THB
+      - TJS
+      - TMT
+      - TND
+      - TOP
+      - TRY
+      - TTD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - UYU
+      - UZS
+      - VEF
+      - VND
+      - VUV
+      - WST
+      - YER
+      - ZMW
+      - ZWL
+      - HRK
+      title: Currency
+    Categories:
+      type: object
+      properties:
+        general:
+          type:
+          - string
+          - 'null'
+          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
+        accounting:
+          oneOf:
+          - $ref: '#/components/schemas/AccountingCategory'
+          - type: 'null'
+          description: The corresponding accounting category. Only available for `business` transactions.
+      required:
+      - general
+      title: Categories
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        entities:
+          oneOf:
+          - $ref: '#/components/schemas/Entities'
+          - type: 'null'
+        categories:
+          oneOf:
+          - $ref: '#/components/schemas/Categories'
+          - type: 'null'
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionError'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+        account_holder_id:
+          type:
+          - string
+          - 'null'
+          description: The unique ID of the account holder of the transaction
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      - created_at
+      title: Transaction
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    Transactions_delete_transaction_v3_transactions__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Transactions_delete_transaction_v3_transactions__id__delete_Response_204
+    Body_set_transaction_ah_v3_transactions__id__assign_post:
+      type: object
+      properties:
+        account_holder_id:
+          type: string
+      required:
+      - account_holder_id
+      title: Body_set_transaction_ah_v3_transactions__id__assign_post
+    TransactionErrorCode:
+      type: string
+      enum:
+      - account_holder_not_found
+      - internal_error
+      title: TransactionErrorCode
+    LocationStructured:
+      type: object
+      properties:
+        street:
+          type:
+          - string
+          - 'null'
+          description: The street name of the location
+        city:
+          type:
+          - string
+          - 'null'
+          description: The city where the location is situated
+        state:
+          type:
+          - string
+          - 'null'
+          description: The state or region of the location
+        postcode:
+          type:
+          - string
+          - 'null'
+          description: The postal code or ZIP code of the location
+        country_code:
+          type:
+          - string
+          - 'null'
+          description: The country code of the location in ISO 3166-2 format
+        country:
+          type:
+          - string
+          - 'null'
+          description: The full name of the country
+        house_number:
+          type:
+          - string
+          - 'null'
+          description: The house number if, applicable
+        latitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The latitude coordinate of the location
+        longitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The longitude coordinate of the location
+        google_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Google Maps
+        apple_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Apple Maps
+        store_number:
+          type:
+          - string
+          - 'null'
+          description: A unique identifier for a specific store or branch, if applicable
+      title: LocationStructured
+    AccountingCategory:
+      type: string
+      enum:
+      - operational expenses
+      - cost of goods sold
+      - revenue
+      - financing
+      - taxes
+      - investing
+      - not enough information
+      title: AccountingCategory
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,205 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder Labels API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: Labels
+paths:
+  /v2/labels/hierarchy/{account_holder_type}:
+    get:
+      tags:
+      - Labels
+      summary: Get the hierarchy of Ntropy labels
+      description: Get the hierarchy of Ntropy labels
+      operationId: get_labels_hierarchy_v2_labels_hierarchy__account_holder_type__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+      responses:
+        '200':
+          description: A hierarchy of labels for the selected type of transaction account holder
+          content:
+            application/json:
+              schema:
+                type: string
+                $ref: '#/components/schemas/LabelsHierarchy'
+        '400':
+          description: Transaction account holder type not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/labels/hierarchy/custom/{account_holder_type}:
+    post:
+      tags:
+      - Labels
+      summary: Upload a custom label hierarchy
+      description: Upload a custom label hierarchy. Transactions that don't match a label will be labeled `not enough information` regardless of whether it is present in the hierarchy.
+      operationId: custom_hierarchy_post_v2_labels_hierarchy_custom__account_holder_type__post
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LlmHierarchy'
+      responses:
+        '200':
+          description: Custom hierarchy successfully uploaded.
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Transaction account holder type not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Labels
+      summary: Get a custom label hierarchy
+      description: Get a custom label hierarchy
+      operationId: custom_hierarchy_get_v2_labels_hierarchy_custom__account_holder_type__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+      responses:
+        '200':
+          description: Custom labels
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/LlmHierarchy'
+                - type: 'null'
+                title: Response Custom Hierarchy Get V2 Labels Hierarchy Custom  Account Holder Type  Get
+        '400':
+          description: Transaction account holder type not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Labels
+      summary: Delete a custom label hierarchy
+      description: Delete a custom label hierarchy
+      operationId: delete_custom_hierarchy_v2_labels_hierarchy_custom__account_holder_type__delete
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: account_holder_type
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LlmHierarchy:
+      properties:
+        incoming:
+          items:
+            type: string
+          type: array
+          title: Incoming
+        outgoing:
+          items:
+            type: string
+          type: array
+          title: Outgoing
+      type: object
+      required:
+      - incoming
+      - outgoing
+      title: LlmHierarchy
+    LabelsHierarchy:
+      properties: {}
+      additionalProperties: true
+      type: object
+      title: LabelsHierarchy
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

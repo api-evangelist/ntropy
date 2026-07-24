@@ -1,0 +1,62 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder Misc API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: Misc
+  description: Miscellaneous endpoint.
+paths:
+  /v2/mcc:
+    get:
+      tags:
+      - Misc
+      summary: Get the list of possible MCC codes that can be assigned
+      description: Get the list of possible MCC codes that can be assigned. Derived from the ISO:18245:2003 standard (https://www.iso.org/standard/33365.html) with private and US-specific MCC codes removed.
+      operationId: get_mccs_v2_mcc_get
+      responses:
+        '200':
+          description: List of possible MCC codes that can be assigned
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MCCCode'
+                type: array
+                title: Response 200 Get Mccs V2 Mcc Get
+  /health:
+    get:
+      tags:
+      - Misc
+      summary: Get the API health info
+      description: Get the API health info
+      operationId: health_get_health_get
+      responses:
+        '200':
+          description: Received the API health info
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    MCCCode:
+      properties:
+        code:
+          type: string
+          title: Code
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - code
+      - description
+      title: MCCCode
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,677 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder Enrichment API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: Enrichment
+  description: Transaction enrichment.
+paths:
+  /v2/transactions/sync:
+    post:
+      tags:
+      - Enrichment
+      summary: Enrich and add transactions to the ledger of account holders synchronously.
+      description: Add transactions to the ledgers of account holders and get back enriched version of the transactions in the response. Accepts batch sizes up to 4k transactions. A single transaction should take ~100ms. A batch of 4000 transactions should take ~40s.
+      operationId: enrich_transactions_sync_v2_transactions_sync_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Transaction'
+              type: array
+              title: Transactions
+              max_items: 4000
+        required: true
+      responses:
+        '200':
+          description: Enriched transactions
+          content:
+            application/json:
+              schema:
+                items:
+                  anyOf:
+                  - $ref: '#/components/schemas/EnrichedTransaction'
+                  - $ref: '#/components/schemas/TransactionError'
+                type: array
+                title: Response 200 Enrich Transactions Sync V2 Transactions Sync Post
+        '400':
+          description: Request containing invalid values.
+        '404':
+          description: One or more account holders not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MissingAccountHoldersError'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/transactions/sync\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '[\n  {\n    \"transaction_id\": \"xbx8YP14g565Xk\",\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"account_holder_type\": \"business\",\n    \"amount\": 12046.15,\n    \"entry_type\": \"outgoing\",\n    \"date\": \"2019-12-01\",\n    \"iso_currency_code\": \"USD\",\n    \"country\": \"US\",\n    \"description\": \"AMAZON WEB SERVICES AWS.AMAZON.CO WA Ref5543286P25S Crd15\"\n  }]'\n"
+      - lang: python
+        label: Python SDK
+        source: "from ntropy_sdk.v2 import SDK, Transaction, AccountHolder\nimport os\n\nsdk = SDK(os.environ[\"NTROPY_API_KEY\"])\ntx = Transaction(\n  transaction_id = \"xbx8YP14g565Xk\",\n  account_holder_id = \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n  account_holder_type = \"business\",\n  amount = 12046.15,\n  entry_type = \"outgoing\",\n  date = \"2019-12-01\",\n  iso_currency_code = \"USD\",\n  country = \"US\",\n  description = \"AMAZON WEB SERVICES AWS.AMAZON.CO WA Ref5543286P25S Crd15\"\n)\n\nenriched = sdk.add_transactions([tx])[0]\n"
+  /v2/transactions/async:
+    post:
+      tags:
+      - Enrichment
+      summary: Enrich and add transactions to the ledger of account holders asynchronously.
+      description: Add a batch of transactions to the ledgers of account holders. Return the batch id that has been assigned to this batch. A batch of 24960 transactions should take 5-10mins.
+      operationId: enrich_transactions_async_v2_transactions_async_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/Transaction'
+              type: array
+              title: Transactions
+              max_items: 24960
+        required: true
+      responses:
+        '202':
+          description: Description of created batch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResult'
+        '400':
+          description: Request containing invalid values.
+        '404':
+          description: One or more account holders not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MissingAccountHoldersError'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"POST\" \\\n  \"https://api.ntropy.com/v2/transactions/async\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '[\n  {\n    \"transaction_id\": \"xbx8YP14g565Xk\",\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"account_holder_type\": \"business\",\n    \"amount\": 12046.15,\n    \"entry_type\": \"outgoing\",\n    \"date\": \"2019-12-01\",\n    \"iso_currency_code\": \"USD\",\n    \"country\": \"US\",\n    \"description\": \"AMAZON WEB SERVICES AWS.AMAZON.CO WA Ref5543286P25S Crd15\"\n  }]'\n"
+      - lang: python
+        label: Python SDK
+        source: "from ntropy_sdk.v2 import SDK, Transaction, AccountHolder\nimport os\n\nsdk = SDK(os.environ[\"NTROPY_API_KEY\"])\ntx = Transaction(\n  transaction_id = \"xbx8YP14g565Xk\",\n  account_holder_id = \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n  account_holder_type = \"business\",\n  amount = 12046.15,\n  entry_type = \"outgoing\",\n  date = \"2019-12-01\",\n  iso_currency_code = \"USD\",\n  country = \"US\",\n  description = \"AMAZON WEB SERVICES AWS.AMAZON.CO WA Ref5543286P25S Crd15\"\n)\n\nenriched = sdk.add_transactions_async([tx])[0]\n"
+  /v2/transactions/async/{id}:
+    get:
+      tags:
+      - Enrichment
+      summary: Fetch the result of a batch transaction enrichment.
+      description: Get a result of batch transaction enrichments. The id field should be as returned by /v2/transactions/async.
+      operationId: get_async_enrichment_result_v2_transactions_async__id__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          minLength: 36
+          maxLength: 36
+          description: Batch id.
+          examples:
+          - 247ee045-3d04-4b3c-872b-a9160b810f33
+          title: Id
+        description: Batch id.
+      responses:
+        '200':
+          description: Returned batch of transaction enrichment results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResult'
+        '404':
+          description: Batch not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: cURL
+        label: cURL
+        source: "curl -X \"GET\" \\\n  \"https://api.ntropy.com/v2/transactions/async/{batch_id}\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
+components:
+  schemas:
+    EntityOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      title: EntityOut
+    Transaction:
+      properties:
+        transaction_id:
+          type: string
+          minLength: 1
+          title: Transaction Id
+          description: A unique identifier of the transaction
+        account_holder_id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Account Holder Id
+          description: The unique ID of the account holder of the transaction
+        account_holder_type:
+          anyOf:
+          - $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+          - type: 'null'
+          description: The type of an account holder, may be one of 'consumer', 'business' or 'unknown'. Only used when create_account_holder is true.
+        amount:
+          type: number
+          minimum: 0.0
+          title: Amount
+          description: The amount of the transaction
+        entry_type:
+          type: string
+          enum:
+          - incoming
+          - outgoing
+          - credit
+          - debit
+          title: EntryType
+          description: The direction of the transaction (incoming or outgoing)
+        date:
+          type: string
+          format: date
+          title: Date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        iso_currency_code:
+          type: string
+          title: Iso Currency Code
+          description: The currency of the transaction in ISO 4217 format
+        description:
+          type: string
+          maxLength: 1024
+          minLength: 0
+          title: Description
+          description: The description string of the transaction
+        location:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 0
+          - type: 'null'
+          title: Location
+          description: Location where the transaction occurred in
+        country:
+          anyOf:
+          - type: string
+            pattern: '[A-Z]{2}(-[A-Z0-9]{1,3})?'
+          - type: 'null'
+          title: Country
+          description: The country where the transaction was made in ISO 3166-2 format
+        mcc:
+          anyOf:
+          - type: integer
+            maximum: 9999.0
+            minimum: 0.0
+          - type: 'null'
+          title: Mcc
+          description: The Merchant Category Code of the merchant according to ISO 18245
+        account_holder_name:
+          anyOf:
+          - type: string
+            maxLength: 1024
+            minLength: 0
+          - type: 'null'
+          title: Account Holder Name
+          description: The name of the account holder
+      type: object
+      required:
+      - transaction_id
+      - amount
+      - entry_type
+      - date
+      - iso_currency_code
+      - description
+      title: Transaction
+      description: A transaction
+      examples:
+      - account_holder_id: 35b927b6-6fda-40aa-93b8-95b47c2b2cad
+        amount: 10.0
+        country: US
+        date: '2022-02-02'
+        description: SQ* STARBUCKS UNION SQUARE
+        entry_type: outgoing
+        iso_currency_code: USD
+        transaction_id: xbx8YP14g565Xk
+    TransactionError:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+          examples:
+          - 247ee045-3d04-4b3c-872b-a9160b810f33
+        error:
+          type: string
+          title: Error
+          examples:
+          - PROCESSING_ERROR
+        error_details:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: string
+          - type: 'null'
+          title: Error Details
+          examples:
+          - Failed to process transaction
+      type: object
+      required:
+      - transaction_id
+      - error
+      title: TransactionError
+      description: Transaction that returned with error.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    BatchStatus:
+      type: string
+      enum:
+      - started
+      - finished
+      - error
+      title: BatchStatus
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
+      type: object
+      title: LocationStructuredPublic
+    EnrichedTransaction:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        location_structured:
+          anyOf:
+          - $ref: '#/components/schemas/LocationStructuredPublic'
+          - type: 'null'
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        merchant_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant Id
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        recurrence:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceType'
+          - type: 'null'
+        recurrence_group:
+          anyOf:
+          - $ref: '#/components/schemas/RecurrenceGroup'
+          - type: 'null'
+        recurrence_group_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Recurrence Group Id
+        person:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Person
+        transaction_type:
+          anyOf:
+          - $ref: '#/components/schemas/TransactionType'
+          - type: 'null'
+        intermediaries:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/EntityOut'
+            type: array
+          - type: 'null'
+          title: Intermediaries
+        mcc:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Mcc
+      type: object
+      required:
+      - transaction_id
+      title: EnrichedTransaction
+      examples:
+      - intermediaries:
+        - id: 916bc837-55ef-3106-88f6-5a8269ca9f2a
+          logo: https://logos.ntropy.com/squareup.com
+          name: Square
+          website: squareup.com
+        labels:
+        - Cafes and coffee shop
+        location: 10 Union Square East, New York, New York 10003, US
+        location_structured:
+          address: 10 Union Square East
+          apple_maps_url: https://maps.apple.com/?q=Starbucks+10+Union+Square+East&sll=40.734834,-73.989782
+          city: New York
+          country: US
+          country_name: United States
+          google_maps_url: https://www.google.com/maps/search/?api=1&query=Starbucks%2C10+Union+Square+East%2C+New+York%2C+New+York+10003%2C+US
+          latitude: '48.734834'
+          longitude: '-73.989782'
+          postcode: '10003'
+          state: New York
+        logo: https://logo.clearbit.com/aws.amazon.com
+        merchant: Starbucks
+        merchant_id: d4bc3c80-ec1a-3da2-836e-2a4ca4758be5
+        recurrence: recurring
+        recurrence_group:
+          average_amount: 10.0
+          first_payment_date: '2020-02-02'
+          id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+          latest_payment_date: '2022-02-02'
+          other_party: starbucks.com
+          periodicity: monthly
+          periodicity_in_days: 31
+          total_amount: 240.0
+          transaction_ids:
+          - b708fbd8-be76-41c2-86d5-83f8ba05ed85
+          - 0e34b24d-646d-416e-8d51-fda5b6e10684
+        recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
+        transaction_id: xbx8YP14g565Xk
+        website: starbucks.com
+    MissingAccountHoldersError:
+      properties:
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+          description: Message of the error
+          examples:
+          - One or more account holders do not exist
+        missingIds:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Missingids
+          examples:
+          - db4591ed-0f65-417b-bc90-c2802f6a0aae
+          - 89b2e221-3d7c-40b1-8945-78456546a54e
+      type: object
+      title: MissingAccountHoldersError
+    RecurrenceGroup:
+      properties:
+        id:
+          type: string
+          title: Id
+        first_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: First Payment Date
+        latest_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Payment Date
+        total_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Amount
+        average_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Amount
+        periodicity_in_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Periodicity In Days
+        periodicity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Periodicity
+        confidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Confidence
+        transaction_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Transaction Ids
+          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+      type: object
+      required:
+      - id
+      title: RecurrenceGroup
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
+    TransactionType:
+      type: string
+      enum:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    BatchResult:
+      properties:
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        id:
+          type: string
+          title: Id
+        progress:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Progress
+        total:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Total
+        results:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/EnrichedTransaction'
+              - $ref: '#/components/schemas/TransactionError'
+            type: array
+          - type: 'null'
+          title: Results
+      type: object
+      required:
+      - status
+      - created_at
+      - updated_at
+      - id
+      title: BatchResult
+      description: Batch transaction enrichment status.
+      examples:
+      - id: 247ee045-3d04-4b3c-872b-a9160b810f33
+        progress: 88
+        status: started
+        updated_at: '2019-11-30T18:32:28Z'
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

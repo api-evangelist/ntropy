@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder categories API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: categories
+paths:
+  /v3/categories/{id}:
+    post:
+      operationId: custom-categories-post-v-3-categories-id-post
+      summary: Set a custom set of categories
+      description: Sets a custom set of categories. Transactions that don't match a category will be categorized `not enough information` regardless of whether it is present in the set.
+      tags:
+      - categories
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Custom categories successfully set.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomCategorySet'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomCategorySet'
+    get:
+      operationId: get-category-set-v-3-categories-id-get
+      summary: Retrieve category set
+      description: Retrieves the set of categories. Category sets are different per account holder type.
+      tags:
+      - categories
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Category set for the selected type of account holder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categories_get_category_set_v3_categories__id__get_Response_200'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/categories/{id}/reset:
+    post:
+      operationId: delete-custom-category-set-v-3-categories-id-reset-post
+      summary: Reset category set to original values
+      description: Resets the set of categories of the specified account holder type to the original values.
+      tags:
+      - categories
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/V3CategoriesIdResetPostResponsesContentApplicationJsonSchema'
+                - type: 'null'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CustomCategorySet:
+      type: object
+      properties:
+        incoming:
+          type: array
+          items:
+            type: string
+        outgoing:
+          type: array
+          items:
+            type: string
+      required:
+      - incoming
+      - outgoing
+      title: CustomCategorySet
+    CategorySet:
+      type: object
+      properties:
+        incoming:
+          type: array
+          items:
+            type: string
+        outgoing:
+          type: array
+          items:
+            type: string
+      required:
+      - incoming
+      - outgoing
+      title: CategorySet
+    Categories_get_category_set_v3_categories__id__get_Response_200:
+      oneOf:
+      - $ref: '#/components/schemas/CategorySet'
+      - type: object
+        additionalProperties:
+          description: Any type
+      title: Categories_get_category_set_v3_categories__id__get_Response_200
+    V3CategoriesIdResetPostResponsesContentApplicationJsonSchema:
+      oneOf:
+      - $ref: '#/components/schemas/CategorySet'
+      - type: object
+        additionalProperties:
+          description: Any type
+      title: V3CategoriesIdResetPostResponsesContentApplicationJsonSchema
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,289 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder accountHolders API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: accountHolders
+paths:
+  /v3/account_holders:
+    post:
+      operationId: create-account-holder-v-3-account-holders-post
+      summary: Create an account holder.
+      tags:
+      - accountHolders
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountHolderExternal'
+        '400':
+          description: Account holder with the provided id already exists.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountHolderCreate'
+    get:
+      operationId: get-account-holders-v-3-account-holders-get
+      summary: List all account holders.
+      tags:
+      - accountHolders
+      parameters:
+      - name: created_after
+        in: query
+        description: Only return account holders older or equal than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: created_before
+        in: query
+        description: Only return account holders newer than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: cursor
+        in: query
+        description: Starting point for the set of account holders
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: limit
+        in: query
+        description: The limit of account holders to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResponse_AccountHolderExternal'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/account_holders/{id}:
+    get:
+      operationId: get-account-holder-v-3-account-holders-id-get
+      summary: Retrieve an account holder.
+      tags:
+      - accountHolders
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountHolderExternal'
+        '404':
+          description: Account holder with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      operationId: delete-account-holder-v-3-account-holders-id-delete
+      summary: Deletes an account holder and their transactions
+      description: Deletes all of the transactions in the account holder's history. This operation is permanent and irreversible
+      tags:
+      - accountHolders
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account Holders_delete_account_holder_v3_account_holders__id__delete_Response_204'
+        '404':
+          description: Account holder with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AccountHolderCreate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the account holder of the transaction
+        type:
+          $ref: '#/components/schemas/AccountHolderType'
+          description: 'The type of the account holder. '
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the account holder
+        category_id:
+          type:
+          - string
+          - 'null'
+          description: The category set ID to use for this account holder's transactions
+      required:
+      - id
+      - type
+      title: AccountHolderCreate
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PagedResponse_AccountHolderExternal:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountHolderExternal'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_AccountHolderExternal
+    AccountHolderExternal:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the account holder of the transaction
+        type:
+          $ref: '#/components/schemas/AccountHolderType'
+          description: 'The type of the account holder. '
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the account holder
+        category_id:
+          type:
+          - string
+          - 'null'
+          description: The category set ID to use for this account holder's transactions
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+      required:
+      - id
+      - type
+      - created_at
+      title: AccountHolderExternal
+    AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountHolderType
+    Account Holders_delete_account_holder_v3_account_holders__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Account Holders_delete_account_holder_v3_account_holders__id__delete_Response_204
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key

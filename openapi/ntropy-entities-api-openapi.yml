@@ -1,0 +1,550 @@
+openapi: 3.1.0
+info:
+  title: API Reference Account Holder entities API
+  version: 1.0.0
+  description: Ledger operations
+servers:
+- url: https://api.ntropy.com
+  description: Production server (uses live data).
+tags:
+- name: entities
+paths:
+  /v3/entities/{id}:
+    get:
+      operationId: get-entity-by-id-v-3-entities-id-get
+      summary: Retrieve an entity
+      description: Retrieve more information about an entity by using its unique ID.
+      tags:
+      - entities
+      parameters:
+      - name: id
+        in: path
+        description: The unique ID of the entity
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '404':
+          description: Entity does not exist for ID
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/entities/resolve:
+    post:
+      operationId: search-entity-v-3-entities-resolve-post
+      summary: Resolves an entity
+      description: 'Resolves a query into an entity by querying our entity resolution system.
+
+        The parameters `name` and `website` are mutually exclusive. Calls to this endpoint using
+
+        the `name` parameter are billed the same way transactions are.'
+      tags:
+      - entities
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityResponse'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '423':
+          description: Not enough credits.
+          content:
+            application/json:
+              schema:
+                description: Any type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityQuery'
+  /v2/entities:
+    get:
+      tags:
+      - entities
+      summary: Search for entities
+      description: "Resolves a query into an entity by querying our entity resolution system. \n    The parameters `name` and `website` are mutually exclusive. Calls to this endpoint using \n    the `name` parameter are billed the same way transactions are."
+      operationId: search_entity_v2_entities_get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The name of the entity to resolve
+          title: Name
+        description: The name of the entity to resolve
+      - name: website
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: The website of the entity to resolve
+          title: Website
+        description: The website of the entity to resolve
+      - name: location
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: A location string of the entity to resolve
+          title: Location
+        description: A location string of the entity to resolve
+      responses:
+        '200':
+          description: Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitySearchOut'
+        '400':
+          description: Bad request.
+        '423':
+          description: Not enough credits.
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+  /v2/entities/{id}:
+    get:
+      tags:
+      - entities
+      summary: Retrieve an entity by its ID
+      description: "Retrieve more information about an entity by using its unique ID. These ID's may be obtained from\n    the field `id` in [entity search](#operation/search_entity_v2_entities_get) or from `merchant_id` in\n    [transaction enrichment](#tag/Enrichment)"
+      operationId: get_entity_by_id_v2_entities__id__get
+      security:
+      - APIKeyHeader: []
+        AppIdHeader: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The unique ID of the entity
+          title: Id
+        description: The unique ID of the entity
+      responses:
+        '200':
+          description: Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitySearchOut'
+        '400':
+          description: Bad request.
+        '404':
+          description: Entity does not exist for ID
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError_2'
+components:
+  schemas:
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    EntityResponse:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
+          type: array
+          items:
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+      title: EntityResponse
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationError_2:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EntitySearchOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+        location:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Location
+        location_structured:
+          anyOf:
+          - $ref: '#/components/schemas/LocationStructuredPublic'
+          - type: 'null'
+        confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Confidence
+      type: object
+      title: EntitySearchOut
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    EntityQuery:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity to resolve
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website of the entity to resolve
+        location:
+          type:
+          - string
+          - 'null'
+          description: An unstructured location string of the entity to resolve
+      title: EntityQuery
+    LocationStructured:
+      type: object
+      properties:
+        street:
+          type:
+          - string
+          - 'null'
+          description: The street name of the location
+        city:
+          type:
+          - string
+          - 'null'
+          description: The city where the location is situated
+        state:
+          type:
+          - string
+          - 'null'
+          description: The state or region of the location
+        postcode:
+          type:
+          - string
+          - 'null'
+          description: The postal code or ZIP code of the location
+        country_code:
+          type:
+          - string
+          - 'null'
+          description: The country code of the location in ISO 3166-2 format
+        country:
+          type:
+          - string
+          - 'null'
+          description: The full name of the country
+        house_number:
+          type:
+          - string
+          - 'null'
+          description: The house number if, applicable
+        latitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The latitude coordinate of the location
+        longitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The longitude coordinate of the location
+        google_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Google Maps
+        apple_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Apple Maps
+        store_number:
+          type:
+          - string
+          - 'null'
+          description: A unique identifier for a specific store or branch, if applicable
+      title: LocationStructured
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
+      type: object
+      title: LocationStructuredPublic
+    Location:
+      type: object
+      properties:
+        raw_address:
+          type:
+          - string
+          - 'null'
+          description: An unstructured string containing the address
+        structured:
+          oneOf:
+          - $ref: '#/components/schemas/LocationStructured'
+          - type: 'null'
+          description: When raw is set, a structured representation of it.
+      title: Location
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    HTTPValidationError_2:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError_2'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
