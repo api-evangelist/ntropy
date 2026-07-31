@@ -1,0 +1,53 @@
+generated: '2026-07-20'
+method: searched
+status: published
+source: https://github.com/ntropy-network/ntropy-mcp, https://docs.ntropy.com/_mcp/server
+servers:
+  - name: ntropy-mcp
+    kind: api-operations
+    transport: stdio
+    repo: https://github.com/ntropy-network/ntropy-mcp
+    install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
+    official: true
+    description: First-party MCP server for enriching banking data using the Ntropy API.
+    tools:
+      - name: check_connection
+        description: Verify connection to the Ntropy API.
+      - name: set_api_key
+        description: Set or update the Ntropy API key at runtime.
+      - name: create_account_holder
+        description: Create an account holder.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#create-account-holder-v-3-account-holders-post
+      - name: update_account_holder
+        description: Update an existing account holder.
+      - name: enrich_transaction
+        description: Enrich a bank transaction.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#post-transaction-v-3-transactions-post
+      - name: get_account_holder
+        description: Get details of an account holder.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#get-account-holder-v-3-account-holders-id-get
+      - name: list_transactions
+        description: List transactions for an account holder.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#list-transactions-v-3-transactions-get
+      - name: get_transaction
+        description: Get details of a specific transaction.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#get-transaction-v-3-transactions-id-get
+      - name: bulk_enrich_transactions
+        description: Enrich multiple transactions at once.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#post-batch-v-3-batches-post
+      - name: delete_account_holder
+        description: Delete an account holder and all associated data.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-account-holder-v-3-account-holders-id-delete
+      - name: delete_transaction
+        description: Delete a specific transaction.
+        source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-transaction-v-3-transactions-id-delete
+  - name: fern-docs-mcp
+    kind: documentation-search
+    transport: streamable-http
+    url: https://docs.ntropy.com/_mcp/server
+    official: true
+    description: Hosted Fern documentation MCP server providing AI-powered search over docs.ntropy.com.
+    install: claude mcp add --transport http fern_mcp_docs-ntropy-com https://docs.ntropy.com/_mcp/server
+    tools:
+      - name: searchDocs
+        description: Search the documentation at docs.ntropy.com; returns relevant passages with source URLs.

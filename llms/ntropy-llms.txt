@@ -1,0 +1,78 @@
+# Ntropy Docs
+
+## Instructions for AI Agents
+
+- For clean Markdown of any page, append `.md` to the page URL
+- For section-specific indexes, append `/llms.txt` to any section URL
+- For AI client integration (Claude Code, Cursor, etc.), connect to the MCP server at https://docs.ntropy.com/_mcp/server
+
+## Docs
+
+- [Introduction](https://docs.ntropy.com/introduction.md)
+- [Get your API keys](https://docs.ntropy.com/onboarding.md)
+- [Support](https://docs.ntropy.com/support.md)
+- [Transaction Enrichment](https://docs.ntropy.com/enrichment/introduction.md)
+- [Entities Identification](https://docs.ntropy.com/identification.md)
+- [Categories](https://docs.ntropy.com/enrichment/categories.md)
+- [Recurrence](https://docs.ntropy.com/enrichment/recurrence.md)
+- [Bank Statements](https://docs.ntropy.com/bank-statements.md)
+- [Fast verification](https://docs.ntropy.com/fast-verification.md)
+- [Batches](https://docs.ntropy.com/batches.md)
+- [Entities](https://docs.ntropy.com/entities.md)
+- [Account Holders](https://docs.ntropy.com/account-holders.md)
+- [Webhooks](https://docs.ntropy.com/webhooks.md)
+- [Personalization](https://docs.ntropy.com/personalization.md)
+- [Reporting wrong results](https://docs.ntropy.com/enrichment/reports.md)
+- [Authentication](https://docs.ntropy.com/api/auth.md)
+- [Errors](https://docs.ntropy.com/api/errors.md)
+- [Request IDs](https://docs.ntropy.com/api/request-ids.md)
+- [Pagination](https://docs.ntropy.com/api/pagination.md)
+- [Rate limits](https://docs.ntropy.com/api/rate-limits.md)
+
+## API Docs
+
+- API Reference > Transactions [Synchronously enrich transactions](https://docs.ntropy.com/documentation/api/transactions/post-transaction-v-3-transactions-post.md)
+- API Reference > Transactions [Retrieve a transaction](https://docs.ntropy.com/documentation/api/transactions/get-transaction-v-3-transactions-id-get.md)
+- API Reference > Transactions [List all transactions](https://docs.ntropy.com/documentation/api/transactions/list-transactions-v-3-transactions-get.md)
+- API Reference > Transactions [Deletes a transaction](https://docs.ntropy.com/documentation/api/transactions/delete-transaction-v-3-transactions-id-delete.md)
+- API Reference > Transactions [Assign a transaction to an account holder](https://docs.ntropy.com/documentation/api/transactions/set-transaction-ah-v-3-transactions-id-assign-post.md)
+- API Reference > Batches [Submit a batch of requests](https://docs.ntropy.com/documentation/api/batches/post-batch-v-3-batches-post.md)
+- API Reference > Batches [Retrieve a batch](https://docs.ntropy.com/documentation/api/batches/get-single-batch-v-3-batches-id-get.md)
+- API Reference > Batches [Retrieve the results of a batch](https://docs.ntropy.com/documentation/api/batches/get-batch-results-v-3-batches-id-results-get.md)
+- API Reference > Batches [List all batches](https://docs.ntropy.com/documentation/api/batches/get-batches-v-3-batches-get.md)
+- API Reference > Bank Statements [Submit a bank statement PDF](https://docs.ntropy.com/documentation/api/bank-statements/post-bank-statement-v-3-bank-statements-post.md)
+- API Reference > Bank Statements [Retrieve a bank statement](https://docs.ntropy.com/documentation/api/bank-statements/get-bank-statement-v-3-bank-statements-id-get.md)
+- API Reference > Bank Statements [Retrieve the extraction results](https://docs.ntropy.com/documentation/api/bank-statements/get-bank-statement-result-v-3-bank-statements-id-results-get.md)
+- API Reference > Bank Statements [List all bank statements](https://docs.ntropy.com/documentation/api/bank-statements/get-bank-statements-v-3-bank-statements-get.md)
+- API Reference > Bank Statements [Deletes a bank statement](https://docs.ntropy.com/documentation/api/bank-statements/delete-bank-statement-v-3-bank-statements-id-delete.md)
+- API Reference > Bank Statements [Quickly extract account holder, institution and first account](https://docs.ntropy.com/documentation/api/bank-statements/get-bank-statement-statement-info-v-3-bank-statements-id-verify-post.md)
+- API Reference > Entities [Retrieve an entity](https://docs.ntropy.com/documentation/api/entities/get-entity-by-id-v-3-entities-id-get.md)
+- API Reference > Entities [Resolves an entity](https://docs.ntropy.com/documentation/api/entities/search-entity-v-3-entities-resolve-post.md)
+- API Reference > Recurrence [Find recurring groups in a transaction history](https://docs.ntropy.com/documentation/api/recurrence/get-account-holder-recurring-payments-v-3-account-holders-id-recurring-groups-post.md)
+- API Reference > Categories [Set a custom set of categories](https://docs.ntropy.com/documentation/api/categories/custom-categories-post-v-3-categories-id-post.md)
+- API Reference > Categories [Retrieve category set](https://docs.ntropy.com/documentation/api/categories/get-category-set-v-3-categories-id-get.md)
+- API Reference > Categories [Reset category set to original values](https://docs.ntropy.com/documentation/api/categories/delete-custom-category-set-v-3-categories-id-reset-post.md)
+- API Reference > Account Holders [Create an account holder.](https://docs.ntropy.com/documentation/api/account-holders/create-account-holder-v-3-account-holders-post.md)
+- API Reference > Account Holders [Retrieve an account holder.](https://docs.ntropy.com/documentation/api/account-holders/get-account-holder-v-3-account-holders-id-get.md)
+- API Reference > Account Holders [List all account holders.](https://docs.ntropy.com/documentation/api/account-holders/get-account-holders-v-3-account-holders-get.md)
+- API Reference > Account Holders [Deletes an account holder and their transactions](https://docs.ntropy.com/documentation/api/account-holders/delete-account-holder-v-3-account-holders-id-delete.md)
+- API Reference > Personalization [Create a rule.](https://docs.ntropy.com/documentation/api/personalization/filter-post-v-3-rules-post.md)
+- API Reference > Personalization [List all rules](https://docs.ntropy.com/documentation/api/personalization/filter-get-v-3-rules-get.md)
+- API Reference > Personalization [Replace all rules](https://docs.ntropy.com/documentation/api/personalization/filter-replace-v-3-rules-replace-post.md)
+- API Reference > Personalization [Modify an existing rule](https://docs.ntropy.com/documentation/api/personalization/filter-patch-v-3-rules-id-patch.md)
+- API Reference > Personalization [Delete a rule](https://docs.ntropy.com/documentation/api/personalization/filter-delete-v-3-rules-id-delete.md)
+- API Reference > Webhooks [Create a webhook](https://docs.ntropy.com/documentation/api/webhooks/post-webhook-v-3-webhooks-post.md)
+- API Reference > Webhooks [Retrieve a webhook](https://docs.ntropy.com/documentation/api/webhooks/get-webhook-v-3-webhooks-id-get.md)
+- API Reference > Webhooks [List all webhooks](https://docs.ntropy.com/documentation/api/webhooks/get-webhooks-v-3-webhooks-get.md)
+- API Reference > Webhooks [Update a webhook](https://docs.ntropy.com/documentation/api/webhooks/patch-webhook-v-3-webhooks-id-patch.md)
+- API Reference > Webhooks [Delete a webhook](https://docs.ntropy.com/documentation/api/webhooks/delete-webhook-v-3-webhooks-id-delete.md)
+- API Reference > Reports [Create a report](https://docs.ntropy.com/documentation/api/reports/post-report-v-3-reports-post.md)
+- API Reference > Reports [Retrieve a report](https://docs.ntropy.com/documentation/api/reports/get-report-v-3-reports-id-get.md)
+- API Reference > Reports [List all reports](https://docs.ntropy.com/documentation/api/reports/get-reports-v-3-reports-get.md)
+- API Reference > Reports [Delete a report](https://docs.ntropy.com/documentation/api/reports/delete-report-v-3-reports-id-delete.md)
+
+## OpenAPI Specification
+
+The raw OpenAPI 3.1 specification for this API is available at:
+- [OpenAPI JSON](https://docs.ntropy.com/openapi.json)
+- [OpenAPI YAML](https://docs.ntropy.com/openapi.yaml)

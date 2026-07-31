@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: searched
+source: https://pypi.org/project/ntropy-sdk/, https://github.com/ntropy-network
+packages:
+  - language: python
+    registry: pypi
+    name: ntropy-sdk
+    version: 5.5.0
+    url: https://pypi.org/project/ntropy-sdk/
+    source_url: https://github.com/ntropy-network/ntropy-sdk
+    install: pip install --upgrade ntropy-sdk
+    official: true
+    description: Official Python SDK for the Ntropy financial data enrichment API.
+  - language: python
+    registry: pypi
+    name: ntropy-mcp
+    url: https://github.com/ntropy-network/ntropy-mcp
+    install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
+    official: true
+    description: First-party MCP server that exposes Ntropy transaction-enrichment operations as agent tools (stdio).

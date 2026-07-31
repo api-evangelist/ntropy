@@ -1,0 +1,42 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ntropy.com/api/, openapi/ntropy-api-v3-openapi-original.json
+authentication:
+  style: api-key-header
+  header: X-API-KEY
+  docs: https://docs.ntropy.com/api/auth
+  cross_ref: authentication/ntropy-authentication.yml
+idempotency:
+  supported: false
+  notes: >-
+    No idempotency-key header or parameter is documented. Webhook DELIVERY is at-least-once
+    (events may repeat with the same event_id) and consumers are advised to dedupe on
+    event_id, but the request API itself exposes no idempotency contract.
+pagination:
+  style: cursor
+  request_params: [limit, cursor]
+  response_fields: [data, next_cursor]
+  docs: https://docs.ntropy.com/api/pagination
+  notes: All list endpoints share cursor-based pagination; next_cursor is null on the last page.
+request_tracing:
+  response_header: X-Request-ID
+  docs: https://docs.ntropy.com/api/request-ids
+  notes: Every request is assigned a unique request ID returned in X-Request-ID; include it in support reports.
+versioning:
+  style: uri-path
+  current: v3
+  cross_ref: lifecycle/ntropy-lifecycle.yml
+error_envelope:
+  format: json
+  notes: Predictable HTTP status code + JSON error body; SDK maps codes to typed exceptions.
+  cross_ref: errors/ntropy-problem-types.yml
+rate_limiting:
+  model: credits + per-endpoint ops/second + concurrency cap
+  credits: Up to 50,000 credits, refilled at 500/second; 1 credit per enriched transaction.
+  concurrency: Up to 10 concurrent enrichment operations.
+  scope: per API key (independent of source IP)
+  docs: https://docs.ntropy.com/api/rate-limits
+webhooks:
+  token_header: X-Ntropy-Token
+  retry: Retried up to 24h on non-2xx/timeout; delivery is at-least-once.
+  cross_ref: asyncapi/ntropy-webhooks-asyncapi.yml

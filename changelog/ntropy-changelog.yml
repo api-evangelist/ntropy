@@ -1,0 +1,20 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ntropy.com/changelog
+scheme: major-version + dated entries
+current_version: v3
+entries:
+  - version: v3
+    date: '2024-10-31'
+    breaking: true
+    title: New version of the API (v3)
+    highlights:
+      - Added Webhooks for event-driven notifications (batches, bank statements, reports).
+      - Added a generic batch API.
+      - Added high-speed bank-statement verification.
+      - Uniform cursor-based pagination and filtering across all resources.
+      - Fully integrated developer + API documentation; legacy v2 docs kept at legacy.docs.ntropy.com.
+    url: https://docs.ntropy.com/changelog/2024/10/31
+notes: >-
+  The dated changelog is thin/recent-only on the public docs; the v3 launch entry
+  (2024-10-31) is the substantive record captured here.

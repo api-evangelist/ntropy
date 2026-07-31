@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ntropy-api-v3-openapi-original.json, https://docs.ntropy.com/api/
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: Provider publishes OpenAPI 3.1.0 documents (v2 and v3).
+  - id: rfc9727-api-catalog
+    conforms: true
+    evidence: docs.ntropy.com serves /.well-known/api-catalog as application/linkset+json (RFC 9727).
+  - id: cursor-pagination
+    conforms: true
+    evidence: Uniform cursor-based pagination (limit/cursor -> next_cursor/data) across list endpoints.
+  - id: api-key-auth
+    conforms: true
+    evidence: X-API-KEY header auth (apiKey securityScheme APIKeyHeader).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors are returned as a plain JSON body, not application/problem+json.
+  - id: oauth2
+    conforms: false
+    evidence: No OAuth2 security scheme is declared; the API uses API keys only.
+  - id: webhooks-events
+    conforms: true
+    evidence: Documented event catalog (bank_statements/batches/reports events) delivered via POST with X-Ntropy-Token.

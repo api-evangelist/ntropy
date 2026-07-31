@@ -1,0 +1,59 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ntropy.com/api/errors, openapi/ntropy-api-v3-openapi-original.json
+format: json
+envelope: >-
+  On error the API returns a predictable HTTP status code plus a JSON body describing
+  the error. Each response also carries an X-Request-ID header for support/debugging.
+problems:
+  - status: 400
+    sdk_error: NtropyValueError
+    title: Bad request
+    cause: One or more of the provided values is not valid for the request.
+  - status: 401
+    sdk_error: NtropyNotAuthorizedError
+    title: Unauthorized
+    cause: Invalid API key provided.
+    remediation: Check the X-API-KEY header; rotate the key in the dashboard if compromised.
+  - status: 403
+    sdk_error: NtropyNotSupportedError
+    title: Operation not supported
+    cause: Operation inactive for the user. Contact Ntropy to add this feature to your key.
+  - status: 404
+    sdk_error: NtropyNotFoundError
+    title: Not found
+    cause: Resource not found.
+  - status: 413
+    title: Payload too large
+    cause: Request payload exceeds the accepted size (e.g. bank-statement upload).
+  - status: 415
+    title: Unsupported media type
+    cause: Content-Type not accepted for this endpoint.
+  - status: 422
+    sdk_error: NtropyValidationError
+    title: Validation error
+    cause: The request body does not match the expected input fields or data types.
+  - status: 423
+    sdk_error: NtropyQuotaExceededError
+    title: Quota exceeded
+    cause: Not enough credits to perform this operation. Top up your account.
+  - status: 429
+    sdk_error: NtropyRateLimitError
+    title: Rate limit exceeded
+    cause: Too many requests. See https://docs.ntropy.com/api/rate-limits.
+  - status: 500
+    sdk_error: NtropyRuntimeError
+    title: Internal server error
+    cause: Logical server error on Ntropy's side.
+  - status: 502
+    sdk_error: NtropyConnectionError
+    title: Bad gateway
+    cause: Network error on Ntropy's side. Automatically retried by the SDK.
+  - status: 503
+    sdk_error: NtropyConnectionError
+    title: Service unavailable
+    cause: Network error on Ntropy's side. Automatically retried by the SDK.
+  - status: 504
+    sdk_error: NtropyConnectionError
+    title: Gateway timeout
+    cause: Network error on Ntropy's side. Automatically retried by the SDK.

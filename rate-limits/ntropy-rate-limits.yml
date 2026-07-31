@@ -1,0 +1,88 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ntropy.com/api/rate-limits
+scope: per API key (independent of source IP)
+model:
+  credits:
+    max_balance: 50000
+    refill_per_second: 500
+    cost: 1 credit per enriched transaction
+  concurrency:
+    max_concurrent_enrichment_operations: 10
+  on_exceed:
+    http_status: 429
+    sdk_error: NtropyRateLimitError
+    quota_http_status: 423
+limits:
+  - method: POST
+    endpoint: /v3/transactions
+    ops_per_second: 20
+  - method: POST
+    endpoint: /v3/transactions/{id}
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/transactions
+    ops_per_second: 10
+  - method: DELETE
+    endpoint: /v3/transactions/{id}
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/transactions/{id}/assign
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/batches
+    ops_per_second: 20
+  - method: GET
+    endpoint: /v3/batches
+    ops_per_second: 20
+  - method: GET
+    endpoint: /v3/batches/{id}
+    ops_per_second: 20
+  - method: GET
+    endpoint: /v3/batches/{id}/results
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/bank_statements
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/bank_statements
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/bank_statements/{id}
+    ops_per_second: 10
+  - method: DELETE
+    endpoint: /v3/bank_statements/{id}
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/bank_statements/{id}/verify
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/bank_statements/{id}/results
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/account_holders
+    ops_per_second: 100
+  - method: GET
+    endpoint: /v3/account_holders
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/account_holders/{id}
+    ops_per_second: 10
+  - method: DELETE
+    endpoint: /v3/account_holders/{id}
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/account_holders/{id}/recurring_groups
+    ops_per_second: 10
+  - method: POST
+    endpoint: /v3/webhooks
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/webhooks
+    ops_per_second: 10
+  - method: GET
+    endpoint: /v3/webhooks/{id}
+    ops_per_second: 10
+  - method: DELETE
+    endpoint: /v3/webhooks/{id}
+    ops_per_second: 10

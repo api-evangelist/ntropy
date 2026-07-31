@@ -1,0 +1,64 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/ntropy-api-v3-openapi-original.json, https://docs.ntropy.com/
+entities:
+  - name: AccountHolder
+    endpoint: /v3/account_holders
+    description: A party (consumer or business) whose transactions are enriched and grouped into a ledger.
+  - name: Transaction
+    endpoint: /v3/transactions
+    description: A single bank transaction submitted for enrichment (entities, categories, recurrence).
+  - name: Batch
+    endpoint: /v3/batches
+    description: An asynchronous collection of enrichment requests processed together.
+  - name: BankStatement
+    endpoint: /v3/bank_statements
+    description: A submitted bank-statement PDF processed via OCR + enrichment.
+  - name: Entity
+    endpoint: /v3/entities
+    description: A resolved merchant/counterparty identified within transactions.
+  - name: Report
+    endpoint: /v3/reports
+    description: A report of a wrongly classified transaction, investigated by Ntropy.
+  - name: Rule
+    endpoint: /v3/rules
+    description: A personalization rule in the organization's ruleset.
+  - name: Webhook
+    endpoint: /v3/webhooks
+    description: A registered endpoint receiving event notifications.
+  - name: Category
+    endpoint: /v3/categories
+    description: A (custom) label/category set for an account-holder type.
+relationships:
+  - from: Transaction
+    to: AccountHolder
+    kind: belongs_to
+    via: account_holder_id
+  - from: AccountHolder
+    to: Transaction
+    kind: has_many
+    via: account_holder_id
+  - from: Batch
+    to: Transaction
+    kind: has_many
+    via: batch results
+  - from: BankStatement
+    to: Transaction
+    kind: has_many
+    via: bank_statement transactions
+  - from: AccountHolder
+    to: Report
+    kind: has_many
+    via: recurring/report investigation
+  - from: Report
+    to: Transaction
+    kind: belongs_to
+    via: transaction_id
+  - from: Transaction
+    to: Entity
+    kind: has_one
+    via: resolved entity
+notes: >-
+  Relationships are derived from OpenAPI path structure and id-reference fields; the
+  account holder is the central aggregate that transactions attach to. Ntropy uses
+  opaque string ids (no documented type prefixes).

@@ -1,0 +1,19 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Ntropy Transaction API (v3)
+  version: 1.0.0
+extends: openapi/ntropy-api-v3-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-20'
+      x-apievangelist-provider: ntropy
+      x-apievangelist-auth: API-key header (X-API-KEY)
+      x-apievangelist-pagination: cursor (limit/cursor -> data/next_cursor)
+      x-apievangelist-request-id-header: X-Request-ID
+      x-apievangelist-webhooks: asyncapi/ntropy-webhooks-asyncapi.yml
+      x-apievangelist-errors: errors/ntropy-problem-types.yml
+      x-apievangelist-rate-limit-model: credits + per-endpoint ops/second + concurrency cap
+  - target: $.info
+    update:
+      x-apievangelist-idempotency: false

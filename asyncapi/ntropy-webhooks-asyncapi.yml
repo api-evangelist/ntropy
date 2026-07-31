@@ -1,0 +1,87 @@
+generated: '2026-07-20'
+method: generated
+source: https://docs.ntropy.com/webhooks
+spec_type: AsyncAPI
+asyncapi: 3.0.0
+info:
+  title: Ntropy Webhooks
+  version: v3
+  description: >-
+    Event-driven notifications from the Ntropy API. Ntropy POSTs an event to the
+    registered webhook url. If a token was set at creation it is sent in the
+    X-Ntropy-Token header. Delivery is at-least-once (dedupe on event_id); non-2xx
+    or >10s timeouts are retried for up to 24 hours.
+defaultContentType: application/json
+servers:
+  consumer:
+    host: your-application.example.com
+    protocol: https
+    description: Consumer-hosted HTTPS endpoint registered via POST /v3/webhooks.
+channels:
+  webhook:
+    address: /
+    messages:
+      bankStatementsCompleted: { $ref: '#/components/messages/BankStatementsCompleted' }
+      bankStatementsError: { $ref: '#/components/messages/BankStatementsError' }
+      batchesCompleted: { $ref: '#/components/messages/BatchesCompleted' }
+      batchesError: { $ref: '#/components/messages/BatchesError' }
+      reportsResolved: { $ref: '#/components/messages/ReportsResolved' }
+      reportsRejected: { $ref: '#/components/messages/ReportsRejected' }
+      reportsPending: { $ref: '#/components/messages/ReportsPending' }
+operations:
+  receiveEvent:
+    action: receive
+    channel: { $ref: '#/channels/webhook' }
+components:
+  messages:
+    BankStatementsCompleted:
+      name: bank_statements.completed
+      title: Bank statement finished processing
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    BankStatementsError:
+      name: bank_statements.error
+      title: Bank statement encountered an error processing
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    BatchesCompleted:
+      name: batches.completed
+      title: Batch finished processing
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    BatchesError:
+      name: batches.error
+      title: Batch encountered an error processing
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    ReportsResolved:
+      name: reports.resolved
+      title: Report has been resolved
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    ReportsRejected:
+      name: reports.rejected
+      title: Report was rejected (see rejection_reason)
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+    ReportsPending:
+      name: reports.pending
+      title: Report is being investigated
+      payload: { $ref: '#/components/schemas/WebhookEvent' }
+  schemas:
+    WebhookEvent:
+      type: object
+      properties:
+        event_id:
+          type: string
+          description: Unique identifier for the event (dedupe key).
+        event_type:
+          type: string
+          enum:
+            - bank_statements.completed
+            - bank_statements.error
+            - batches.completed
+            - batches.error
+            - reports.resolved
+            - reports.rejected
+            - reports.pending
+        data:
+          type: object
+          description: >-
+            The event payload; follows the same schema as the corresponding resource
+            (e.g. a batches.completed event carries a Batch object).
+      required: [event_id, event_type, data]

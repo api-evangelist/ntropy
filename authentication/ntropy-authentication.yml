@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/ntropy-api-v3-openapi-original.json, openapi/ntropy-transaction-api-openapi-original.json
+docs: https://docs.ntropy.com/api/auth
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  notes: >-
+    Single auth mechanism: an API key sent in the X-API-KEY request header. Keys are
+    created, disabled and rotated in the dashboard (https://dashboard.ntropy.com/keys).
+    Rotating a key changes only its authorization; previously submitted data stays
+    accessible. No OAuth/OIDC.
+schemes:
+- name: APIKeyHeader
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  sources:
+  - openapi/ntropy-api-v3-openapi-original.json
+  - openapi/ntropy-transaction-api-openapi-original.json

@@ -1,0 +1,29 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/ntropy-api-v3-openapi-original.json + https://docs.ntropy.com/
+skills:
+  - file: ntropy-enrich-transactions.md
+    name: Enrich bank transactions with Ntropy
+    api: openapi/ntropy-api-v3-openapi-original.json
+    operations:
+      - create-account-holder-v-3-account-holders-post
+      - post-transaction-v-3-transactions-post
+      - get-transaction-v-3-transactions-id-get
+      - list-transactions-v-3-transactions-get
+  - file: ntropy-process-bank-statement.md
+    name: Process a bank statement with Ntropy
+    api: openapi/ntropy-api-v3-openapi-original.json
+    operations:
+      - post-bank-statement-v-3-bank-statements-post
+      - get-bank-statement-statement-info-v-3-bank-statements-id-verify-post
+      - get-bank-statement-result-v-3-bank-statements-id-results-get
+      - get-bank-statement-v-3-bank-statements-id-get
+  - file: ntropy-manage-webhooks.md
+    name: Manage Ntropy webhooks
+    api: openapi/ntropy-api-v3-openapi-original.json
+    operations:
+      - post-webhook-v-3-webhooks-post
+      - get-webhooks-v-3-webhooks-get
+      - get-webhook-v-3-webhooks-id-get
+      - patch-webhook-v-3-webhooks-id-patch
+      - delete-webhook-v-3-webhooks-id-delete

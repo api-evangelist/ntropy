@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ntropy.com/, https://docs.ntropy.com/changelog/2024/10/31
+versioning:
+  scheme: uri-path
+  current: v3
+  previous: v2
+  docs: https://docs.ntropy.com/
+  notes: >-
+    v3 launched 2024-10-31 (webhooks, generic batch API, high-speed bank-statement
+    verification, uniform pagination/filtering). v2 (/v2/*) remains published. Legacy
+    v2 documentation is maintained at https://legacy.docs.ntropy.com.
+health_endpoint:
+  path: /health
+  operation: openapi/ntropy-transaction-api-openapi-original.json#health_get_health_get
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No formal deprecation/Sunset-header policy is published; older major versions remain accessible.
+status_page: null
+sla:
+  url: null
+deprecated_operations: []

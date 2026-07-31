@@ -1,8 +1,28 @@
 aid: ntropy
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ntropy.png
 name: Ntropy
-description: 'Ntropy is a company surfaced as a portfolio company of qed-investors and added to the API
-  Evangelist network as a stub for enrichment. Sector: fintech. This profile is a lead awaiting the enrichment
-  pipeline.'
+description: >-
+  Ntropy provides a financial data standardization and enrichment API that turns raw
+  bank transactions and bank-statement PDFs into structured, contextual data. Its
+  products cover transaction enrichment (categorization, entity/merchant identification
+  and recurring-payment detection), bank-statement OCR and extraction, account-holder
+  ledgers, entity resolution, personalization rules, and event webhooks. The v3 REST API
+  (base https://api.ntropy.com) uses API-key header auth, cursor pagination, and a
+  credit-based rate model, and is used for underwriting, transaction approval, personal
+  finance, customer retention and accounting. Ntropy is a fintech company backed by QED
+  Investors; it ships an official Python SDK and a first-party MCP server.
 url: https://raw.githubusercontent.com/api-evangelist/ntropy/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,16 +32,342 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Fintech
-apis: []
+- Transaction Enrichment
+- Financial Data
+- Data Enrichment
+- Bank Statements
+- Categorization
+- Underwriting
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: ntropy:ntropy-account-holder-api
+  name: Ntropy Account Holder API
+  description: Ledger operations
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Account Holder
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-account-holder-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-accountholders-api
+  name: Ntropy accountHolders API
+  description: The accountHolders API from Ntropy — 2 operation(s) for accountholders.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - accountHolders
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-accountholders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-bank-statements-api
+  name: Ntropy Bank statements API
+  description: >-
+    The bank statements API allows you to view and enrich transactions found in bank statements. Below
+    is a table with
+
+    the description of each of the statuses and steps that each bank statement goes through:
+
+    |  Status  |                          Description                           |
+
+    |----------|----------------------------------------------------------------|
+
+    |QUEUED    |The document is queued for processing                           |
+
+    |PROCESSING|OCR is in progress                                              |
+
+    |PROCESSED |The document was successfully processed                         |
+
+    |FAILED    |An error occurred during processing of any of the previous steps|
+
+
+
+
+    A list of error codes for the `FAILED` status can be found below:
+
+    |Code|                  Description                   |
+
+    |---:|------------------------------------------------|
+
+    | 301|Failed to parse document as bank statement.     |
+
+    | 301|Failed to enrich transactions in bank statement.|
+
+    | 500|Unexpected error. Please contact support.       |
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Bank statements
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-bank-statements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-bankstatements-api
+  name: Ntropy bankStatements API
+  description: The bankStatements API from Ntropy — 4 operation(s) for bankstatements.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - bankStatements
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-bankstatements-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-batches-api
+  name: Ntropy batches API
+  description: The batches API from Ntropy — 3 operation(s) for batches.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - batches
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-batches-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-categories-api
+  name: Ntropy categories API
+  description: The categories API from Ntropy — 2 operation(s) for categories.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - categories
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-categories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-enrichment-api
+  name: Ntropy Enrichment API
+  description: Transaction enrichment.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Enrichment
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-enrichment-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-entities-api
+  name: Ntropy entities API
+  description: The entities API from Ntropy — 4 operation(s) for entities.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - entities
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-entities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-labels-api
+  name: Ntropy Labels API
+  description: The Labels API from Ntropy — 2 operation(s) for labels.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Labels
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-labels-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-misc-api
+  name: Ntropy Misc API
+  description: Miscellaneous endpoint.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Misc
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-misc-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-personalization-api
+  name: Ntropy personalization API
+  description: The personalization API from Ntropy — 6 operation(s) for personalization.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - personalization
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-personalization-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-recurrence-api
+  name: Ntropy recurrence API
+  description: The recurrence API from Ntropy — 1 operation(s) for recurrence.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - recurrence
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-recurrence-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-reporting-api
+  name: Ntropy Reporting API
+  description: The Reporting API from Ntropy — 2 operation(s) for reporting.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-reporting-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-reports-api
+  name: Ntropy reports API
+  description: The reports API from Ntropy — 2 operation(s) for reports.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - reports
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-reports-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-transactions-api
+  name: Ntropy transactions API
+  description: The transactions API from Ntropy — 3 operation(s) for transactions.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - transactions
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-transactions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-webhooks-api
+  name: Ntropy webhooks API
+  description: The webhooks API from Ntropy — 2 operation(s) for webhooks.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
 common:
+# --- Discovery / link properties ---
 - type: Website
-  url: https://ntropy.network/
+  url: https://ntropy.com/
+- type: DeveloperPortal
+  url: https://docs.ntropy.com/
+- type: Documentation
+  url: https://docs.ntropy.com/
+- type: APIReference
+  url: https://docs.ntropy.com/documentation/api
+- type: GettingStarted
+  url: https://docs.ntropy.com/onboarding
+- type: Support
+  url: https://docs.ntropy.com/support
+- type: Blog
+  url: https://ntropy.com/blog
+- type: GitHubOrganization
+  url: https://github.com/ntropy-network
+- type: SignUp
+  url: https://dashboard.ntropy.com/
+- type: TermsOfService
+  url: https://ntropy.com/terms
+- type: PrivacyPolicy
+  url: https://ntropy.com/privacy
+# --- Artifacts ---
+- type: Packages
+  url: packages/ntropy-packages.yml
+- type: SDKs
+  url: packages/ntropy-packages.yml
+- type: MCPServer
+  url: mcp/ntropy-mcp.yml
+- type: LLMsTxt
+  url: llms/ntropy-llms.txt
+- type: WellKnown
+  url: well-known/ntropy-well-known.yml
+- type: APICatalog
+  url: well-known/ntropy-api-catalog.json
+- type: Authentication
+  url: authentication/ntropy-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/ntropy-agentic-access.yml
+- type: DomainSecurity
+  url: security/ntropy-domain-security.yml
+- type: Conformance
+  url: conformance/ntropy-conformance.yml
+- type: ErrorCatalog
+  url: errors/ntropy-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/ntropy-lifecycle.yml
+- type: Conventions
+  url: conventions/ntropy-conventions.yml
+- type: ChangeLog
+  url: changelog/ntropy-changelog.yml
+- type: DataModel
+  url: data-model/ntropy-data-model.yml
+- type: RateLimits
+  url: rate-limits/ntropy-rate-limits.yml
+- type: AsyncAPI
+  url: asyncapi/ntropy-webhooks-asyncapi.yml
+- type: Webhooks
+  url: asyncapi/ntropy-webhooks-asyncapi.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v1
