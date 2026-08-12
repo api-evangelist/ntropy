@@ -304,6 +304,8 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 common:
+- type: Overlay
+  url: overlays/ntropy-api-v3-overlay.yaml
 # --- Discovery / link properties ---
 - type: Website
   url: https://ntropy.com/
@@ -338,8 +340,6 @@ common:
   url: llms/ntropy-llms.txt
 - type: WellKnown
   url: well-known/ntropy-well-known.yml
-- type: APICatalog
-  url: well-known/ntropy-api-catalog.json
 - type: Authentication
   url: authentication/ntropy-authentication.yml
 - type: AgenticAccess
