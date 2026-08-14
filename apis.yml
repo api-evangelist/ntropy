@@ -1,16 +1,19 @@
 aid: ntropy
 accessModel:
-  pricing: unknown
+  pricing: gated
   onboarding: self-serve
-  trial: false
+  trial: true
+  trial_detail: 10,000 free credits granted automatically on dashboard signup
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Self-serve signup with free trial credits; pricing behind the dashboard
+  confidence: high
   source:
-  - authentication
-  generated: '2026-07-22'
-  method: derived
+  - https://docs.ntropy.com/onboarding
+  - https://docs.ntropy.com/introduction
+  - plans/ntropy-plans-pricing.yml
+  generated: '2026-08-14'
+  method: searched
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ntropy.png
 name: Ntropy
 description: >-
@@ -32,7 +35,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-14'
 tags:
 - Company
 - Fintech
@@ -325,10 +328,20 @@ common:
   url: https://github.com/ntropy-network
 - type: SignUp
   url: https://dashboard.ntropy.com/
+- type: Login
+  url: https://dashboard.ntropy.com/
 - type: TermsOfService
   url: https://ntropy.com/terms
 - type: PrivacyPolicy
   url: https://ntropy.com/privacy
+- type: StatusPage
+  url: https://status.ntropy.com/
+- type: Postman
+  url: https://documenter.getpostman.com/view/17988251/UVsQriab
+- type: Compliance
+  url: https://trust.ntropy.com/
+- type: SourceCode
+  url: https://github.com/ntropy-network/ntropy-sdk
 # --- Artifacts ---
 - type: Packages
   url: packages/ntropy-packages.yml
@@ -336,6 +349,8 @@ common:
   url: packages/ntropy-packages.yml
 - type: MCPServer
   url: mcp/ntropy-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/ntropy-tool-crosswalk.yml
 - type: LLMsTxt
   url: llms/ntropy-llms.txt
 - type: WellKnown
@@ -346,6 +361,8 @@ common:
   url: agentic-access/ntropy-agentic-access.yml
 - type: DomainSecurity
   url: security/ntropy-domain-security.yml
+- type: TrustCenter
+  url: security/ntropy-trust-center.yml
 - type: Conformance
   url: conformance/ntropy-conformance.yml
 - type: ErrorCatalog
@@ -360,6 +377,8 @@ common:
   url: data-model/ntropy-data-model.yml
 - type: RateLimits
   url: rate-limits/ntropy-rate-limits.yml
+- type: Plans
+  url: plans/ntropy-plans-pricing.yml
 - type: AsyncAPI
   url: asyncapi/ntropy-webhooks-asyncapi.yml
 - type: Webhooks
@@ -367,7 +386,7 @@ common:
 - type: AgentSkill
   url: skills/_index.yml
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-14'
   status: enriched
-  artifacts_added: 24
+  artifacts_added: 4
   pass: local-v1
