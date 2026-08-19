@@ -1,0 +1,800 @@
+{
+  "item": [
+    {
+      "id": "a0da41ea-228c-4cbc-a4c4-f65723699130",
+      "name": "Enrichment",
+      "description": {
+        "content": "Transaction enrichment.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d3d7b0b8-21da-4af2-afa9-19f98cc29974",
+          "name": "Enrich and add transactions to the ledger of account holders synchronously.",
+          "request": {
+            "name": "Enrich and add transactions to the ledger of account holders synchronously.",
+            "description": {
+              "content": "Add transactions to the ledgers of account holders and get back enriched version of the transactions in the response. Accepts batch sizes up to 4k transactions. A single transaction should take ~100ms. A batch of 4000 transactions should take ~40s.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "transactions",
+                "sync"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"transaction_id\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"entry_type\": \"<string>\",\n    \"date\": \"<date>\",\n    \"iso_currency_code\": \"<string>\",\n    \"description\": \"<string>\",\n    \"account_holder_id\": \"<string>\",\n    \"account_holder_type\": \"<string>\",\n    \"location\": \"<string>\",\n    \"country\": \"<string>\",\n    \"mcc\": \"<integer>\",\n    \"account_holder_name\": \"<string>\"\n  },\n  {\n    \"transaction_id\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"entry_type\": \"<string>\",\n    \"date\": \"<date>\",\n    \"iso_currency_code\": \"<string>\",\n    \"description\": \"<string>\",\n    \"account_holder_id\": \"<string>\",\n    \"account_holder_type\": \"<string>\",\n    \"location\": \"<string>\",\n    \"country\": \"<string>\",\n    \"mcc\": \"<integer>\",\n    \"account_holder_name\": \"<string>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "540ad795-50f1-40c1-9d87-b004b54ffe6b",
+              "name": "Enriched transactions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"transaction_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 681.0997981878076,\n      \"longitude\": 8090.516010472663,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"one off\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"2019-04-11\",\n      \"latest_payment_date\": \"1971-12-12\",\n      \"total_amount\": 3192.054986047401,\n      \"average_amount\": 3764.022150190404,\n      \"periodicity_in_days\": 954.4084601218361,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"unknown\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"mcc\": [\n      3132,\n      5352\n    ]\n  },\n  {\n    \"transaction_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 1116.3884180096418,\n      \"longitude\": 1138.275796899585,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"recurring\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"1949-07-13\",\n      \"latest_payment_date\": \"2007-03-01\",\n      \"total_amount\": 5667.688435662075,\n      \"average_amount\": 3101.820557454441,\n      \"periodicity_in_days\": 4802.305111278493,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"consumer\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"mcc\": [\n      6992,\n      4873\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e397cf6b-0319-472a-946d-fbd06010bbc4",
+              "name": "Request containing invalid values.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d682ea78-8808-4fef-8398-17a93f171688",
+              "name": "One or more account holders not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"missingIds\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ecf73a0-e9f1-46ae-b5da-53615f1ab634",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "sync"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44a175bb-96a7-4594-9001-ad5692243508",
+          "name": "Enrich and add transactions to the ledger of account holders asynchronously.",
+          "request": {
+            "name": "Enrich and add transactions to the ledger of account holders asynchronously.",
+            "description": {
+              "content": "Add a batch of transactions to the ledgers of account holders. Return the batch id that has been assigned to this batch. A batch of 24960 transactions should take 5-10mins.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "transactions",
+                "async"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"transaction_id\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"entry_type\": \"<string>\",\n    \"date\": \"<date>\",\n    \"iso_currency_code\": \"<string>\",\n    \"description\": \"<string>\",\n    \"account_holder_id\": \"<string>\",\n    \"account_holder_type\": \"<string>\",\n    \"location\": \"<string>\",\n    \"country\": \"<string>\",\n    \"mcc\": \"<integer>\",\n    \"account_holder_name\": \"<string>\"\n  },\n  {\n    \"transaction_id\": \"<string>\",\n    \"amount\": \"<number>\",\n    \"entry_type\": \"<string>\",\n    \"date\": \"<date>\",\n    \"iso_currency_code\": \"<string>\",\n    \"description\": \"<string>\",\n    \"account_holder_id\": \"<string>\",\n    \"account_holder_type\": \"<string>\",\n    \"location\": \"<string>\",\n    \"country\": \"<string>\",\n    \"mcc\": \"<integer>\",\n    \"account_holder_name\": \"<string>\"\n  }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c7dc5948-f28b-4561-9c92-66dc3aba1ba6",
+              "name": "Description of created batch",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"finished\",\n  \"created_at\": \"1967-11-02T01:26:43.528Z\",\n  \"updated_at\": \"2020-09-06T08:42:16.209Z\",\n  \"id\": \"string\",\n  \"progress\": 6395,\n  \"total\": 2685,\n  \"results\": [\n    {\n      \"transaction_id\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {\n        \"address\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"city\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"state\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"postcode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country_name\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"longitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"google_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"apple_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"store_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"house_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"recurring\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latest_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"total_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"average_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity_in_days\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"confidence\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transaction_ids\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"consumer\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"mcc\": [\n        4414,\n        975\n      ]\n    },\n    {\n      \"transaction_id\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {\n        \"address\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"city\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"state\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"postcode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country_name\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"longitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"google_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"apple_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"store_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"house_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"one off\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latest_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"total_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"average_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity_in_days\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"confidence\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transaction_ids\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"mcc\": [\n        8124,\n        4036\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e747e5b-a434-4770-b26c-0ccbfb067a86",
+              "name": "Request containing invalid values.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "80682d39-708c-457b-8d70-2d554216287b",
+              "name": "One or more account holders not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": \"string\",\n  \"missingIds\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1ea1edd-e122-4101-ab79-c7e694ef0508",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  },\n  {\n    \"account_holder_id\": \"35b927b6-6fda-40aa-93b8-95b47c2b2cad\",\n    \"amount\": 10,\n    \"country\": \"US\",\n    \"date\": \"2022-02-02\",\n    \"description\": \"SQ* STARBUCKS UNION SQUARE\",\n    \"entry_type\": \"outgoing\",\n    \"iso_currency_code\": \"USD\",\n    \"transaction_id\": \"xbx8YP14g565Xk\"\n  }\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ef15a76-cd30-4394-b7d9-7f38fb1179a7",
+          "name": "Fetch the result of a batch transaction enrichment.",
+          "request": {
+            "name": "Fetch the result of a batch transaction enrichment.",
+            "description": {
+              "content": "Get a result of batch transaction enrichments. The id field should be as returned by /v2/transactions/async.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "transactions",
+                "async",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Batch id."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "8395ac0e-4b89-4671-b4b7-7e4735db09e4",
+              "name": "Returned batch of transaction enrichment results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Batch id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"finished\",\n  \"created_at\": \"1967-11-02T01:26:43.528Z\",\n  \"updated_at\": \"2020-09-06T08:42:16.209Z\",\n  \"id\": \"string\",\n  \"progress\": 6395,\n  \"total\": 2685,\n  \"results\": [\n    {\n      \"transaction_id\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {\n        \"address\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"city\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"state\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"postcode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country_name\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"longitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"google_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"apple_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"store_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"house_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"recurring\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latest_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"total_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"average_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity_in_days\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"confidence\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transaction_ids\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"consumer\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"mcc\": [\n        4414,\n        975\n      ]\n    },\n    {\n      \"transaction_id\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {\n        \"address\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"city\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"state\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"postcode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"country_name\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"longitude\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"google_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"apple_maps_url\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"store_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"house_number\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"one off\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"latest_payment_date\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"total_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"average_amount\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity_in_days\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"periodicity\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"confidence\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"transaction_ids\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"mcc\": [\n        8124,\n        4036\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c38aa1ef-bf29-4011-ab94-33b472f7a64c",
+              "name": "Batch not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Batch id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4310f85e-2e20-4ea0-9cc7-a47135241d70",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "transactions",
+                    "async",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Batch id."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ntropy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "af4de6db-fda3-45af-bfd8-c0cf22d8039f",
+    "name": "API Reference Account Holder Enrichment API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ledger operations",
+      "type": "text/plain"
+    }
+  }
+}

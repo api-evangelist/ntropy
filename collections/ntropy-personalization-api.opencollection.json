@@ -1,0 +1,240 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder personalization API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "personalization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/rules",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List all rules"
+        },
+        {
+          "info": {
+            "name": "Create a rule.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/rules",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Append a rule to the personalization ruleset."
+        },
+        {
+          "info": {
+            "name": "Replace all rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/rules/replace",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace all rules"
+        },
+        {
+          "info": {
+            "name": "Modify an existing rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ntropy.com/v3/rules/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modify an existing rule in the ruleset."
+        },
+        {
+          "info": {
+            "name": "Delete a rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v3/rules/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete the rule at the specified index from the personalization ruleset."
+        },
+        {
+          "info": {
+            "name": "Get the current personalization ruleset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/rules/",
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the current personalization ruleset."
+        },
+        {
+          "info": {
+            "name": "Set the personalization ruleset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/rules/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Set the personalization ruleset."
+        },
+        {
+          "info": {
+            "name": "Append a rule.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/rules/append",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Append a rule to the personalization ruleset."
+        },
+        {
+          "info": {
+            "name": "Modify an existing rule.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ntropy.com/v2/rules/:index",
+            "params": [
+              {
+                "name": "index",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Modify an existing rule at the specified index on the ruleset."
+        },
+        {
+          "info": {
+            "name": "Delete a rule.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v2/rules/:index",
+            "params": [
+              {
+                "name": "index",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete the rule at the specified index from the personalization ruleset."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

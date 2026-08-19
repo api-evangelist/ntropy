@@ -1,0 +1,44 @@
+generated: '2026-08-14'
+method: searched
+probe: true
+url: https://trust.ntropy.com/
+platform: Vanta Trust Center
+title: Ntropy Network Trust Center
+certifications:
+  - SOC 2 Type 2
+compliance_claims:
+  - id: soc2-type-2
+    claim: "We are SOC2 Type 2 certified."
+    source: https://ntropy.com/
+    location: site footer (with SOC 2 certification badge, linking to the AICPA Trust Services Criteria)
+  - id: gdpr
+    claim: >-
+      Privacy policy names Ntropy Network Inc as the GDPR Data Controller and its
+      service providers as Data Processors; CCPA/CPRA disclosures are also present.
+    source: https://ntropy.com/privacy
+evidence:
+  - source: https://trust.ntropy.com/
+    http_status: 200
+    signals:
+      - "<title>Ntropy Network Trust Center</title>"
+      - 'og:title "Ntropy Network Trust Center"'
+      - 'canonical https://trust.ntropy.com'
+      - Vanta-hosted trust center (assets.vanta.com / app.vanta.com document links)
+  - source: https://ntropy.com/
+    http_status: 200
+    signals:
+      - "SOC2 SOC certification logo (footer image)"
+      - "We are SOC2 Type 2 certified."
+  - source: https://ntropy.com/privacy
+    http_status: 200
+    signals: [GDPR, CCPA]
+limitations: >-
+  The trust center is a client-rendered Vanta single-page app: every path under
+  trust.ntropy.com (including /robots.txt, /sitemap.xml and /.well-known/security.txt)
+  returns the same HTML shell with HTTP 200, and the Vanta public API
+  (api.vanta.com/v1/.../diyk4qgm52zm0ge4dwxm33) answers 401 anonymously. The
+  certification list beyond SOC 2 Type 2, and any downloadable report inventory,
+  therefore require requesting access through the trust center itself and could not
+  be read machine-side. Only the SOC 2 Type 2 claim is recorded because it is
+  independently published, in plain text, on ntropy.com.
+checked: '2026-08-14'

@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder Enrichment API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Enrichment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Enrich and add transactions to the ledger of account holders synchronously.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/transactions/sync",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add transactions to the ledgers of account holders and get back enriched version of the transactions in the response. Accepts batch sizes up to 4k transactions. A single transaction should take ~100ms. A batch of 4000 transactions should take ~40s."
+        },
+        {
+          "info": {
+            "name": "Enrich and add transactions to the ledger of account holders asynchronously.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/transactions/async",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add a batch of transactions to the ledgers of account holders. Return the batch id that has been assigned to this batch. A batch of 24960 transactions should take 5-10mins."
+        },
+        {
+          "info": {
+            "name": "Fetch the result of a batch transaction enrichment.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/transactions/async/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Batch id."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a result of batch transaction enrichments. The id field should be as returned by /v2/transactions/async."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

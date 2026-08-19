@@ -1,0 +1,382 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account Holder",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets a list of the registered account holders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/account-holder",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "named_only",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "with_confidence",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets a list of the registered account holders"
+        },
+        {
+          "info": {
+            "name": "Create an account holder.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/account-holder",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create an account holder and start tracking its ledger. The account holder can be a consumer, business or unknown."
+        },
+        {
+          "info": {
+            "name": "Retrieve the information of an account holder.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve the information of an account holder."
+        },
+        {
+          "info": {
+            "name": "Replace an existing account holder.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Replace a existing account holder and start tracking its ledger. The account holder can be a consumer, business or unknown."
+        },
+        {
+          "info": {
+            "name": "Renames an existing account-holder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Renames an existing account-holder"
+        },
+        {
+          "info": {
+            "name": "Delete an account holder.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete an account holder and all of its ledger. This operation is permanent."
+        },
+        {
+          "info": {
+            "name": "List transactions of an account holder.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id/transactions",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sorting direction `asc` or `desc`"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetch all the transactions in the transaction ledger of an account holder."
+        },
+        {
+          "info": {
+            "name": "Get transactions of an account holder by transaction id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id/transactions",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sorting direction `asc` or `desc`"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetch all the transactions matching given transaction ids in the transaction ledger of an account holder. Transactions returned will be in arbitrary order."
+        },
+        {
+          "info": {
+            "name": "Correct any property for multiple transactions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id/transactions",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Provide a correction for any field of a set of previously enriched transactions by transaction_id."
+        },
+        {
+          "info": {
+            "name": "Correct any transaction property.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id/transactions/:transaction_id",
+            "params": [
+              {
+                "name": "transaction_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Provide a correction for any field of a previously enriched transaction."
+        },
+        {
+          "info": {
+            "name": "Identify existing recurring payments for an account holder's transaction history.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/account-holder/:account_holder_id/recurring-payments",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Given the history of transactions of an account holder, determines existing recurring payments and related properties such as the type (subscription or bill), amount, periodicity, etc..."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

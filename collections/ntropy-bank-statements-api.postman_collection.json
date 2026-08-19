@@ -1,0 +1,3113 @@
+{
+  "item": [
+    {
+      "id": "518fd06d-5e0c-4c12-9126-7d5be9e02b23",
+      "name": "Bank statements",
+      "description": {
+        "content": "\nThe bank statements API allows you to view and enrich transactions found in bank statements. Below is a table with\nthe description of each of the statuses and steps that each bank statement goes through:\n|  Status  |                          Description                           |\n|----------|----------------------------------------------------------------|\n|QUEUED    |The document is queued for processing                           |\n|PROCESSING|OCR is in progress                                              |\n|PROCESSED |The document was successfully processed                         |\n|FAILED    |An error occurred during processing of any of the previous steps|\n\n\n\nA list of error codes for the `FAILED` status can be found below:\n|Code|                  Description                   |\n|---:|------------------------------------------------|\n| 301|Failed to parse document as bank statement.     |\n| 301|Failed to enrich transactions in bank statement.|\n| 500|Unexpected error. Please contact support.       |\n\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6deb1ac3-601e-4979-9b76-b1eb66fc19e7",
+          "name": "Submit a bank statement PDF for OCR and enrichment",
+          "request": {
+            "name": "Submit a bank statement PDF for OCR and enrichment",
+            "description": {
+              "content": "Creates a new dataset from a bank statement and queues it for enrichment. The maximum size of the statement must be less than 50.0 MB",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "account_holder_id",
+                  "value": "<string>",
+                  "description": "ID for account holder. If no account holder with the given id exists, one will be created with `account_type` or \"business\" if not specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "account_type",
+                  "value": "<string>",
+                  "description": "Type of account holder to use when it is being created. Otherwise it'll override the type of the existing one for the transactions on this bank statement."
+                },
+                {
+                  "disabled": false,
+                  "key": "iso_currency_code",
+                  "value": "<string>",
+                  "description": "The currency of transactions in the bank statement in ISO 4217 format. Defaults to `USD`"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) "
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b5ac4bb1-d6fb-43ee-96c5-0accb1a66a4a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"account_type\": \"business\",\n  \"status\": \"queued\",\n  \"complete\": false,\n  \"file\": {\n    \"no_pages\": 5439,\n    \"size\": 5029\n  },\n  \"name\": \"string\",\n  \"size\": 9306,\n  \"created_at\": \"2001-10-01T16:58:19.779Z\",\n  \"account_holder_id\": \"string\",\n  \"bank_accounts\": [\n    {\n      \"name\": \"string\",\n      \"bank_name\": \"string\",\n      \"account_holder\": \"string\",\n      \"account_number\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"bank_name\": \"string\",\n      \"account_holder\": \"string\",\n      \"account_number\": \"string\"\n    }\n  ],\n  \"statements\": [\n    {\n      \"begin_date\": \"1991-04-19\",\n      \"end_date\": \"1989-02-21\",\n      \"begin_balance\": 6606.811257840643,\n      \"end_balance\": 8433.315465546644,\n      \"total_incoming\": 5508.9161557577445,\n      \"total_outgoing\": 5507.317280360962,\n      \"is_balance_reconciled\": false\n    },\n    {\n      \"begin_date\": \"1998-12-03\",\n      \"end_date\": \"1947-03-02\",\n      \"begin_balance\": 275.1692702604014,\n      \"end_balance\": 5421.00238264461,\n      \"total_incoming\": 3823.192848986243,\n      \"total_outgoing\": 80.71817693750761,\n      \"is_balance_reconciled\": true\n    }\n  ],\n  \"error_code\": 2679,\n  \"error\": \"string\",\n  \"batch_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25d19ebd-5b3f-4d31-9172-2d7f421546e1",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d83cca4e-a946-41c7-9135-d6680cb7a617",
+              "name": {
+                "details": "File has too many pages or is too long"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bcebe3c2-9018-4ed7-b7ec-d6d35b047daf",
+              "name": {
+                "details": "File type not supported"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unsupported Media Type",
+              "code": 415,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ad35a781-6bfa-4102-bb15-51bca7af5202",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "760df459-7832-48d2-816b-e07597b1b352",
+              "name": {
+                "details": "You have submitted too many pages in a short amount of time"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "49451786-e853-4f9d-a114-8aca0df7d894",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "account_type",
+                      "value": "consumer"
+                    },
+                    {
+                      "key": "iso_currency_code",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "96b1336c-369b-4e03-b7c8-cedeb726520d",
+          "name": "Check paginated processing status for bank statements",
+          "request": {
+            "name": "Check paginated processing status for bank statements",
+            "description": {},
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status of the document to filter on"
+                },
+                {
+                  "disabled": false,
+                  "key": "account_holder_id",
+                  "value": "<string>",
+                  "description": "\n    The unique ID of the account holder to which the bank statement is associated\n    "
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "The page number to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "The page size to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "order_by",
+                  "value": "desc",
+                  "description": "The sorting order by creation"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "deadd24d-b4fd-4e37-86d8-6505a2f46cbe",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "processed"
+                    },
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"account_type\": \"unknown\",\n    \"status\": \"failed\",\n    \"complete\": true,\n    \"file\": {\n      \"no_pages\": 6936,\n      \"size\": 5958\n    },\n    \"name\": \"string\",\n    \"size\": 3490,\n    \"created_at\": \"1948-12-21T03:47:25.673Z\",\n    \"account_holder_id\": \"string\",\n    \"bank_accounts\": [\n      {\n        \"name\": \"string\",\n        \"bank_name\": \"string\",\n        \"account_holder\": \"string\",\n        \"account_number\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"bank_name\": \"string\",\n        \"account_holder\": \"string\",\n        \"account_number\": \"string\"\n      }\n    ],\n    \"statements\": [\n      {\n        \"begin_date\": \"2019-10-09\",\n        \"end_date\": \"1977-08-11\",\n        \"begin_balance\": 7917.962655667717,\n        \"end_balance\": 9302.119264429435,\n        \"total_incoming\": 8479.631570256579,\n        \"total_outgoing\": 3498.0003608122624,\n        \"is_balance_reconciled\": false\n      },\n      {\n        \"begin_date\": \"1957-04-05\",\n        \"end_date\": \"2018-01-30\",\n        \"begin_balance\": 5866.353055756883,\n        \"end_balance\": 7320.771407437099,\n        \"total_incoming\": 5265.819134502868,\n        \"total_outgoing\": 5797.737028330825,\n        \"is_balance_reconciled\": true\n      }\n    ],\n    \"error_code\": 8869,\n    \"error\": \"string\",\n    \"batch_id\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"account_type\": \"consumer\",\n    \"status\": \"processed\",\n    \"complete\": false,\n    \"file\": {\n      \"no_pages\": 131,\n      \"size\": 8809\n    },\n    \"name\": \"string\",\n    \"size\": 1676,\n    \"created_at\": \"2008-11-21T02:02:24.984Z\",\n    \"account_holder_id\": \"string\",\n    \"bank_accounts\": [\n      {\n        \"name\": \"string\",\n        \"bank_name\": \"string\",\n        \"account_holder\": \"string\",\n        \"account_number\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"bank_name\": \"string\",\n        \"account_holder\": \"string\",\n        \"account_number\": \"string\"\n      }\n    ],\n    \"statements\": [\n      {\n        \"begin_date\": \"2010-12-06\",\n        \"end_date\": \"2007-10-01\",\n        \"begin_balance\": 7691.5890774671025,\n        \"end_balance\": 820.8098637671701,\n        \"total_incoming\": 5655.457075933678,\n        \"total_outgoing\": 4010.4086635872604,\n        \"is_balance_reconciled\": true\n      },\n      {\n        \"begin_date\": \"1964-12-02\",\n        \"end_date\": \"2001-09-23\",\n        \"begin_balance\": 8063.0775476326,\n        \"end_balance\": 6756.295472529266,\n        \"total_incoming\": 1622.9853975099472,\n        \"total_outgoing\": 4701.015984141498,\n        \"is_balance_reconciled\": true\n      }\n    ],\n    \"error_code\": 3606,\n    \"error\": \"string\",\n    \"batch_id\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8a2920d-4a74-4a44-a674-27a5c54f52f0",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "processed"
+                    },
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4540ea40-b089-453e-9c12-0b60556a24d1",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "processed"
+                    },
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "95cf45b1-fad2-413a-9113-a73489832ea2",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "processed"
+                    },
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b2bf559-76b0-45bc-a3fd-3596427b76f4",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "processed"
+                    },
+                    {
+                      "key": "account_holder_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "20"
+                    },
+                    {
+                      "key": "order_by",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "833c5914-eb49-4b71-98b0-bb2a35841dab",
+          "name": "Check processing status for a bank statement",
+          "request": {
+            "name": "Check processing status for a bank statement",
+            "description": {},
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) The unique ID of the bank statement"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "a1bf5a6d-9407-4298-a40f-aa8a061bd846",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique ID of the bank statement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"account_type\": \"business\",\n  \"status\": \"queued\",\n  \"complete\": false,\n  \"file\": {\n    \"no_pages\": 5439,\n    \"size\": 5029\n  },\n  \"name\": \"string\",\n  \"size\": 9306,\n  \"created_at\": \"2001-10-01T16:58:19.779Z\",\n  \"account_holder_id\": \"string\",\n  \"bank_accounts\": [\n    {\n      \"name\": \"string\",\n      \"bank_name\": \"string\",\n      \"account_holder\": \"string\",\n      \"account_number\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"bank_name\": \"string\",\n      \"account_holder\": \"string\",\n      \"account_number\": \"string\"\n    }\n  ],\n  \"statements\": [\n    {\n      \"begin_date\": \"1991-04-19\",\n      \"end_date\": \"1989-02-21\",\n      \"begin_balance\": 6606.811257840643,\n      \"end_balance\": 8433.315465546644,\n      \"total_incoming\": 5508.9161557577445,\n      \"total_outgoing\": 5507.317280360962,\n      \"is_balance_reconciled\": false\n    },\n    {\n      \"begin_date\": \"1998-12-03\",\n      \"end_date\": \"1947-03-02\",\n      \"begin_balance\": 275.1692702604014,\n      \"end_balance\": 5421.00238264461,\n      \"total_incoming\": 3823.192848986243,\n      \"total_outgoing\": 80.71817693750761,\n      \"is_balance_reconciled\": true\n    }\n  ],\n  \"error_code\": 2679,\n  \"error\": \"string\",\n  \"batch_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05a2f2c5-3b5f-4f5b-8db0-89157eeef01c",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique ID of the bank statement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6b92aa7d-0e6a-429c-ab2d-5994e03971ed",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique ID of the bank statement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a25eaad-00cc-461a-8f8b-93a6daf6ff2e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique ID of the bank statement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c11cf2f-9d93-4ec1-a4b2-8af22bc77fd1",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) The unique ID of the bank statement"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e6ee9f57-abbe-4280-b1eb-76c276cfbd6b",
+          "name": "Delete a bank statement",
+          "request": {
+            "name": "Delete a bank statement",
+            "description": {
+              "content": "Deletes a bank statement and all its underlying transactions",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "849c375b-f61c-4672-90ac-5a941ba0ec8e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b675074-2cc7-483f-9c4c-4ebd9246638a",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5e163634-c1c3-4b8d-870f-dd2d60369540",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fd3444ec-9d66-4c97-a467-b6d714d81d14",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a51b4c5-d125-42d4-ba80-004c442e7f1e",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "20028257-f796-4220-9655-b1bb91a2310f",
+          "name": "Change information of an existing bank statement",
+          "request": {
+            "name": "Change information of an existing bank statement",
+            "description": {},
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c5fc21a0-b559-4a28-9427-df4a53d41ad5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db68fc7b-6147-4d68-8e68-852fb08150f1",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bf6328ad-3428-4e89-8b1a-d85e2815c0d7",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "74a8a0ab-bdbf-44d1-9094-b0f52930e998",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7438b30-3252-4188-98ac-55b4689bcc37",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "21447f6e-85ad-4bde-a6bf-d5f11a73dedb",
+          "name": "Gets the enriched transactions for a bank statement",
+          "request": {
+            "name": "Gets the enriched transactions for a bank statement",
+            "description": {},
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "100",
+                  "description": "How many items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "Sorting direction `asc` or `desc`"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6fc10da3-15b6-42aa-89de-40780b1cabe0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"transaction_id\": \"string\",\n    \"amount\": 2426.9373695537543,\n    \"entry_type\": \"outgoing\",\n    \"date\": \"1998-12-07\",\n    \"iso_currency_code\": \"string\",\n    \"description\": \"string\",\n    \"account_holder_id\": \"string\",\n    \"account_holder_type\": \"consumer\",\n    \"location\": \"string\",\n    \"country\": \"NC-3A\",\n    \"mcc\": [\n      1629,\n      1808\n    ],\n    \"account_holder_name\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 7624.229596167919,\n      \"longitude\": 5091.09196932633,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"subscription\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"1994-07-22\",\n      \"latest_payment_date\": \"1955-11-04\",\n      \"total_amount\": 4207.717534101205,\n      \"average_amount\": 9487.150362685446,\n      \"periodicity_in_days\": 3099.39321643247,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"unknown\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"error\": \"string\",\n    \"error_details\": \"string\"\n  },\n  {\n    \"transaction_id\": \"string\",\n    \"amount\": 5274.956701475375,\n    \"entry_type\": \"incoming\",\n    \"date\": \"2003-04-06\",\n    \"iso_currency_code\": \"string\",\n    \"description\": \"string\",\n    \"account_holder_id\": \"string\",\n    \"account_holder_type\": \"unknown\",\n    \"location\": \"string\",\n    \"country\": \"RL\",\n    \"mcc\": [\n      1930,\n      4157\n    ],\n    \"account_holder_name\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 9934.376546470416,\n      \"longitude\": 727.6429034995646,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"recurring\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"1974-08-30\",\n      \"latest_payment_date\": \"1964-06-10\",\n      \"total_amount\": 6187.275356094112,\n      \"average_amount\": 170.53428894138855,\n      \"periodicity_in_days\": 4283.502018391095,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"business\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"error\": \"string\",\n    \"error_details\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1edc48e-2358-4994-a94e-299205100cd0",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5d6a046e-4889-4b7b-95e8-7c5a488c0c00",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9176fea9-b693-4705-8ec0-27c173265c84",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bf88c2ae-426b-4de3-b17b-b8f3d4d55668",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ecdec99-0f8b-4c09-83c3-b9bf20ae9d06",
+          "name": "Extracts bank and account details for instant file verification and UI enhancements.",
+          "request": {
+            "name": "Extracts bank and account details for instant file verification and UI enhancements.",
+            "description": {
+              "content": "Statement Info endpoint is a low-latency response analysing the first page of a bank statement which returns \n    key identification details such as the underlying bank institution and the account-holder.\n    The can be used for UX improvements through instant verification of correct file upload, for UI improvements \n    like returning bank names and logos, or for logging information about a file upon upload.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid",
+                "statement-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f46946ce-b285-4e09-9590-ae0bbac2a70e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "statement-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account_holder\": {\n    \"address\": {\n      \"city\": \"Victoria\",\n      \"country\": \"United States\",\n      \"postcode\": \"77901\",\n      \"state\": \"Texas\",\n      \"street\": \"601 Rosebud Avenue\"\n    },\n    \"name\": \"John Doe\",\n    \"type\": \"consumer\"\n  },\n  \"accounts\": [\n    {\n      \"closing_balance\": 1500,\n      \"iso_currency_code\": \"USD\",\n      \"number\": \"83721\",\n      \"opening_balance\": 1000,\n      \"type\": \"checking\"\n    }\n  ],\n  \"end_date\": \"2024-02-01\",\n  \"institution\": \"Well's Fargo\",\n  \"start_date\": \"2024-01-01\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f5ba710-d36d-46c7-882c-825937249112",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "statement-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dd375c5d-7126-4ffa-b4ea-fd1db5021944",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "statement-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2fb1a38a-d231-42cc-92ff-fd2ab7c2f1ab",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "statement-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5b43fa3c-36d7-421e-b375-0e666d06cb46",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "statement-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b48fe08-466e-410f-9011-073f7f1e73cc",
+          "name": " Get Bank Statement Results",
+          "request": {
+            "name": " Get Bank Statement Results",
+            "description": {
+              "content": "Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `processed`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "datasources",
+                "bank_statements",
+                ":uuid",
+                "results"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "uuid",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "566f06d1-0e29-4c17-9385-fc9139dd5616",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"accounts\": [\n    {\n      \"transactions\": [\n        {\n          \"date\": \"2023-04-11\",\n          \"entry_type\": \"incoming\",\n          \"amount\": 8646.369301257491,\n          \"iso_currency_code\": \"string\",\n          \"description\": \"string\",\n          \"transaction_id\": \"string\",\n          \"running_balance\": 8490.200856068419,\n          \"page_number\": 3233\n        },\n        {\n          \"date\": \"1951-02-22\",\n          \"entry_type\": \"outgoing\",\n          \"amount\": 1156.8823782219372,\n          \"iso_currency_code\": \"string\",\n          \"description\": \"string\",\n          \"transaction_id\": \"string\",\n          \"running_balance\": 1705.192273077183,\n          \"page_number\": 5452\n        }\n      ],\n      \"number\": \"string\",\n      \"opening_balance\": 6756.970592753525,\n      \"closing_balance\": 8448.201816317462,\n      \"start_date\": \"2015-03-04\",\n      \"end_date\": \"1979-03-23\",\n      \"is_balance_reconciled\": false,\n      \"total_incoming\": 4158.534853526413,\n      \"total_outgoing\": 1327.8507460032451\n    },\n    {\n      \"transactions\": [\n        {\n          \"date\": \"2004-01-10\",\n          \"entry_type\": \"outgoing\",\n          \"amount\": 8769.359229746457,\n          \"iso_currency_code\": \"string\",\n          \"description\": \"string\",\n          \"transaction_id\": \"strin\",\n          \"running_balance\": 5760.29341466336,\n          \"page_number\": 3686\n        },\n        {\n          \"date\": \"1972-12-24\",\n          \"entry_type\": \"incoming\",\n          \"amount\": 3140.8111902191295,\n          \"iso_currency_code\": \"string\",\n          \"description\": \"string\",\n          \"transaction_id\": \"string\",\n          \"running_balance\": 226.06212298118433,\n          \"page_number\": 3073\n        }\n      ],\n      \"number\": \"string\",\n      \"opening_balance\": 5740.5003493594495,\n      \"closing_balance\": 944.9192438390596,\n      \"start_date\": \"2001-05-11\",\n      \"end_date\": \"1960-10-24\",\n      \"is_balance_reconciled\": false,\n      \"total_incoming\": 2246.8797714865905,\n      \"total_outgoing\": 3112.3407072234368\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "29d9844e-eeaf-4d4e-a2ce-3f7781dccdf9",
+              "name": {
+                "details": "User not authorized for requested operation"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "363c8bd9-e099-4d11-abf3-623833df67fc",
+              "name": {
+                "details": "Resource not found"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5a7b1acf-a081-453e-b4fb-67fe09a7b8c7",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4560c923-5185-4b54-a181-3d4c0e1e883c",
+              "name": {
+                "details": "Internal server error"
+              },
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasources",
+                    "bank_statements",
+                    ":uuid",
+                    "results"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "uuid",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ntropy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ff28e052-a4a0-4028-b6ee-1bababaa44ec",
+    "name": "API Reference Account Holder Bank statements API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ledger operations",
+      "type": "text/plain"
+    }
+  }
+}

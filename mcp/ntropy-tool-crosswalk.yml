@@ -1,0 +1,246 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  mcp/ntropy-mcp.yml, https://github.com/ntropy-network/ntropy-mcp (README.md +
+  src/ntropy_mcp/server.py at master), openapi/_original/ntropy-api-v3-openapi-original.json,
+  live tools/list against https://docs.ntropy.com/_mcp/server
+description: >-
+  Binds every published Ntropy MCP tool to the OpenAPI operation(s) it actually calls.
+  Bindings are source-verified: the stdio server's request URLs were read directly from
+  src/ntropy_mcp/server.py rather than guessed from tool names, and each URL was probed
+  live to confirm whether the route exists. Three tools call routes that are NOT in the
+  published OpenAPI — see divergences[].
+surfaces:
+  openapi:
+    file: openapi/_original/ntropy-api-v3-openapi-original.json
+    refined: openapi/ntropy-*-openapi.yml
+    base_url: https://api.ntropy.com
+    regional_base_url: https://api.eu.ntropy.com
+    operations: 39
+    gated: false
+    note: >-
+      Also live and anonymously readable at https://api.ntropy.com/openapi.json — that
+      URL serves the v2 "Ntropy Transaction API" (38 operations), captured separately at
+      openapi/_original/ntropy-transaction-api-openapi-original.json. This crosswalk maps
+      the v3 surface, which is what the MCP server calls.
+  mcp_stdio:
+    name: ntropy-mcp
+    package: https://pypi.org/project/ntropy-mcp/
+    repo: https://github.com/ntropy-network/ntropy-mcp
+    install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
+    transport: stdio
+    tools: 11
+    gated: true
+    note: >-
+      tools/list cannot be probed remotely — the server is a local stdio process requiring
+      an API key. Tool names, parameters and target URLs were read from the repository
+      source, so the bindings below are exact, not semantic guesses.
+  mcp_remote:
+    name: fern-docs-mcp-server
+    url: https://docs.ntropy.com/_mcp/server
+    transport: streamable-http
+    tools: 1
+    gated: false
+    probed: '2026-08-14'
+    note: >-
+      initialize + tools/list both succeed anonymously (HTTP 200, text/event-stream);
+      serverInfo reports fern-docs-mcp-server 1.0.0. Documentation search only — it does
+      not front the Ntropy REST API.
+  graphql: null
+crosswalk:
+  - tool: create_account_holder
+    server: ntropy-mcp
+    category: account-holders
+    rest: [create-account-holder-v-3-account-holders-post]
+    binding: rest
+    calls: POST https://api.ntropy.com/v3/account_holders
+    confidence: high
+    note: Verified in server.py; inherits the CreateAccountHolder requestBody as its input contract.
+  - tool: get_account_holder
+    server: ntropy-mcp
+    category: account-holders
+    rest: [get-account-holder-v-3-account-holders-id-get]
+    binding: rest
+    calls: GET https://api.ntropy.com/v3/account_holders/{id}
+    confidence: high
+  - tool: delete_account_holder
+    server: ntropy-mcp
+    category: account-holders
+    rest: [delete-account-holder-v-3-account-holders-id-delete]
+    binding: rest
+    calls: DELETE https://api.ntropy.com/v3/account_holders/{id}
+    confidence: high
+    note: Destructive — deletes the account holder and all associated transactions.
+  - tool: update_account_holder
+    server: ntropy-mcp
+    category: account-holders
+    rest: [get-account-holder-v-3-account-holders-id-get]
+    binding: partial
+    calls: GET then PATCH https://api.ntropy.com/v3/account_holders/{id}
+    confidence: low
+    note: >-
+      Only the read half binds. The tool then issues PATCH /v3/account_holders/{id}, which
+      is absent from the OpenAPI and returns HTTP 405 Method Not Allowed on the live API
+      (probed 2026-08-14). See divergences[].
+  - tool: enrich_transaction
+    server: ntropy-mcp
+    category: transactions
+    rest: [post-transaction-v-3-transactions-post]
+    binding: rest
+    calls: POST https://api.ntropy.com/v3/transactions
+    confidence: high
+    note: The core enrichment call; 1 credit per enriched transaction.
+  - tool: get_transaction
+    server: ntropy-mcp
+    category: transactions
+    rest: [get-transaction-v-3-transactions-id-get]
+    binding: rest
+    calls: GET https://api.ntropy.com/v3/transactions/{id}
+    confidence: high
+  - tool: list_transactions
+    server: ntropy-mcp
+    category: transactions
+    rest: [list-transactions-v-3-transactions-get]
+    binding: rest
+    calls: GET https://api.ntropy.com/v3/transactions
+    confidence: medium
+    note: >-
+      Operation matches, but the tool exposes limit/offset while the documented v3
+      pagination contract is limit/cursor -> next_cursor
+      (https://docs.ntropy.com/api/pagination). Agents paging past the first page through
+      this tool are using a parameter the API reference does not document.
+  - tool: delete_transaction
+    server: ntropy-mcp
+    category: transactions
+    rest: [delete-transaction-v-3-transactions-id-delete]
+    binding: rest
+    calls: DELETE https://api.ntropy.com/v3/transactions/{id}
+    confidence: high
+  - tool: bulk_enrich_transactions
+    server: ntropy-mcp
+    category: transactions
+    rest: []
+    binding: undocumented-rest
+    calls: POST https://api.ntropy.com/v3/transactions/bulk
+    confidence: low
+    note: >-
+      The route exists (live probe returns 403 Forbidden without a key, versus 404 for a
+      genuinely absent path) but is NOT in the published OpenAPI. The documented way to
+      enrich many transactions at once is POST /v3/batches
+      (post-batch-v-3-batches-post), which this tool does not use.
+mcp_only:
+  - tool: searchDocs
+    server: fern-docs-mcp-server
+    reason: >-
+      Documentation search over docs.ntropy.com. No backing REST operation — it is a Fern
+      docs-platform capability, not part of the Ntropy API.
+    input_schema: '{ query: string (required) }'
+  - tool: check_connection
+    server: ntropy-mcp
+    reason: >-
+      Calls GET https://api.ntropy.com/v3/status, which is not in the OpenAPI and returns
+      HTTP 404 on the live API (probed 2026-08-14). No REST operation to bind to. The v3
+      spec has no health/status operation; the v2 spec does (health_get_health_get -> GET /health).
+  - tool: set_api_key
+    server: ntropy-mcp
+    reason: >-
+      Runtime configuration of the server's own credential; its validation step calls the
+      same non-existent GET /v3/status. Not an API capability.
+divergences:
+  - id: v3-status-missing
+    severity: high
+    finding: >-
+      Two of the eleven stdio tools (check_connection, set_api_key) validate against
+      GET https://api.ntropy.com/v3/status. That path returns 404 on the live API — the
+      same status a nonsense path such as /v3/nope returns, and unlike a real gated path
+      such as /v3/account_holders which returns 403. The connectivity/credential check
+      cannot succeed as written.
+    evidence:
+      - {url: 'https://api.ntropy.com/v3/status', method: GET, status: 404}
+      - {url: 'https://api.ntropy.com/v3/account_holders', method: GET, status: 403, note: control - documented path, auth-gated}
+      - {url: 'https://api.ntropy.com/v3/nope', method: GET, status: 404, note: control - absent path}
+  - id: patch-account-holder-not-allowed
+    severity: high
+    finding: >-
+      update_account_holder issues PATCH /v3/account_holders/{id}. The path exists but the
+      method is rejected with 405 Method Not Allowed, and no PATCH operation appears in the
+      v3 OpenAPI. The v2 API does expose PATCH /v2/account-holder/{account_holder_id}
+      (patch_account_holder_v2_account_holder__account_holder_id__patch), so the tool reads
+      as a v2 capability pointed at a v3 path.
+    evidence:
+      - {url: 'https://api.ntropy.com/v3/account_holders/test123', method: PATCH, status: 405}
+      - {url: 'https://api.ntropy.com/v3/account_holders/test123', method: GET, status: 403}
+  - id: transactions-bulk-undocumented
+    severity: medium
+    finding: >-
+      POST /v3/transactions/bulk is served by the API (403 without a key) but is not
+      published in the OpenAPI or the API reference. An undocumented route reachable only
+      through the MCP tool is a surface divergence, not a gap to paper over.
+    evidence:
+      - {url: 'https://api.ntropy.com/v3/transactions/bulk', method: POST, status: 403}
+  - id: stdio-only-agent-surface
+    severity: medium
+    finding: >-
+      The only MCP server that fronts the Ntropy API is a local stdio package a human must
+      install; the sole remote MCP endpoint (docs.ntropy.com/_mcp/server) searches
+      documentation and cannot call the API. No agent can reach Ntropy's data plane over
+      MCP without local installation.
+  - id: mcp-package-decay
+    severity: medium
+    finding: >-
+      ntropy-mcp 0.1.0 was published to PyPI on 2025-02-25 and the repository was last
+      pushed 2025-03-09, while the API it wraps has moved on — which is consistent with the
+      three broken/undocumented routes above.
+rest_only:
+  bank-statements:
+    - post-bank-statement-v-3-bank-statements-post
+    - get-bank-statement-v-3-bank-statements-id-get
+    - get-bank-statements-v-3-bank-statements-get
+    - get-bank-statement-result-v-3-bank-statements-id-results-get
+    - get-bank-statement-statement-info-v-3-bank-statements-id-verify-post
+    - delete-bank-statement-v-3-bank-statements-id-delete
+  batches:
+    - post-batch-v-3-batches-post
+    - get-batches-v-3-batches-get
+    - get-single-batch-v-3-batches-id-get
+    - get-batch-results-v-3-batches-id-results-get
+  account-holders:
+    - get-account-holders-v-3-account-holders-get
+    - get-account-holder-recurring-payments-v-3-account-holders-id-recurring-groups-post
+  transactions:
+    - set-transaction-ah-v-3-transactions-id-assign-post
+  entities:
+    - get-entity-by-id-v-3-entities-id-get
+    - search-entity-v-3-entities-resolve-post
+  categories:
+    - get-category-set-v-3-categories-id-get
+    - custom-categories-post-v-3-categories-id-post
+    - delete-custom-category-set-v-3-categories-id-reset-post
+  personalization:
+    - filter-get-v-3-rules-get
+    - filter-post-v-3-rules-post
+    - filter-patch-v-3-rules-id-patch
+    - filter-delete-v-3-rules-id-delete
+    - filter-replace-v-3-rules-replace-post
+  webhooks:
+    - post-webhook-v-3-webhooks-post
+    - get-webhooks-v-3-webhooks-get
+    - get-webhook-v-3-webhooks-id-get
+    - patch-webhook-v-3-webhooks-id-patch
+    - delete-webhook-v-3-webhooks-id-delete
+  reports:
+    - post-report-v-3-reports-post
+    - get-reports-v-3-reports-get
+    - get-report-v-3-reports-id-get
+    - delete-report-v-3-reports-id-delete
+coverage:
+  tools_named: 12
+  tools_bound_to_rest: 8
+  tools_fully_bound: 7
+  tools_partially_bound: 1
+  mcp_only: 3
+  undocumented_rest_calls: 3
+  rest_operations_total: 39
+  rest_operations_with_a_tool: 7
+  rest_coverage_percent: 18
+checked: '2026-08-14'

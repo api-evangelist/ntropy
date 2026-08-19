@@ -1,0 +1,174 @@
+{
+  "item": [
+    {
+      "id": "31ea59f7-0279-4c21-afaf-48f15d6bffb9",
+      "name": "Misc",
+      "description": {
+        "content": "Miscellaneous endpoint.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8b65e51a-623a-4df3-ae79-580f9108ace9",
+          "name": "Get the list of possible MCC codes that can be assigned",
+          "request": {
+            "name": "Get the list of possible MCC codes that can be assigned",
+            "description": {
+              "content": "Get the list of possible MCC codes that can be assigned. Derived from the ISO:18245:2003 standard (https://www.iso.org/standard/33365.html) with private and US-specific MCC codes removed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "mcc"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "66865d6e-5b97-4864-921e-65d8bcf1afdd",
+              "name": "List of possible MCC codes that can be assigned",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "mcc"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"code\": \"string\",\n    \"description\": \"string\"\n  },\n  {\n    \"code\": \"string\",\n    \"description\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba5ee45c-67c7-41bd-90d4-7427212e961a",
+          "name": "Get the API health info",
+          "request": {
+            "name": "Get the API health info",
+            "description": {
+              "content": "Get the API health info",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9c318c09-951c-4da6-8363-f335ff4e826b",
+              "name": "Received the API health info",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ntropy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b13bf74c-98de-474b-8908-3318a8a56152",
+    "name": "API Reference Account Holder Misc API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ledger operations",
+      "type": "text/plain"
+    }
+  }
+}

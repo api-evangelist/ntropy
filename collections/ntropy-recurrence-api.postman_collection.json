@@ -1,0 +1,240 @@
+{
+  "item": [
+    {
+      "id": "44383939-a029-4bfd-956b-f830c54e1060",
+      "name": "recurrence",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "098309d4-8ca1-4f8e-9b03-f6434bffddfa",
+          "name": "Find recurring groups in a transaction history",
+          "request": {
+            "name": "Find recurring groups in a transaction history",
+            "description": {
+              "content": "Identifies and categorizes recurring patterns found in the transaction history of the account holder,\nsuch as periodic payments or subscriptions. These patterns are called recurrence groups. \n\nComplete guide: [Recurrence](../../../enrichment/recurrence).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "account_holders",
+                ":id",
+                "recurring_groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "05d80e9f-bdae-4185-9e16-db03c1acaf5d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "account_holders",
+                    ":id",
+                    "recurring_groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"start_date\": \"1957-07-14\",\n    \"end_date\": \"1954-12-01\",\n    \"total_amount\": 1644.0206075077112,\n    \"average_amount\": 1905.3789840509082,\n    \"periodicity_in_days\": 9739.63282279317,\n    \"periodicity\": \"quarterly\",\n    \"counterparty\": {\n      \"type\": \"person\",\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"website\": \"string\",\n      \"phone_number\": \"string\",\n      \"tax_number\": \"string\",\n      \"naics2017\": \"string\",\n      \"logo\": \"string\",\n      \"mccs\": [\n        9625,\n        4299\n      ],\n      \"parent\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"phone_number\": \"string\",\n        \"tax_number\": \"string\",\n        \"naics2017\": \"string\"\n      }\n    },\n    \"categories\": {\n      \"general\": \"string\",\n      \"accounting\": \"investing\"\n    },\n    \"transaction_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"entry_type\": \"outgoing\"\n  },\n  {\n    \"id\": \"string\",\n    \"start_date\": \"1995-03-29\",\n    \"end_date\": \"1981-05-20\",\n    \"total_amount\": 3813.562284320233,\n    \"average_amount\": 5578.4453538889,\n    \"periodicity_in_days\": 6808.315519161126,\n    \"periodicity\": \"bi-weekly\",\n    \"counterparty\": {\n      \"type\": \"organization\",\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"website\": \"string\",\n      \"phone_number\": \"string\",\n      \"tax_number\": \"string\",\n      \"naics2017\": \"string\",\n      \"logo\": \"string\",\n      \"mccs\": [\n        6774,\n        6605\n      ],\n      \"parent\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"phone_number\": \"string\",\n        \"tax_number\": \"string\",\n        \"naics2017\": \"string\"\n      }\n    },\n    \"categories\": {\n      \"general\": \"string\",\n      \"accounting\": \"financing\"\n    },\n    \"transaction_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"entry_type\": \"incoming\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99bd6edb-ad00-473e-a900-7fed3393a09d",
+              "name": "Account holder with the provided id not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "account_holders",
+                    ":id",
+                    "recurring_groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "736f748d-652a-419e-aee7-a4d2333fe402",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "account_holders",
+                    ":id",
+                    "recurring_groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ntropy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "caa44088-9fc4-460e-a993-7406973d4f61",
+    "name": "API Reference Account Holder recurrence API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ledger operations",
+      "type": "text/plain"
+    }
+  }
+}

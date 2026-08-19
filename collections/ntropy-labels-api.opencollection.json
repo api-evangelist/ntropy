@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder Labels API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Labels",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the hierarchy of Ntropy labels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/labels/hierarchy/:account_holder_type",
+            "params": [
+              {
+                "name": "account_holder_type",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the hierarchy of Ntropy labels"
+        },
+        {
+          "info": {
+            "name": "Get a custom label hierarchy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/labels/hierarchy/custom/:account_holder_type",
+            "params": [
+              {
+                "name": "account_holder_type",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a custom label hierarchy"
+        },
+        {
+          "info": {
+            "name": "Upload a custom label hierarchy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v2/labels/hierarchy/custom/:account_holder_type",
+            "params": [
+              {
+                "name": "account_holder_type",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload a custom label hierarchy. Transactions that don't match a label will be labeled `not enough information` regardless of whether it is present in the hierarchy."
+        },
+        {
+          "info": {
+            "name": "Delete a custom label hierarchy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v2/labels/hierarchy/custom/:account_holder_type",
+            "params": [
+              {
+                "name": "account_holder_type",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a custom label hierarchy"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

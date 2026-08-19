@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder transactions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "transactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/transactions",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Only return transactions older or equal than this date"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Only return transactions newer than this date"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Starting point for the set of transactions"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The limit of transactions to be returned"
+              },
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only return the transactions of this account holder"
+              }
+            ]
+          },
+          "docs": "Return a list of enriched transactions starting with the most recent one."
+        },
+        {
+          "info": {
+            "name": "Synchronously enrich transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/transactions",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enriches a transaction with information about entities, locations and categories. Besides the original `id` that was\nsubmitted, the response only contains the enriched fields. \n\nTo view the complete transaction, including the original fields, such\nas description or amount, you can use any of the Transactions API listing methods.\n\nComplete guide: [Transaction Enrichment](../../../enrichment/introduction)."
+        },
+        {
+          "info": {
+            "name": "Retrieve a transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/transactions/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a transaction"
+        },
+        {
+          "info": {
+            "name": "Deletes a transaction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v3/transactions/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deleting a transaction will also delete it from our systems. This operation is permanent."
+        },
+        {
+          "info": {
+            "name": "Assign a transaction to an account holder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/transactions/:id/assign",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the account holder associated with the transaction. The old and new account holder must share the same `type`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

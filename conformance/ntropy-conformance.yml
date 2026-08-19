@@ -1,6 +1,14 @@
-generated: '2026-07-20'
-method: derived
-source: openapi/ntropy-api-v3-openapi-original.json, https://docs.ntropy.com/api/
+generated: '2026-08-14'
+method: searched
+source: >-
+  openapi/ntropy-api-v3-openapi-original.json, https://docs.ntropy.com/api/,
+  https://ntropy.com/ (footer), https://trust.ntropy.com/, live probe of
+  https://docs.ntropy.com/_mcp/server
+compliance_program:
+  published: true
+  trust_center: https://trust.ntropy.com/
+  certifications: [SOC 2 Type 2]
+  cross_ref: security/ntropy-trust-center.yml
 standards:
   - id: openapi-3.1
     conforms: true
@@ -23,3 +31,33 @@ standards:
   - id: webhooks-events
     conforms: true
     evidence: Documented event catalog (bank_statements/batches/reports events) delivered via POST with X-Ntropy-Token.
+  - id: soc2-type-2
+    conforms: true
+    evidence: >-
+      "We are SOC2 Type 2 certified." published in the ntropy.com footer alongside a SOC 2
+      certification badge; a Vanta trust center is served at https://trust.ntropy.com/
+      ("Ntropy Network Trust Center", HTTP 200).
+  - id: mcp-2024-11-05
+    conforms: true
+    evidence: >-
+      https://docs.ntropy.com/_mcp/server answers an anonymous JSON-RPC initialize with
+      protocolVersion 2024-11-05 and serverInfo fern-docs-mcp-server 1.0.0; tools/list
+      returns one tool with a draft-07 inputSchema. Documentation search only — the API
+      data plane is served by the local stdio server instead.
+  - id: rfc8594-sunset
+    conforms: false
+    evidence: No Sunset/Deprecation headers and no published deprecation policy; see lifecycle/ntropy-lifecycle.yml.
+  - id: idempotency-keys
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent is documented or present in any OpenAPI
+      operation. Webhook delivery is at-least-once with consumer-side dedupe on event_id,
+      but the request API exposes no idempotency contract.
+  - id: a2a-agent-card
+    conforms: false
+    evidence: >-
+      No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host
+      (all 404, probed 2026-08-14).
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: No security.txt served on any host; no published vulnerability-disclosure program found.

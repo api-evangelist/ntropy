@@ -1,20 +1,59 @@
-generated: '2026-07-20'
+generated: '2026-08-14'
 method: searched
-source: https://pypi.org/project/ntropy-sdk/, https://github.com/ntropy-network
+source: >-
+  https://pypi.org/pypi/ntropy-sdk/json, https://pypi.org/pypi/ntropy-mcp/json,
+  https://github.com/ntropy-network, https://docs.ntropy.com/introduction
 packages:
   - language: python
     registry: pypi
     name: ntropy-sdk
     version: 5.5.0
+    published: '2026-06-24'
     url: https://pypi.org/project/ntropy-sdk/
     source_url: https://github.com/ntropy-network/ntropy-sdk
     install: pip install --upgrade ntropy-sdk
     official: true
-    description: Official Python SDK for the Ntropy financial data enrichment API.
+    description: >-
+      Official Python SDK for the Ntropy financial data enrichment API. Features auto
+      pagination, built-in retry policies, validation, sync and async HTTP clients and
+      idiomatic error handling (per https://docs.ntropy.com/introduction).
   - language: python
     registry: pypi
     name: ntropy-mcp
-    url: https://github.com/ntropy-network/ntropy-mcp
+    version: 0.1.0
+    published: '2025-02-25'
+    url: https://pypi.org/project/ntropy-mcp/
+    source_url: https://github.com/ntropy-network/ntropy-mcp
     install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
     official: true
-    description: First-party MCP server that exposes Ntropy transaction-enrichment operations as agent tools (stdio).
+    description: >-
+      First-party MCP server that exposes Ntropy transaction-enrichment operations as
+      agent tools over stdio.
+    note: >-
+      Decay signal: still at 0.1.0 from 2025-02-25 (repo last pushed 2025-03-09) while the
+      v3 API it wraps has moved on. Three of its eleven tools call routes the live API does
+      not serve as written — see mcp/ntropy-tool-crosswalk.yml divergences[].
+registries_checked:
+  - registry: pypi
+    result: 2 first-party packages (ntropy-sdk, ntropy-mcp); the bare name `ntropy` is a 404.
+  - registry: npm
+    result: >-
+      No first-party package. `ntropy`, `ntropy-sdk`, `ntropy-mcp` and `@ntropy/sdk` all
+      return 404 from registry.npmjs.org. Ntropy ships no JavaScript/TypeScript SDK.
+  - registry: maven-central
+    result: none found
+  - registry: nuget
+    result: none found
+  - registry: rubygems
+    result: none found
+  - registry: crates.io
+    result: none found
+  - registry: pkg.go.dev
+    result: none found
+  - registry: packagist
+    result: none found
+note: >-
+  Python is the only language Ntropy ships a client for; the documentation recommends the
+  Python SDK and otherwise directs developers to call the REST API directly or use the
+  public Postman collection.
+checked: '2026-08-14'

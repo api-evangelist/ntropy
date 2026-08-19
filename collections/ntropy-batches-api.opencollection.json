@@ -1,0 +1,136 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder batches API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "batches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/batches",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Only return batches older or equal than this date"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Only return batches newer than this date"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Starting point for the set of batches"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The limit of batches to be returned"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only return batches with this status"
+              }
+            ]
+          },
+          "docs": "Returns a list of submitted batches starting with the most recent one."
+        },
+        {
+          "info": {
+            "name": "Submit a batch of requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/batches",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a batch of requests and runs them asynchronously. Each element of `data` has to be compatible with the body\nexpected by the `operation`. A batch representing the progress and the status of the process is returned as a result.\nYou can retrieve the results using [/v3/batches/:id/results](./get-batch-results) once the batch has finished\nprocessing.\n\nThis endpoints supports up to 24960 requests.\n\nComplete guide: [Batches](../../../batches)."
+        },
+        {
+          "info": {
+            "name": "Retrieve a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/batches/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a batch"
+        },
+        {
+          "info": {
+            "name": "Retrieve the results of a batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/batches/:id/results",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns batch metadata along with a list containing the body of the responses of each request in the batch. The \nresponses are returned in the same order they were submitted. The schema of each response body is given by the \nrespective `operation` of the batch.\n\nResults are available after the batch has finished processing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder recurrence API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "recurrence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find recurring groups in a transaction history",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/account_holders/:id/recurring_groups",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Identifies and categorizes recurring patterns found in the transaction history of the account holder,\nsuch as periodic payments or subscriptions. These patterns are called recurrence groups. \n\nComplete guide: [Recurrence](../../../enrichment/recurrence)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

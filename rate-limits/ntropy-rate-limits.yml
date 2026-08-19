@@ -1,7 +1,24 @@
-generated: '2026-07-20'
+generated: '2026-08-14'
 method: searched
 source: https://docs.ntropy.com/api/rate-limits
+limit_count: 24
 scope: per API key (independent of source IP)
+response_headers:
+  ratelimit: []
+  observed:
+    - name: x-request-id
+      always: true
+      purpose: Correlation id for support; returned on every response including 403.
+      evidence: 'GET https://api.ntropy.com/v3/account_holders (unauthenticated) -> HTTP 403, x-request-id present'
+      probed: '2026-08-14'
+  note: >-
+    Ntropy publishes NO runtime rate-limit signal. There are no X-RateLimit-*, RateLimit-*
+    or Retry-After headers documented, and none appear on live responses. An agent cannot
+    read its remaining credits, its concurrency headroom, or a back-off hint from the
+    response — it can only observe the terminal status codes (429 rate limit, 423 quota
+    exhausted) after the fact. The published per-endpoint ops/second table below is the
+    only budget information available, and it is static documentation, not a runtime
+    signal.
 model:
   credits:
     max_balance: 50000

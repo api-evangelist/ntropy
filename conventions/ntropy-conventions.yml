@@ -1,6 +1,19 @@
-generated: '2026-07-20'
+generated: '2026-08-14'
 method: searched
-source: https://docs.ntropy.com/api/, openapi/ntropy-api-v3-openapi-original.json
+source: >-
+  https://docs.ntropy.com/api/, openapi/ntropy-api-v3-openapi-original.json,
+  https://legacy.docs.ntropy.com/docs/enrichment/
+base_urls:
+  default: https://api.ntropy.com
+  regional:
+    - region: eu
+      base_url: https://api.eu.ntropy.com
+      note: >-
+        "for EU users the api.ntropy.com base URL should be replaced with
+        api.eu.ntropy.com" (legacy.docs.ntropy.com). Verified live 2026-08-14: /health and
+        /openapi.json both 200. The published OpenAPI servers[] block names only
+        api.ntropy.com, so EU residency is a docs-only convention an agent cannot learn
+        from the contract.
 authentication:
   style: api-key-header
   header: X-API-KEY

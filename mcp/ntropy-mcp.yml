@@ -1,53 +1,96 @@
-generated: '2026-07-20'
-method: searched
+generated: '2026-08-14'
+method: probed
 status: published
-source: https://github.com/ntropy-network/ntropy-mcp, https://docs.ntropy.com/_mcp/server
+source: >-
+  https://github.com/ntropy-network/ntropy-mcp (README.md + src/ntropy_mcp/server.py),
+  https://pypi.org/project/ntropy-mcp/, live initialize + tools/list against
+  https://docs.ntropy.com/_mcp/server
 servers:
-  - name: ntropy-mcp
-    kind: api-operations
-    transport: stdio
-    repo: https://github.com/ntropy-network/ntropy-mcp
-    install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
-    official: true
-    description: First-party MCP server for enriching banking data using the Ntropy API.
-    tools:
-      - name: check_connection
-        description: Verify connection to the Ntropy API.
-      - name: set_api_key
-        description: Set or update the Ntropy API key at runtime.
-      - name: create_account_holder
-        description: Create an account holder.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#create-account-holder-v-3-account-holders-post
-      - name: update_account_holder
-        description: Update an existing account holder.
-      - name: enrich_transaction
-        description: Enrich a bank transaction.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#post-transaction-v-3-transactions-post
-      - name: get_account_holder
-        description: Get details of an account holder.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#get-account-holder-v-3-account-holders-id-get
-      - name: list_transactions
-        description: List transactions for an account holder.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#list-transactions-v-3-transactions-get
-      - name: get_transaction
-        description: Get details of a specific transaction.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#get-transaction-v-3-transactions-id-get
-      - name: bulk_enrich_transactions
-        description: Enrich multiple transactions at once.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#post-batch-v-3-batches-post
-      - name: delete_account_holder
-        description: Delete an account holder and all associated data.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-account-holder-v-3-account-holders-id-delete
-      - name: delete_transaction
-        description: Delete a specific transaction.
-        source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-transaction-v-3-transactions-id-delete
-  - name: fern-docs-mcp
-    kind: documentation-search
-    transport: streamable-http
-    url: https://docs.ntropy.com/_mcp/server
-    official: true
-    description: Hosted Fern documentation MCP server providing AI-powered search over docs.ntropy.com.
-    install: claude mcp add --transport http fern_mcp_docs-ntropy-com https://docs.ntropy.com/_mcp/server
-    tools:
-      - name: searchDocs
-        description: Search the documentation at docs.ntropy.com; returns relevant passages with source URLs.
+- name: ntropy-mcp
+  kind: api-operations
+  transport: stdio
+  repo: https://github.com/ntropy-network/ntropy-mcp
+  package: https://pypi.org/project/ntropy-mcp/
+  version: 0.1.0
+  published: '2025-02-25'
+  repo_last_push: '2025-03-09'
+  install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
+  official: true
+  description: First-party MCP server for enriching banking data using the Ntropy API.
+  health: >-
+    Stale. 3 of its 11 tools call routes the live API does not serve as written —
+    GET /v3/status is 404 (check_connection, set_api_key) and PATCH /v3/account_holders/{id}
+    is 405 (update_account_holder); bulk_enrich_transactions calls an undocumented
+    POST /v3/transactions/bulk. Probed 2026-08-14; see mcp/ntropy-tool-crosswalk.yml.
+  tools:
+  - name: check_connection
+    description: Verify connection to the Ntropy API.
+  - name: set_api_key
+    description: Set or update the Ntropy API key at runtime.
+  - name: create_account_holder
+    description: Create an account holder.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#create-account-holder-v-3-account-holders-post
+  - name: update_account_holder
+    description: Update an existing account holder.
+  - name: enrich_transaction
+    description: Enrich a bank transaction.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#post-transaction-v-3-transactions-post
+  - name: get_account_holder
+    description: Get details of an account holder.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#get-account-holder-v-3-account-holders-id-get
+  - name: list_transactions
+    description: List transactions for an account holder.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#list-transactions-v-3-transactions-get
+  - name: get_transaction
+    description: Get details of a specific transaction.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#get-transaction-v-3-transactions-id-get
+  - name: bulk_enrich_transactions
+    description: Enrich multiple transactions at once.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#post-batch-v-3-batches-post
+  - name: delete_account_holder
+    description: Delete an account holder and all associated data.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-account-holder-v-3-account-holders-id-delete
+  - name: delete_transaction
+    description: Delete a specific transaction.
+    source_operation: openapi/ntropy-api-v3-openapi-original.json#delete-transaction-v-3-transactions-id-delete
+- name: fern-docs-mcp
+  kind: documentation-search
+  transport: streamable-http
+  url: https://docs.ntropy.com/_mcp/server
+  official: true
+  description: Hosted Fern documentation MCP server providing AI-powered search over docs.ntropy.com.
+  install: claude mcp add --transport http fern_mcp_docs-ntropy-com https://docs.ntropy.com/_mcp/server
+  auth: none
+  server_info: fern-docs-mcp-server 1.0.0
+  protocol_version: '2024-11-05'
+  probed: '2026-08-14'
+  tools:
+  - name: searchDocs
+    description: Search the documentation at https://docs.ntropy.com. Returns relevant doc passages with source URLs.
+    input_schema:
+      type: object
+      properties:
+        query:
+          type: string
+          description: The search query to run against the docs
+      required: [query]
+      additionalProperties: false
+deployment:
+  mode: both
+  endpoint: https://docs.ntropy.com/_mcp/server
+  install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
+  package: https://pypi.org/project/ntropy-mcp/
+  auth: api-key
+  verified: probed
+  checked: '2026-08-14'
+  source: >-
+    Remote: anonymous JSON-RPC initialize + tools/list against
+    https://docs.ntropy.com/_mcp/server returned HTTP 200 (text/event-stream) with
+    serverInfo fern-docs-mcp-server 1.0.0 and one tool, searchDocs. Local: uvx package
+    ntropy-mcp on PyPI, read from the provider's own repo and README.
+  note: >-
+    The two surfaces are not equivalent. The REMOTE endpoint (auth: none) only searches
+    documentation — it cannot call the Ntropy API. The API data plane is reachable only
+    through the LOCAL stdio package (auth: api-key), which a human must install first.
+    Recorded as `both` because both are genuinely shipped by Ntropy, but an agent given
+    only the remote URL can read docs and nothing else.

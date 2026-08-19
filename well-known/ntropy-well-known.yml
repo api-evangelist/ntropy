@@ -1,19 +1,28 @@
-generated: '2026-07-20'
-method: searched
-source: live probes of /.well-known/ on Ntropy hosts
+generated: '2026-08-14'
+method: probed
+source: live probes of /.well-known/ on every Ntropy host
+checked: '2026-08-14'
 hosts:
   - host: https://docs.ntropy.com
     documents:
       - path: /.well-known/api-catalog          # RFC 9727 API catalog (linkset)
         status: 200
+        content_type: application/json
         file: ntropy-api-catalog.json
+        real_document: true
       - path: /.well-known/security.txt
         status: 404
       - path: /.well-known/openid-configuration
         status: 404
       - path: /.well-known/oauth-authorization-server
         status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
       - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
         status: 404
   - host: https://api.ntropy.com
     documents:
@@ -23,12 +32,89 @@ hosts:
         status: 404
       - path: /.well-known/oauth-authorization-server
         status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
       - path: /.well-known/api-catalog
         status: 404
       - path: /.well-known/ai-plugin.json
         status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://api.eu.ntropy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+  - host: https://ntropy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://dashboard.ntropy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+  - host: https://trust.ntropy.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        real_document: false
+        note: >-
+          FALSE POSITIVE — not a security.txt. trust.ntropy.com is a client-rendered Vanta
+          single-page app whose catch-all answers HTTP 200 with the same HTML shell for
+          every path; /robots.txt and /sitemap.xml return the identical body. No RFC 9116
+          document is served. Not counted as a hit and no SecurityTxt pointer is emitted.
+summary:
+  real_documents: 1
+  hosts_probed: 6
+  paths_probed: 45
 notes: >-
-  docs.ntropy.com publishes an RFC 9727 API catalog (application/linkset+json) that
-  points to the service description at https://docs.ntropy.com/openapi/api-reference.yaml.
-  No security.txt or OAuth/OIDC discovery documents are published (the API uses API-key
-  header auth, so OAuth/OIDC discovery is not expected).
+  docs.ntropy.com publishes an RFC 9727 API catalog (application/linkset+json) pointing at
+  the service description https://docs.ntropy.com/openapi/api-reference.yaml and the human
+  reference https://docs.ntropy.com/documentation/api. It is the only real /.well-known/
+  document Ntropy serves, on any host.
+
+  No security.txt (RFC 9116) is published anywhere. No OAuth/OIDC discovery documents are
+  published, which is consistent with the API's auth model — a single X-API-KEY header, no
+  OAuth. The hosted docs MCP server at https://docs.ntropy.com/_mcp/server is anonymous and
+  advertises no /.well-known/oauth-protected-resource, so there is no MCP authorization
+  metadata to harvest.
+
+  No A2A agent card exists at either the canonical /.well-known/agent-card.json or the
+  legacy /.well-known/agent.json on any host, so no a2a/ artifact was written.

@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder Misc API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Misc",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the list of possible MCC codes that can be assigned",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/mcc"
+          },
+          "docs": "Get the list of possible MCC codes that can be assigned. Derived from the ISO:18245:2003 standard (https://www.iso.org/standard/33365.html) with private and US-specific MCC codes removed."
+        },
+        {
+          "info": {
+            "name": "Get the API health info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/health"
+          },
+          "docs": "Get the API health info"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,190 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder bankStatements API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "bankStatements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all bank statements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/bank_statements",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "created_after",
+                "value": "",
+                "type": "query",
+                "description": "Only return bank statements older or equal than this date"
+              },
+              {
+                "name": "created_before",
+                "value": "",
+                "type": "query",
+                "description": "Only return bank statements newer than this date"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "Starting point for the set of bank statements"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The limit of bank statements to be returned"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "If specified, only return bank statements with this status"
+              }
+            ]
+          },
+          "docs": "Return a list of submitted bank statements starting with the most recent one."
+        },
+        {
+          "info": {
+            "name": "Submit a bank statement PDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/bank_statements",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Upload a PDF file for the main extraction workflow. Once the bank statement has finished processing, you can\n    retrieve the results using [/v3/bank_statements/{id}/results](./get-bank-statement-result).\n\n    Complete guide: [Bank Statements](../../../bank-statements)"
+        },
+        {
+          "info": {
+            "name": "Retrieve a bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/bank_statements/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a bank statement"
+        },
+        {
+          "info": {
+            "name": "Deletes a bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/v3/bank_statements/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a bank statement"
+        },
+        {
+          "info": {
+            "name": "Retrieve the extraction results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/bank_statements/:id/results",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `completed`."
+        },
+        {
+          "info": {
+            "name": "Quickly extract account holder, institution and first account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/bank_statements/:id/verify",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Extracts account holder, bank and account information extracted from the first page of the bank statement, which is typically available before the full results. This is a synchronous call.\n\nComplete guide: [Fast verification](../../../fast-verification)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

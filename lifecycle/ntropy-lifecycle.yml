@@ -1,6 +1,8 @@
-generated: '2026-07-20'
+generated: '2026-08-14'
 method: searched
-source: https://docs.ntropy.com/, https://docs.ntropy.com/changelog/2024/10/31
+source: >-
+  https://docs.ntropy.com/, https://docs.ntropy.com/changelog/2024/10/31,
+  https://status.ntropy.com/, live probes of api.ntropy.com
 versioning:
   scheme: uri-path
   current: v3
@@ -8,16 +10,50 @@ versioning:
   docs: https://docs.ntropy.com/
   notes: >-
     v3 launched 2024-10-31 (webhooks, generic batch API, high-speed bank-statement
-    verification, uniform pagination/filtering). v2 (/v2/*) remains published. Legacy
-    v2 documentation is maintained at https://legacy.docs.ntropy.com.
+    verification, uniform pagination/filtering). v2 (/v2/*) remains published AND live —
+    its OpenAPI is served anonymously at https://api.ntropy.com/openapi.json (HTTP 200,
+    "Ntropy Transaction API" 2.0, 38 operations). Legacy v2 documentation is maintained at
+    https://legacy.docs.ntropy.com.
 health_endpoint:
   path: /health
   operation: openapi/ntropy-transaction-api-openapi-original.json#health_get_health_get
+  live_status: 200
+  note: >-
+    /health is a v2-era endpoint and remains reachable. There is no v3 health or status
+    operation — GET /v3/status returns 404 (which is why the ntropy-mcp check_connection
+    tool cannot succeed; see mcp/ntropy-tool-crosswalk.yml).
+regions:
+  - id: us
+    base_url: https://api.ntropy.com
+    default: true
+  - id: eu
+    base_url: https://api.eu.ntropy.com
+    default: false
+    note: >-
+      "for EU users the api.ntropy.com base URL should be replaced with api.eu.ntropy.com"
+      (https://legacy.docs.ntropy.com/docs/enrichment/). Verified live: /health 200 and
+      /openapi.json 200 on api.eu.ntropy.com.
 deprecation:
   policy_url: null
   sunset_header: false
-  notes: No formal deprecation/Sunset-header policy is published; older major versions remain accessible.
-status_page: null
+  notes: >-
+    No formal deprecation or Sunset/Deprecation (RFC 8594) policy is published. Older major
+    versions simply remain accessible: v2 is still served and still documented at
+    legacy.docs.ntropy.com with no announced end date. No `Deprecation` pointer is emitted
+    because there is no policy to point at.
+status_page: https://status.ntropy.com/
+status_page_details:
+  url: https://status.ntropy.com/
+  provider: Better Stack
+  http_status: 200
+  verified: '2026-08-14'
+  evidence: >-
+    og:description reads "Welcome to Ntropy Network Inc. status page for real-time and
+    historical data on system performance."; a machine-readable summary is served at
+    https://status.ntropy.com/index.json (HTTP 200).
+  machine_readable: https://status.ntropy.com/index.json
 sla:
   url: null
+  notes: No public SLA or uptime target is published; commercial terms are handled via the dashboard/sales.
 deprecated_operations: []
+checked: '2026-08-14'

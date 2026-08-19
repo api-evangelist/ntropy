@@ -1,0 +1,2945 @@
+{
+  "item": [
+    {
+      "id": "f63eec93-ed8f-42e0-9b1a-9dd2a1a11237",
+      "name": "Account Holder",
+      "description": {
+        "content": "Ledger operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "710294e9-f0d1-4c42-8e03-304afc712d99",
+          "name": "Create an account holder.",
+          "request": {
+            "name": "Create an account holder.",
+            "description": {
+              "content": "Create an account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"website\": \"<string>\",\n  \"company\": {\n    \"loan_state\": \"<string>\",\n    \"logo\": \"<string>\"\n  },\n  \"id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "07982975-cd86-4b88-9143-d1c503b7f1f4",
+              "name": "The created account holder",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"consumer\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"industry\": \"string\",\n  \"website\": \"string\",\n  \"company\": {\n    \"loan_state\": \"ongoing\",\n    \"logo\": \"string\"\n  },\n  \"created_at\": \"2024-08-16T00:08:44.881Z\",\n  \"mean_labeler_confidence\": 6754.434167446417,\n  \"total_revenue\": 1210.651020496941,\n  \"application_time\": \"1946-11-12T15:41:54.941Z\",\n  \"alerts\": {},\n  \"review_percentage\": 485.52490366639887\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1de7a847-9ec0-4773-8e6e-dda49075ed49",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "56af372a-f016-4418-8ad9-33220bec2061",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b0f0a008-4776-45d6-bff4-669e8b92a7e6",
+          "name": "Gets a list of the registered account holders",
+          "request": {
+            "name": "Gets a list of the registered account holders",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "account-holder"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "50"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "created_at"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_order",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "named_only",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "with_confidence",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ae5e70b3-c232-4a2a-8a68-08ef910b8101",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "named_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "with_confidence",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": \"business\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"industry\": \"string\",\n    \"website\": \"string\",\n    \"company\": {\n      \"loan_state\": \"done\",\n      \"logo\": \"string\"\n    },\n    \"created_at\": \"1969-10-21T07:54:13.131Z\",\n    \"mean_labeler_confidence\": 3329.787505751407,\n    \"total_revenue\": 1572.1797061643717,\n    \"application_time\": \"1948-10-27T01:28:21.134Z\",\n    \"alerts\": {},\n    \"review_percentage\": 5935.992905316007\n  },\n  {\n    \"type\": \"business\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"industry\": \"string\",\n    \"website\": \"string\",\n    \"company\": {\n      \"loan_state\": \"done\",\n      \"logo\": \"string\"\n    },\n    \"created_at\": \"2018-07-27T10:58:15.479Z\",\n    \"mean_labeler_confidence\": 1525.9774443476003,\n    \"total_revenue\": 1883.4790965418501,\n    \"application_time\": \"1978-03-19T20:25:23.778Z\",\n    \"alerts\": {},\n    \"review_percentage\": 4918.466507093756\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8dca5e0a-2b2c-4c7f-bd28-32d7f530f759",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "50"
+                    },
+                    {
+                      "key": "query",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "named_only",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "with_confidence",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0c667529-7379-460e-904a-939a4de1f059",
+          "name": "Replace an existing account holder.",
+          "request": {
+            "name": "Replace an existing account holder.",
+            "description": {
+              "content": "Replace a existing account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"name\": \"<string>\",\n  \"industry\": \"<string>\",\n  \"website\": \"<string>\",\n  \"company\": {\n    \"loan_state\": \"<string>\",\n    \"logo\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f1779f2e-b1e5-471e-88c7-c02b5e80acf6",
+              "name": "Replaced account holder",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"consumer\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"industry\": \"string\",\n  \"website\": \"string\",\n  \"company\": {\n    \"loan_state\": \"ongoing\",\n    \"logo\": \"string\"\n  },\n  \"created_at\": \"2024-08-16T00:08:44.881Z\",\n  \"mean_labeler_confidence\": 6754.434167446417,\n  \"total_revenue\": 1210.651020496941,\n  \"application_time\": \"1946-11-12T15:41:54.941Z\",\n  \"alerts\": {},\n  \"review_percentage\": 485.52490366639887\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "79039d4f-95d1-40da-8c04-3596dc93bf37",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f19dbf57-1af0-4676-97ba-7a88428cc527",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"industry\": \"fintech\",\n  \"name\": \"Ntropy Network Inc.\",\n  \"type\": \"business\",\n  \"website\": \"ntropy.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "70a63acb-130e-4c22-b341-06f13ef35c7a",
+          "name": "Retrieve the information of an account holder.",
+          "request": {
+            "name": "Retrieve the information of an account holder.",
+            "description": {
+              "content": "Retrieve the information of an account holder.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "156d19f2-7f0c-4b1c-a784-3db763e2b29a",
+              "name": "Retrieved account holder.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"type\": \"consumer\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"industry\": \"string\",\n  \"website\": \"string\",\n  \"company\": {\n    \"loan_state\": \"tbd\",\n    \"logo\": \"string\"\n  },\n  \"created_at\": \"1975-06-17T08:53:45.358Z\",\n  \"mean_labeler_confidence\": 9497.548171629463,\n  \"total_revenue\": 867.3245454426482,\n  \"application_time\": \"1985-02-01T08:10:08.196Z\",\n  \"alerts\": {},\n  \"review_percentage\": 7578.970237344927,\n  \"num_transactions\": 3209\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a9cd628-9318-4784-a228-b0ae82212863",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9e17538-38b4-45ff-9221-78c9ed596ec1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae2c1a8f-6459-440f-b77b-083d5158e4fa",
+          "name": "Renames an existing account-holder",
+          "request": {
+            "name": "Renames an existing account-holder",
+            "description": {},
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e2e55712-0da9-49cc-b4ac-4c71d86daee3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e99cd2d8-1ce0-4cc5-8de2-4f9b611380ee",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bde63b31-7863-4c13-8dc5-dc74b53f25db",
+          "name": "Delete an account holder.",
+          "request": {
+            "name": "Delete an account holder.",
+            "description": {
+              "content": "Delete an account holder and all of its ledger. This operation is permanent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f2ab122d-b0ae-4ad3-8151-a4f0273345b8",
+              "name": "Deleted account holder.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7b425e26-c7e3-4a61-a01e-c9486cc9f199",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c16c1c6-e05e-4da6-b2ca-07a852f7064b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "add700e7-7f66-4c90-8c0e-4b9e4246ebcf",
+          "name": "List transactions of an account holder.",
+          "request": {
+            "name": "List transactions of an account holder.",
+            "description": {
+              "content": "Fetch all the transactions in the transaction ledger of an account holder.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "100",
+                  "description": "How many items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "Sorting direction `asc` or `desc`"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "74629944-bcd0-4d8e-9689-a5e3bbf29c60",
+              "name": "List of transactions for the account holder.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactions\": [\n    {\n      \"transaction_id\": \"string\",\n      \"amount\": 9021.036538477225,\n      \"entry_type\": \"outgoing\",\n      \"date\": \"1952-07-08\",\n      \"iso_currency_code\": \"string\",\n      \"description\": \"string\",\n      \"account_holder_id\": \"string\",\n      \"account_holder_type\": \"unknown\",\n      \"location\": \"string\",\n      \"country\": \"JN\",\n      \"mcc\": [\n        3956,\n        1553\n      ],\n      \"account_holder_name\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location_structured\": {\n        \"address\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"postcode\": \"string\",\n        \"country\": \"string\",\n        \"country_name\": \"string\",\n        \"latitude\": 3700.7875810549017,\n        \"longitude\": 4772.943034837327,\n        \"google_maps_url\": \"string\",\n        \"apple_maps_url\": \"string\",\n        \"store_number\": \"string\",\n        \"house_number\": \"string\"\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"subscription\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": \"2008-05-03\",\n        \"latest_payment_date\": \"2016-08-18\",\n        \"total_amount\": 8076.555185497726,\n        \"average_amount\": 3301.1680564561952,\n        \"periodicity_in_days\": 6304.927201112608,\n        \"periodicity\": \"string\",\n        \"confidence\": \"string\",\n        \"transaction_ids\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"transaction_id\": \"string\",\n      \"amount\": 1711.3555042615146,\n      \"entry_type\": \"outgoing\",\n      \"date\": \"1981-10-29\",\n      \"iso_currency_code\": \"string\",\n      \"description\": \"string\",\n      \"account_holder_id\": \"string\",\n      \"account_holder_type\": \"unknown\",\n      \"location\": \"string\",\n      \"country\": \"WH-FI7\",\n      \"mcc\": [\n        6798,\n        6586\n      ],\n      \"account_holder_name\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location_structured\": {\n        \"address\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"postcode\": \"string\",\n        \"country\": \"string\",\n        \"country_name\": \"string\",\n        \"latitude\": 4802.623568161496,\n        \"longitude\": 9313.258509802874,\n        \"google_maps_url\": \"string\",\n        \"apple_maps_url\": \"string\",\n        \"store_number\": \"string\",\n        \"house_number\": \"string\"\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"one off\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": \"1964-02-26\",\n        \"latest_payment_date\": \"1950-07-31\",\n        \"total_amount\": 1050.8581500689884,\n        \"average_amount\": 1402.1641528814955,\n        \"periodicity_in_days\": 8602.8572004092,\n        \"periodicity\": \"string\",\n        \"confidence\": \"string\",\n        \"transaction_ids\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"pages\": 4422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02d1eb42-f577-496b-a70e-120717d9b95f",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fc5dba75-4900-4389-872b-9d7cd71567e2",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "704b0c01-d5bf-495a-8290-9d3a30374fc3",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58c7d28b-a55d-47eb-ae8b-77c9f37ae474",
+          "name": "Get transactions of an account holder by transaction id.",
+          "request": {
+            "name": "Get transactions of an account holder by transaction id.",
+            "description": {
+              "content": "Fetch all the transactions matching given transaction ids in the transaction ledger of an account holder. Transactions returned will be in arbitrary order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "100",
+                  "description": "How many items per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "<string>",
+                  "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_order",
+                  "value": "desc",
+                  "description": "Sorting direction `asc` or `desc`"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c57e82a-9425-4188-ac28-253513ca46b7",
+              "name": "List of transactions for the account holder.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactions\": [\n    {\n      \"transaction_id\": \"string\",\n      \"amount\": 9021.036538477225,\n      \"entry_type\": \"outgoing\",\n      \"date\": \"1952-07-08\",\n      \"iso_currency_code\": \"string\",\n      \"description\": \"string\",\n      \"account_holder_id\": \"string\",\n      \"account_holder_type\": \"unknown\",\n      \"location\": \"string\",\n      \"country\": \"JN\",\n      \"mcc\": [\n        3956,\n        1553\n      ],\n      \"account_holder_name\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location_structured\": {\n        \"address\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"postcode\": \"string\",\n        \"country\": \"string\",\n        \"country_name\": \"string\",\n        \"latitude\": 3700.7875810549017,\n        \"longitude\": 4772.943034837327,\n        \"google_maps_url\": \"string\",\n        \"apple_maps_url\": \"string\",\n        \"store_number\": \"string\",\n        \"house_number\": \"string\"\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"subscription\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": \"2008-05-03\",\n        \"latest_payment_date\": \"2016-08-18\",\n        \"total_amount\": 8076.555185497726,\n        \"average_amount\": 3301.1680564561952,\n        \"periodicity_in_days\": 6304.927201112608,\n        \"periodicity\": \"string\",\n        \"confidence\": \"string\",\n        \"transaction_ids\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    },\n    {\n      \"transaction_id\": \"string\",\n      \"amount\": 1711.3555042615146,\n      \"entry_type\": \"outgoing\",\n      \"date\": \"1981-10-29\",\n      \"iso_currency_code\": \"string\",\n      \"description\": \"string\",\n      \"account_holder_id\": \"string\",\n      \"account_holder_type\": \"unknown\",\n      \"location\": \"string\",\n      \"country\": \"WH-FI7\",\n      \"mcc\": [\n        6798,\n        6586\n      ],\n      \"account_holder_name\": \"string\",\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location_structured\": {\n        \"address\": \"string\",\n        \"city\": \"string\",\n        \"state\": \"string\",\n        \"postcode\": \"string\",\n        \"country\": \"string\",\n        \"country_name\": \"string\",\n        \"latitude\": 4802.623568161496,\n        \"longitude\": 9313.258509802874,\n        \"google_maps_url\": \"string\",\n        \"apple_maps_url\": \"string\",\n        \"store_number\": \"string\",\n        \"house_number\": \"string\"\n      },\n      \"merchant\": \"string\",\n      \"merchant_id\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": \"one off\",\n      \"recurrence_group\": {\n        \"id\": \"string\",\n        \"first_payment_date\": \"1964-02-26\",\n        \"latest_payment_date\": \"1950-07-31\",\n        \"total_amount\": 1050.8581500689884,\n        \"average_amount\": 1402.1641528814955,\n        \"periodicity_in_days\": 8602.8572004092,\n        \"periodicity\": \"string\",\n        \"confidence\": \"string\",\n        \"transaction_ids\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"recurrence_group_id\": \"string\",\n      \"person\": \"string\",\n      \"transaction_type\": \"business\",\n      \"intermediaries\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"website\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"logo\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ]\n    }\n  ],\n  \"pages\": 4422\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02e80a37-6ea5-4fc7-863f-a17f0979d22a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "11002c2a-589d-4321-9403-d01aec9d432e",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "80078138-33b4-4569-b2c2-c0368a6c90ec",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "100"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\n  \"<string>\",\n  \"<string>\"\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "54886bd6-45c5-48c6-8e77-a3161647b279",
+          "name": "Correct any property for multiple transactions.",
+          "request": {
+            "name": "Correct any property for multiple transactions.",
+            "description": {
+              "content": "Provide a correction for any field of a set of previously enriched transactions by transaction_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaction_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"corrections\": [\n    {\n      \"logo\": \"<string>\",\n      \"website\": \"<string>\",\n      \"location\": \"<string>\",\n      \"location_structured\": {},\n      \"merchant\": \"<string>\",\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"<string>\",\n      \"transaction_type\": {},\n      \"review_state\": \"<string>\"\n    },\n    {\n      \"logo\": \"<string>\",\n      \"website\": \"<string>\",\n      \"location\": \"<string>\",\n      \"location_structured\": {},\n      \"merchant\": \"<string>\",\n      \"labels\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"<string>\",\n      \"transaction_type\": {},\n      \"review_state\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ab4db23c-2a08-44b9-a27f-5df5e4afff68",
+              "name": "Enriched transaction with the corrected fields",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transaction_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"corrections\": [\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    },\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"transaction_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 3939.611732583198,\n      \"longitude\": 6123.235901113047,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"one off\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"1956-12-24\",\n      \"latest_payment_date\": \"1982-07-31\",\n      \"total_amount\": 272.29260775953446,\n      \"average_amount\": 9570.424911251524,\n      \"periodicity_in_days\": 4046.741829416446,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"consumer\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"mcc\": [\n      1377,\n      3177\n    ]\n  },\n  {\n    \"transaction_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"location\": \"string\",\n    \"location_structured\": {\n      \"address\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postcode\": \"string\",\n      \"country\": \"string\",\n      \"country_name\": \"string\",\n      \"latitude\": 5440.257930627842,\n      \"longitude\": 4728.78195976729,\n      \"google_maps_url\": \"string\",\n      \"apple_maps_url\": \"string\",\n      \"store_number\": \"string\",\n      \"house_number\": \"string\"\n    },\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"recurrence\": \"one off\",\n    \"recurrence_group\": {\n      \"id\": \"string\",\n      \"first_payment_date\": \"2010-03-16\",\n      \"latest_payment_date\": \"1971-11-23\",\n      \"total_amount\": 5895.746113717728,\n      \"average_amount\": 5227.677468747182,\n      \"periodicity_in_days\": 8435.49311063282,\n      \"periodicity\": \"string\",\n      \"confidence\": \"string\",\n      \"transaction_ids\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"recurrence_group_id\": \"string\",\n    \"person\": \"string\",\n    \"transaction_type\": \"consumer\",\n    \"intermediaries\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      },\n      {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"website\": \"string\",\n        \"logo\": \"string\"\n      }\n    ],\n    \"mcc\": [\n      8815,\n      4838\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "377897bb-17c1-4201-a70c-56f2c291b9b0",
+              "name": "Provided account holder or transaction not found by id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transaction_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"corrections\": [\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    },\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3093ed8-62a0-4855-bf59-e74a1ad874dc",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"transaction_ids\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"corrections\": [\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    },\n    {\n      \"logo\": \"string\",\n      \"website\": \"string\",\n      \"location\": \"string\",\n      \"location_structured\": {},\n      \"merchant\": \"string\",\n      \"labels\": [\n        \"string\",\n        \"string\"\n      ],\n      \"recurrence\": {},\n      \"person\": \"string\",\n      \"transaction_type\": {},\n      \"review_state\": \"forced\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c1eaf6a5-b8ae-4d88-a9c0-94af70ca3e1c",
+          "name": "Correct any transaction property.",
+          "request": {
+            "name": "Correct any transaction property.",
+            "description": {
+              "content": "Provide a correction for any field of a previously enriched transaction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id",
+                "transactions",
+                ":transaction_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "transaction_id",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"logo\": \"<string>\",\n  \"website\": \"<string>\",\n  \"location\": \"<string>\",\n  \"location_structured\": {},\n  \"merchant\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"recurrence\": {},\n  \"person\": \"<string>\",\n  \"transaction_type\": {},\n  \"review_state\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5c8459bb-c0b8-4d2d-8263-8ad983756a8c",
+              "name": "Enriched transaction with the corrected fields",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"logo\": \"<string>\",\n  \"website\": \"<string>\",\n  \"location\": \"<string>\",\n  \"location_structured\": {},\n  \"merchant\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"recurrence\": {},\n  \"person\": \"<string>\",\n  \"transaction_type\": {},\n  \"review_state\": \"incomplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transaction_id\": \"string\",\n  \"logo\": \"string\",\n  \"website\": \"string\",\n  \"location\": \"string\",\n  \"location_structured\": {\n    \"address\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"postcode\": \"string\",\n    \"country\": \"string\",\n    \"country_name\": \"string\",\n    \"latitude\": 4939.24230421222,\n    \"longitude\": 7948.25098528564,\n    \"google_maps_url\": \"string\",\n    \"apple_maps_url\": \"string\",\n    \"store_number\": \"string\",\n    \"house_number\": \"string\"\n  },\n  \"merchant\": \"string\",\n  \"merchant_id\": \"string\",\n  \"labels\": [\n    \"string\",\n    \"string\"\n  ],\n  \"recurrence\": \"subscription\",\n  \"recurrence_group\": {\n    \"id\": \"string\",\n    \"first_payment_date\": \"2024-05-15\",\n    \"latest_payment_date\": \"1985-09-16\",\n    \"total_amount\": 1191.3170114425632,\n    \"average_amount\": 3986.8947927040554,\n    \"periodicity_in_days\": 70.29455956063413,\n    \"periodicity\": \"string\",\n    \"confidence\": \"string\",\n    \"transaction_ids\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"recurrence_group_id\": \"string\",\n  \"person\": \"string\",\n  \"transaction_type\": \"business\",\n  \"intermediaries\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"website\": \"string\",\n      \"logo\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"website\": \"string\",\n      \"logo\": \"string\"\n    }\n  ],\n  \"mcc\": [\n    4578,\n    1566\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9493fa0-1dd7-443c-b328-3b7b999eeecb",
+              "name": "Provided account holder or transaction not found by id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"logo\": \"<string>\",\n  \"website\": \"<string>\",\n  \"location\": \"<string>\",\n  \"location_structured\": {},\n  \"merchant\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"recurrence\": {},\n  \"person\": \"<string>\",\n  \"transaction_type\": {},\n  \"review_state\": \"incomplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d95fc304-48f8-4113-adee-c41d4cf183ef",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "transactions",
+                    ":transaction_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "transaction_id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"logo\": \"<string>\",\n  \"website\": \"<string>\",\n  \"location\": \"<string>\",\n  \"location_structured\": {},\n  \"merchant\": \"<string>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"recurrence\": {},\n  \"person\": \"<string>\",\n  \"transaction_type\": {},\n  \"review_state\": \"incomplete\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "16d6bedb-6732-4b1b-8524-9847574a1a40",
+          "name": "Identify existing recurring payments for an account holder's transaction history.",
+          "request": {
+            "name": "Identify existing recurring payments for an account holder's transaction history.",
+            "description": {
+              "content": "Given the history of transactions of an account holder, determines existing recurring payments and related properties such as the type (subscription or bill), amount, periodicity, etc...",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "account-holder",
+                ":account_holder_id",
+                "recurring-payments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "account_holder_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "X-Api-Key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6169e3b7-e3e5-438e-be20-7abb0f2c4317",
+              "name": "Result containing existing RecurringPaymentsGroups for an account holder.  ",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "recurring-payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"recurrence_group_id\": \"string\",\n    \"latest_payment_amount\": 5883.095220888755,\n    \"total_amount\": 4291.314814787233,\n    \"first_payment_date\": \"string\",\n    \"latest_payment_date\": \"string\",\n    \"transaction_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"is_active\": false,\n    \"latest_payment_description\": \"string\",\n    \"type\": \"string\",\n    \"is_essential\": false,\n    \"iso_currency_code\": \"string\",\n    \"entry_type\": \"string\",\n    \"periodicity\": \"other\",\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"next_expected_payment_date\": \"string\",\n    \"periodicity_in_days\": 3286,\n    \"average_amount\": 9281\n  },\n  {\n    \"recurrence_group_id\": \"string\",\n    \"latest_payment_amount\": 2204.2986561354537,\n    \"total_amount\": 3933.135447963003,\n    \"first_payment_date\": \"string\",\n    \"latest_payment_date\": \"string\",\n    \"transaction_ids\": [\n      \"string\",\n      \"string\"\n    ],\n    \"is_active\": false,\n    \"latest_payment_description\": \"string\",\n    \"type\": \"string\",\n    \"is_essential\": false,\n    \"iso_currency_code\": \"string\",\n    \"entry_type\": \"string\",\n    \"periodicity\": \"daily\",\n    \"merchant\": \"string\",\n    \"merchant_id\": \"string\",\n    \"logo\": \"string\",\n    \"website\": \"string\",\n    \"labels\": [\n      \"string\",\n      \"string\"\n    ],\n    \"next_expected_payment_date\": \"string\",\n    \"periodicity_in_days\": 718,\n    \"average_amount\": 8781\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69f75480-4f1d-4732-82fb-79402e91c97c",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "recurring-payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "152b76db-b776-47be-9059-0c977976f279",
+              "name": "Account holder not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "recurring-payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d29fd3ae-d0db-47d4-8274-51cb535ce6f0",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "account-holder",
+                    ":account_holder_id",
+                    "recurring-payments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "account_holder_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ntropy.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "1f7f1160-cca2-4cb0-a1cb-a1cde963b4e8",
+    "name": "API Reference Account Holder API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Ledger operations",
+      "type": "text/plain"
+    }
+  }
+}

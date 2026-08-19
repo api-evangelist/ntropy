@@ -1,0 +1,48 @@
+generated: '2026-08-14'
+method: searched
+source: https://docs.ntropy.com/introduction, https://docs.ntropy.com/onboarding
+plan_count: 0
+published_pricing: false
+note: >-
+  Ntropy publishes NO public pricing page. https://ntropy.com/pricing,
+  https://ntropy.com/plans and https://docs.ntropy.com/pricing all return 404. The
+  documentation states plainly: "Billing and pricing information are readily available
+  in the dashboard" (https://docs.ntropy.com/introduction), so rates, tiers and
+  overages sit behind the authenticated dashboard at https://dashboard.ntropy.com.
+  Recorded as plan_count: 0 — an honest zero, not an unchecked field.
+plans: []
+trial:
+  available: true
+  self_serve: true
+  signup: https://dashboard.ntropy.com
+  included_credits: 10000
+  unit: credit
+  unit_meaning: 1 credit per enriched transaction
+  note: >-
+    "As part of your trial, you will automatically receive 10,000 credits that you can
+    use to enrich transactions, extract data from bank statements and more."
+  source: https://docs.ntropy.com/onboarding
+billing_model:
+  type: credits
+  description: >-
+    Consumption is metered in credits. 1 credit is charged per enriched transaction.
+    The runtime credit ceiling and refill rate are published in the rate-limit docs
+    (up to 50,000 credits, refilled at 500/second) — see rate-limits/ntropy-rate-limits.yml —
+    but the price per credit is not published publicly.
+  docs: https://docs.ntropy.com/api/rate-limits
+  exhaustion_status: 423
+cross_ref:
+  - rate-limits/ntropy-rate-limits.yml
+  - conventions/ntropy-conventions.yml
+evidence:
+  - url: https://ntropy.com/pricing
+    status: 404
+  - url: https://docs.ntropy.com/pricing
+    status: 404
+  - url: https://ntropy.com/plans
+    status: 404
+  - url: https://docs.ntropy.com/introduction
+    status: 200
+  - url: https://docs.ntropy.com/onboarding
+    status: 200
+checked: '2026-08-14'

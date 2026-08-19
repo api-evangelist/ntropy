@@ -1,0 +1,286 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder Bank statements API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bank statements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check paginated processing status for bank statements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/datasources/bank_statements",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "The status of the document to filter on"
+              },
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "query",
+                "description": "\n    The unique ID of the account holder to which the bank statement is associated\n    "
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number to retrieve"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The page size to retrieve"
+              },
+              {
+                "name": "order_by",
+                "value": "",
+                "type": "query",
+                "description": "The sorting order by creation"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Check paginated processing status for bank statements"
+        },
+        {
+          "info": {
+            "name": "Submit a bank statement PDF for OCR and enrichment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/datasources/bank_statements",
+            "params": [
+              {
+                "name": "account_holder_id",
+                "value": "",
+                "type": "query",
+                "description": "ID for account holder. If no account holder with the given id exists, one will be created with `account_type` or \"business\" if not specified."
+              },
+              {
+                "name": "account_type",
+                "value": "",
+                "type": "query",
+                "description": "Type of account holder to use when it is being created. Otherwise it'll override the type of the existing one for the transactions on this bank statement."
+              },
+              {
+                "name": "iso_currency_code",
+                "value": "",
+                "type": "query",
+                "description": "The currency of transactions in the bank statement in ISO 4217 format. Defaults to `USD`"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new dataset from a bank statement and queues it for enrichment. The maximum size of the statement must be less than 50.0 MB"
+        },
+        {
+          "info": {
+            "name": "Check processing status for a bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the bank statement"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Check processing status for a bank statement"
+        },
+        {
+          "info": {
+            "name": "Change information of an existing bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Change information of an existing bank statement"
+        },
+        {
+          "info": {
+            "name": "Delete a bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes a bank statement and all its underlying transactions"
+        },
+        {
+          "info": {
+            "name": "Gets the enriched transactions for a bank statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid/transactions",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page"
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Column to sort items by, allowed values are `['date']`. When not specified the default order will be used."
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sorting direction `asc` or `desc`"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Gets the enriched transactions for a bank statement"
+        },
+        {
+          "info": {
+            "name": "Extracts bank and account details for instant file verification and UI enhancements.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid/statement-info",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Statement Info endpoint is a low-latency response analysing the first page of a bank statement which returns \n    key identification details such as the underlying bank institution and the account-holder.\n    The can be used for UX improvements through instant verification of correct file upload, for UI improvements \n    like returning bank names and logos, or for logging information about a file upon upload."
+        },
+        {
+          "info": {
+            "name": " Get Bank Statement Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/datasources/bank_statements/:uuid/results",
+            "params": [
+              {
+                "name": "uuid",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `processed`."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

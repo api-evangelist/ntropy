@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference Account Holder entities API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v3/entities/:id",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the entity"
+              }
+            ]
+          },
+          "docs": "Retrieve more information about an entity by using its unique ID."
+        },
+        {
+          "info": {
+            "name": "Resolves an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ntropy.com/v3/entities/resolve",
+            "headers": [
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resolves a query into an entity by querying our entity resolution system.\nThe parameters `name` and `website` are mutually exclusive. Calls to this endpoint using\nthe `name` parameter are billed the same way transactions are."
+        },
+        {
+          "info": {
+            "name": "Search for entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/entities",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the entity to resolve"
+              },
+              {
+                "name": "website",
+                "value": "",
+                "type": "query",
+                "description": "The website of the entity to resolve"
+              },
+              {
+                "name": "location",
+                "value": "",
+                "type": "query",
+                "description": "A location string of the entity to resolve"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Resolves a query into an entity by querying our entity resolution system. \n    The parameters `name` and `website` are mutually exclusive. Calls to this endpoint using \n    the `name` parameter are billed the same way transactions are."
+        },
+        {
+          "info": {
+            "name": "Retrieve an entity by its ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ntropy.com/v2/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the entity"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-Api-Key",
+              "value": "{{X-Api-Key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve more information about an entity by using its unique ID. These ID's may be obtained from\n    the field `id` in [entity search](#operation/search_entity_v2_entities_get) or from `merchant_id` in\n    [transaction enrichment](#tag/Enrichment)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
