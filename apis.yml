@@ -70,7 +70,8 @@ apis:
   description: The accountHolders API from Ntropy — 2 operation(s) for accountholders.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
-  tags:
+  tags: []
+  tags_raw:
   - accountHolders
   properties:
   - type: OpenAPI
@@ -116,6 +117,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Bank Statements
+  tags_raw:
   - Bank statements
   properties:
   - type: OpenAPI
@@ -130,6 +133,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Bank Statements
+  tags_raw:
   - bankStatements
   properties:
   - type: OpenAPI
@@ -144,6 +149,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Batches
+  tags_raw:
   - batches
   properties:
   - type: OpenAPI
@@ -158,6 +165,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Categories
+  tags_raw:
   - categories
   properties:
   - type: OpenAPI
@@ -186,6 +195,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Entities
+  tags_raw:
   - entities
   properties:
   - type: OpenAPI
@@ -213,7 +224,8 @@ apis:
   description: Miscellaneous endpoint.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
-  tags:
+  tags: []
+  tags_raw:
   - Misc
   properties:
   - type: OpenAPI
@@ -228,6 +240,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Personalization
+  tags_raw:
   - personalization
   properties:
   - type: OpenAPI
@@ -242,6 +256,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Recurrence
+  tags_raw:
   - recurrence
   properties:
   - type: OpenAPI
@@ -270,6 +286,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Reports
+  tags_raw:
   - reports
   properties:
   - type: OpenAPI
@@ -284,6 +302,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Transaction
+  tags_raw:
   - transactions
   properties:
   - type: OpenAPI
@@ -298,6 +318,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Webhook
+  tags_raw:
   - webhooks
   properties:
   - type: OpenAPI
