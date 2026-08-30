@@ -130,7 +130,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - Bank Statements
+  - Bank statements
   tags_raw:
   - Bank statements
   properties:
@@ -145,8 +145,7 @@ apis:
   description: The bankStatements API from Ntropy — 4 operation(s) for bankstatements.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
-  tags:
-  - Bank Statements
+  tags: []
   tags_raw:
   - bankStatements
   properties:
@@ -253,7 +252,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - Personalization
+  - personalization
   tags_raw:
   - personalization
   properties:
@@ -269,7 +268,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - Recurrence
+  - recurrence
   tags_raw:
   - recurrence
   properties:
