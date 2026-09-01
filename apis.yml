@@ -83,7 +83,8 @@ apis:
   description: The accountHolders API from Ntropy — 2 operation(s) for accountholders.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
-  tags: []
+  tags:
+  - Account Holders
   tags_raw:
   - accountHolders
   properties:
@@ -130,7 +131,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - Bank statements
+  - Bank Statements
   tags_raw:
   - Bank statements
   properties:
@@ -145,7 +146,8 @@ apis:
   description: The bankStatements API from Ntropy — 4 operation(s) for bankstatements.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
-  tags: []
+  tags:
+  - Bank Statements
   tags_raw:
   - bankStatements
   properties:
@@ -252,7 +254,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - personalization
+  - Personalization
   tags_raw:
   - personalization
   properties:
@@ -268,7 +270,7 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
-  - recurrence
+  - Recurrence
   tags_raw:
   - recurrence
   properties:
@@ -341,6 +343,9 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 common:
+- type: License
+  name: MIT
+  url: https://github.com/ntropy-network/ntropy-sdk/blob/main/LICENSE
 - type: Overlay
   url: overlays/ntropy-api-v3-overlay.yaml
 # --- Discovery / link properties ---
