@@ -78,22 +78,6 @@ apis:
     url: https://docs.ntropy.com/
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
-- aid: ntropy:ntropy-accountholders-api
-  name: Ntropy accountHolders API
-  description: The accountHolders API from Ntropy — 2 operation(s) for accountholders.
-  humanURL: https://docs.ntropy.com/
-  baseURL: https://api.ntropy.com
-  tags:
-  - Account Holders
-  tags_raw:
-  - accountHolders
-  properties:
-  - type: OpenAPI
-    url: openapi/ntropy-accountholders-api-openapi.yml
-  - type: Documentation
-    url: https://docs.ntropy.com/
-  - type: APIReference
-    url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-bank-statements-api
   name: Ntropy Bank statements API
   description: >-
@@ -137,22 +121,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ntropy-bank-statements-api-openapi.yml
-  - type: Documentation
-    url: https://docs.ntropy.com/
-  - type: APIReference
-    url: https://docs.ntropy.com/documentation/api
-- aid: ntropy:ntropy-bankstatements-api
-  name: Ntropy bankStatements API
-  description: The bankStatements API from Ntropy — 4 operation(s) for bankstatements.
-  humanURL: https://docs.ntropy.com/
-  baseURL: https://api.ntropy.com
-  tags:
-  - Bank Statements
-  tags_raw:
-  - bankStatements
-  properties:
-  - type: OpenAPI
-    url: openapi/ntropy-bankstatements-api-openapi.yml
   - type: Documentation
     url: https://docs.ntropy.com/
   - type: APIReference
@@ -338,6 +306,20 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/ntropy-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ntropy.com/
+  - type: APIReference
+    url: https://docs.ntropy.com/documentation/api
+- aid: ntropy:ntropy-account-holders-api
+  name: Ntropy Account Holders API
+  description: The Account Holders API from Ntropy — 2 operation(s) for account holders.
+  humanURL: https://docs.ntropy.com/
+  baseURL: https://api.ntropy.com
+  tags:
+  - Account Holders
+  properties:
+  - type: OpenAPI
+    url: openapi/ntropy-account-holders-api-openapi.yml
   - type: Documentation
     url: https://docs.ntropy.com/
   - type: APIReference
