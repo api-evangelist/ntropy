@@ -1,53 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder Bank statements API
-  version: 1.0.0
-  description: Ledger operations
+  title: Ntropy Transaction Bank statements API
+  contact:
+    name: API Support
+    url: https://ntropy.com/developers
+    email: api@ntropy.com
+  version: '2.0'
+  description: The bank statements API allows you to view and enrich transactions found in bank statements.
 servers:
 - url: https://api.ntropy.com
   description: Production server (uses live data).
 tags:
-- name: Bank statements
-  description: '
-
-    The bank statements API allows you to view and enrich transactions found in bank statements. Below is a table with
-
-    the description of each of the statuses and steps that each bank statement goes through:
-
-    |  Status  |                          Description                           |
-
-    |----------|----------------------------------------------------------------|
-
-    |QUEUED    |The document is queued for processing                           |
-
-    |PROCESSING|OCR is in progress                                              |
-
-    |PROCESSED |The document was successfully processed                         |
-
-    |FAILED    |An error occurred during processing of any of the previous steps|
-
-
-
-
-    A list of error codes for the `FAILED` status can be found below:
-
-    |Code|                  Description                   |
-
-    |---:|------------------------------------------------|
-
-    | 301|Failed to parse document as bank statement.     |
-
-    | 301|Failed to enrich transactions in bank statement.|
-
-    | 500|Unexpected error. Please contact support.       |
-
-
-    '
+- name: Bank Statements
+  description: The bank statements API allows you to view and enrich transactions found in bank statements.
 paths:
   /datasources/bank_statements:
     post:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Submit a bank statement PDF for OCR and enrichment
       description: Creates a new dataset from a bank statement and queues it for enrichment. The maximum size of the statement must be less than 50.0 MB
       operationId: _post_bank_statement_datasources_bank_statements_post
@@ -121,7 +91,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Check paginated processing status for bank statements
       operationId: _get_bank_statements_datasources_bank_statements_get
       security:
@@ -217,7 +187,7 @@ paths:
   /datasources/bank_statements/{uuid}:
     get:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Check processing status for a bank statement
       operationId: _get_bank_statement_datasources_bank_statements__uuid__get
       security:
@@ -256,7 +226,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Delete a bank statement
       description: Deletes a bank statement and all its underlying transactions
       operationId: _delete_bank_statement_datasources_bank_statements__uuid__delete
@@ -293,7 +263,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     patch:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Change information of an existing bank statement
       operationId: patch_statement_datasources_bank_statements__uuid__patch
       security:
@@ -336,7 +306,7 @@ paths:
   /datasources/bank_statements/{uuid}/transactions:
     get:
       tags:
-      - Bank statements
+      - Bank Statements
       summary: Gets the enriched transactions for a bank statement
       operationId: get_bank_statement_transactions_datasources_bank_statements__uuid__transactions_get
       security:
@@ -415,9 +385,15 @@ paths:
   /datasources/bank_statements/{uuid}/statement-info:
     get:
       tags:
-      - Bank statements
-      summary: Extracts bank and account details for instant file verification and UI enhancements.
-      description: "Statement Info endpoint is a low-latency response analysing the first page of a bank statement which returns \n    key identification details such as the underlying bank institution and the account-holder.\n    The can be used for UX improvements through instant verification of correct file upload, for UI improvements \n    like returning bank names and logos, or for logging information about a file upon upload."
+      - Bank Statements
+      summary: Extracts bank and account details for instant file verification and UI…
+      description: 'Statement Info endpoint is a low-latency response analysing the first page of a bank statement which returns
+
+        key identification details such as the underlying bank institution and the account-holder.
+
+        The can be used for UX improvements through instant verification of correct file upload, for UI improvements
+
+        like returning bank names and logos, or for logging information about a file upon upload.'
       operationId: get_bank_statement_statement_info_datasources_bank_statements__uuid__statement_info_get
       security:
       - APIKeyHeader: []
@@ -454,8 +430,8 @@ paths:
   /datasources/bank_statements/{uuid}/results:
     get:
       tags:
-      - Bank statements
-      summary: ' Get Bank Statement Results'
+      - Bank Statements
+      summary: Get Bank Statement Results
       description: Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `processed`.
       operationId: _get_bank_statement_results_datasources_bank_statements__uuid__results_get
       security:
@@ -490,25 +466,509 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements:
+    post:
+      operationId: post-bank-statement-v-3-bank-statements-post
+      summary: Submit a bank statement PDF
+      description: 'Upload a PDF file for the main extraction workflow. Once the bank statement has finished processing, you can
+
+        retrieve the results using /v3/bank_statements/{id}/results.
+
+
+        Complete guide: Bank Statements'
+      tags:
+      - Bank Statements
+      parameters:
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatement'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+    get:
+      operationId: get-bank-statements-v-3-bank-statements-get
+      summary: List all bank statements
+      description: Return a list of submitted bank statements starting with the most recent one.
+      tags:
+      - Bank Statements
+      parameters:
+      - name: created_after
+        in: query
+        description: Only return bank statements older or equal than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: created_before
+        in: query
+        description: Only return bank statements newer than this date
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      - name: cursor
+        in: query
+        description: Starting point for the set of bank statements
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: limit
+        in: query
+        description: The limit of bank statements to be returned
+        required: false
+        schema:
+          type: integer
+          default: 10
+      - name: status
+        in: query
+        description: If specified, only return bank statements with this status
+        required: false
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/DocumentStatus'
+          - type: 'null'
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedResponse_BankStatement'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}:
+    get:
+      operationId: get-bank-statement-v-3-bank-statements-id-get
+      summary: Retrieve a bank statement
+      tags:
+      - Bank Statements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatement'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      operationId: delete-bank-statement-v-3-bank-statements-id-delete
+      summary: Deletes a bank statement
+      tags:
+      - Bank Statements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bank_statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}/results:
+    get:
+      operationId: get-bank-statement-result-v-3-bank-statements-id-results-get
+      summary: Retrieve the extraction results
+      description: Return the extracted account information and associated transactions from a bank statement PDF. The results are accessible once the statement's status is `completed`.
+      tags:
+      - Bank Statements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatementResults'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/bank_statements/{id}/verify:
+    post:
+      operationId: get-bank-statement-statement-info-v-3-bank-statements-id-verify-post
+      summary: Quickly extract account holder, institution and first account
+      description: 'Extracts account holder, bank and account information extracted from the first page of the bank statement, which is typically available before the full results. This is a synchronous call.
+
+
+        Complete guide: Fast verification'
+      tags:
+      - Bank Statements
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatementInfo'
+        '404':
+          description: Bank statement with the provided id not found.
+          content:
+            application/json:
+              schema:
+                description: Any type
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ntropy_core__db__statements__AccountHolder:
+    BankStatementAccount:
       properties:
-        type:
+        number:
           anyOf:
-          - $ref: '#/components/schemas/AccountType'
+          - type: string
           - type: 'null'
+          title: Number
+        opening_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Opening Balance
+        closing_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Closing Balance
+        start_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Start Date
+        end_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: End Date
+        is_balance_reconciled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Balance Reconciled
+        transactions:
+          items:
+            $ref: '#/components/schemas/BankStatementTransaction'
+          type: array
+          title: Transactions
+        total_incoming:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Incoming
+        total_outgoing:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Outgoing
+      type: object
+      required:
+      - transactions
+      title: BankStatementAccount
+    SortOrder:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortOrder
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BankStatementStatement:
+      properties:
+        begin_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Begin Date
+        end_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: End Date
+        begin_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Begin Balance
+        end_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: End Balance
+        total_incoming:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Incoming
+        total_outgoing:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Outgoing
+        is_balance_reconciled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Balance Reconciled
+      type: object
+      title: BankStatementStatement
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
+    BankStatementExternal:
+      properties:
+        id:
+          type: string
+          title: Id
         name:
           anyOf:
           - type: string
           - type: 'null'
           title: Name
-        address:
+        size:
           anyOf:
-          - $ref: '#/components/schemas/Address'
+          - type: integer
           - type: 'null'
+          title: Size
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        account_holder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Holder Id
+        account_type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        status:
+          $ref: '#/components/schemas/DocumentStatus'
+        bank_accounts:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/BankStatementBankAccount'
+            type: array
+          - type: 'null'
+          title: Bank Accounts
+        statements:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/BankStatementStatement'
+            type: array
+          - type: 'null'
+          title: Statements
+        error_code:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Error Code
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        complete:
+          type: boolean
+          title: Complete
+        batch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Id
+        file:
+          $ref: '#/components/schemas/BankStatementFile'
       type: object
-      title: AccountHolder
+      required:
+      - id
+      - account_type
+      - status
+      - complete
+      - file
+      title: BankStatementExternal
+    BankStatementFile:
+      properties:
+        no_pages:
+          type: integer
+          title: No Pages
+        size:
+          type: integer
+          title: Size
+      type: object
+      required:
+      - no_pages
+      - size
+      title: BankStatementFile
+    Body_patch_statement_datasources_bank_statements__uuid__patch:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: Body_patch_statement_datasources_bank_statements__uuid__patch
+    Address:
+      properties:
+        street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Street
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+      type: object
+      title: Address
+    EntryType-Output:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
     ValidationError:
       properties:
         loc:
@@ -530,19 +990,12 @@ components:
       - msg
       - type
       title: ValidationError
-    BankStatementFile:
-      properties:
-        no_pages:
-          type: integer
-          title: No Pages
-        size:
-          type: integer
-          title: Size
-      type: object
-      required:
-      - no_pages
-      - size
-      title: BankStatementFile
+    AccountType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountType
     BankStatementTransaction:
       properties:
         date:
@@ -593,18 +1046,125 @@ components:
       - description
       - transaction_id
       title: BankStatementTransaction
-    Address:
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    RecurrenceGroup:
       properties:
-        street:
+        id:
+          type: string
+          title: Id
+        first_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: First Payment Date
+        latest_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Payment Date
+        total_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Amount
+        average_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Amount
+        periodicity_in_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Periodicity In Days
+        periodicity:
           anyOf:
           - type: string
           - type: 'null'
-          title: Street
-        postcode:
+          title: Periodicity
+        confidence:
           anyOf:
           - type: string
           - type: 'null'
-          title: Postcode
+          title: Confidence
+        transaction_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Transaction Ids
+          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+      type: object
+      required:
+      - id
+      title: RecurrenceGroup
+    StatementInfo:
+      properties:
+        institution:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Institution
+        start_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Start Date
+        end_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: End Date
+        account_holder:
+          anyOf:
+          - $ref: '#/components/schemas/ntropy_core__db__statements__AccountHolder'
+          - type: 'null'
+        accounts:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Account'
+            type: array
+          - type: 'null'
+          title: Accounts
+      type: object
+      title: StatementInfo
+      examples:
+      - account_holder:
+          address:
+            city: Victoria
+            country: United States
+            postcode: '77901'
+            state: Texas
+            street: 601 Rosebud Avenue
+          name: John Doe
+          type: consumer
+        accounts:
+        - closing_balance: 1500.0
+          iso_currency_code: USD
+          number: '83721'
+          opening_balance: 1000.0
+          type: checking
+        end_date: '2024-02-01'
+        institution: Well's Fargo
+        start_date: '2024-01-01'
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
         city:
           anyOf:
           - type: string
@@ -615,13 +1175,53 @@ components:
           - type: string
           - type: 'null'
           title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
         country:
           anyOf:
           - type: string
           - type: 'null'
           title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
       type: object
-      title: Address
+      title: LocationStructuredPublic
     BankStatementBankAccount:
       properties:
         name:
@@ -646,21 +1246,41 @@ components:
           title: Account Number
       type: object
       title: BankStatementBankAccount
-    DocumentStatus:
-      type: string
-      enum:
-      - queued
-      - processing
-      - processed
-      - failed
-      title: DocumentStatus
-    TransactionType:
-      type: string
-      enum:
-      - business
-      - consumer
-      - unknown
-      title: TransactionType
+    BankStatementResults:
+      properties:
+        accounts:
+          items:
+            $ref: '#/components/schemas/BankStatementAccount'
+          type: array
+          title: Accounts
+      type: object
+      required:
+      - accounts
+      title: BankStatementResults
+    EntityOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      title: EntityOut
     AccountHolderTransactionWithErrors:
       properties:
         transaction_id:
@@ -848,88 +1468,6 @@ components:
         recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
         transaction_id: xbx8YP14g565Xk
         website: starbucks.com
-    BankStatementExternal:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        size:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Size
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        account_holder_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Holder Id
-        account_type:
-          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
-        status:
-          $ref: '#/components/schemas/DocumentStatus'
-        bank_accounts:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/BankStatementBankAccount'
-            type: array
-          - type: 'null'
-          title: Bank Accounts
-        statements:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/BankStatementStatement'
-            type: array
-          - type: 'null'
-          title: Statements
-        error_code:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Error Code
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        complete:
-          type: boolean
-          title: Complete
-        batch_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Id
-        file:
-          $ref: '#/components/schemas/BankStatementFile'
-      type: object
-      required:
-      - id
-      - account_type
-      - status
-      - complete
-      - file
-      title: BankStatementExternal
-    Body__post_bank_statement_datasources_bank_statements_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body__post_bank_statement_datasources_bank_statements_post
     Account:
       properties:
         type:
@@ -959,354 +1497,305 @@ components:
           title: Iso Currency Code
       type: object
       title: Account
-    EntryType-Output:
+    ntropy_core__db__statements__AccountHolder:
+      properties:
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        address:
+          anyOf:
+          - $ref: '#/components/schemas/Address'
+          - type: 'null'
+      type: object
+      title: AccountHolder
+    TransactionType:
+      type: string
+      enum:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    Body__post_bank_statement_datasources_bank_statements_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body__post_bank_statement_datasources_bank_statements_post
+    DocumentStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - processed
+      - failed
+      title: DocumentStatus
+    Currency:
+      type: string
+      enum:
+      - EUR
+      - AED
+      - AFN
+      - XCD
+      - ALL
+      - AMD
+      - AOA
+      - ARS
+      - USD
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - XOF
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - INR
+      - NOK
+      - BWP
+      - BYR
+      - BZD
+      - CAD
+      - CDF
+      - XAF
+      - CHF
+      - NZD
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUP
+      - CVE
+      - ANG
+      - CZK
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - EGP
+      - MAD
+      - ERN
+      - ETB
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HUF
+      - IDR
+      - ILS
+      - IQD
+      - IRR
+      - ISK
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - ZAR
+      - LYD
+      - MDL
+      - MGA
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MRO
+      - MUR
+      - MVR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - XPF
+      - NGN
+      - NIO
+      - NPR
+      - OMR
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SRD
+      - SSP
+      - STD
+      - SYP
+      - SZL
+      - THB
+      - TJS
+      - TMT
+      - TND
+      - TOP
+      - TRY
+      - TTD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - UYU
+      - UZS
+      - VEF
+      - VND
+      - VUV
+      - WST
+      - YER
+      - ZMW
+      - ZWL
+      - HRK
+      title: Currency
+    PagedResponse_BankStatement:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankStatement'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_BankStatement
+    BankStatement:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the bank statement job.
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the bank statement file, if available.
+        status:
+          $ref: '#/components/schemas/BankStatementStatus'
+          description: The current status of the document.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time when the job was created.
+        file:
+          $ref: '#/components/schemas/BankStatementFile'
+          description: Information about the bank statement file being processed.
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/BankStatementError'
+          - type: 'null'
+      required:
+      - id
+      - status
+      - created_at
+      - file
+      description: Represents a bank statement with details about the file and its status.
+      title: BankStatement
+    Bank_statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204
+    AccountHolder:
+      type: object
+      properties:
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        address:
+          oneOf:
+          - $ref: '#/components/schemas/Address'
+          - type: 'null'
+      title: AccountHolder
+    BankStatementStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      - error
+      title: BankStatementStatus
+    BankStatementErrorCode:
+      type: string
+      enum:
+      - invalid_bank_statement
+      - internal_error
+      title: BankStatementErrorCode
+    EntryType:
       type: string
       enum:
       - incoming
       - outgoing
       title: EntryType
-    LocationStructuredPublic:
-      properties:
-        address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Address
-        city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: City
-        state:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: State
-        postcode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Postcode
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        country_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country Name
-        latitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Latitude
-        longitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Longitude
-        google_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Google Maps Url
-        apple_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Apple Maps Url
-        store_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Store Number
-        house_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: House Number
+    BankStatementError:
       type: object
-      title: LocationStructuredPublic
-    BankStatementAccount:
       properties:
-        number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Number
-        opening_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Opening Balance
-        closing_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Closing Balance
-        start_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Start Date
-        end_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: End Date
-        is_balance_reconciled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Balance Reconciled
-        transactions:
-          items:
-            $ref: '#/components/schemas/BankStatementTransaction'
-          type: array
-          title: Transactions
-        total_incoming:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Incoming
-        total_outgoing:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Outgoing
-      type: object
-      required:
-      - transactions
-      title: BankStatementAccount
-    StatementInfo:
-      properties:
-        institution:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Institution
-        start_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Start Date
-        end_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: End Date
-        account_holder:
-          anyOf:
-          - $ref: '#/components/schemas/ntropy_core__db__statements__AccountHolder'
-          - type: 'null'
-        accounts:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/Account'
-            type: array
-          - type: 'null'
-          title: Accounts
-      type: object
-      title: StatementInfo
-      examples:
-      - account_holder:
-          address:
-            city: Victoria
-            country: United States
-            postcode: '77901'
-            state: Texas
-            street: 601 Rosebud Avenue
-          name: John Doe
-          type: consumer
-        accounts:
-        - closing_balance: 1500.0
-          iso_currency_code: USD
-          number: '83721'
-          opening_balance: 1000.0
-          type: checking
-        end_date: '2024-02-01'
-        institution: Well's Fargo
-        start_date: '2024-01-01'
-    EntityOut:
-      properties:
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        website:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Website
-        logo:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Logo
-      type: object
-      title: EntityOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    BankStatementResults:
-      properties:
-        accounts:
-          items:
-            $ref: '#/components/schemas/BankStatementAccount'
-          type: array
-          title: Accounts
-      type: object
-      required:
-      - accounts
-      title: BankStatementResults
-    Body_patch_statement_datasources_bank_statements__uuid__patch:
-      properties:
-        name:
+        code:
+          $ref: '#/components/schemas/BankStatementErrorCode'
+        message:
           type: string
-          title: Name
-      type: object
       required:
-      - name
-      title: Body_patch_statement_datasources_bank_statements__uuid__patch
-    AccountType:
-      type: string
-      enum:
-      - consumer
-      - business
-      title: AccountType
-    BankStatementStatement:
-      properties:
-        begin_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Begin Date
-        end_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: End Date
-        begin_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Begin Balance
-        end_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: End Balance
-        total_incoming:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Incoming
-        total_outgoing:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Outgoing
-        is_balance_reconciled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Balance Reconciled
-      type: object
-      title: BankStatementStatement
-    RecurrenceGroup:
-      properties:
-        id:
-          type: string
-          title: Id
-        first_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: First Payment Date
-        latest_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Latest Payment Date
-        total_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Amount
-        average_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Average Amount
-        periodicity_in_days:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Periodicity In Days
-        periodicity:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Periodicity
-        confidence:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Confidence
-        transaction_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Transaction Ids
-          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
-      type: object
-      required:
-      - id
-      title: RecurrenceGroup
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
-    RecurrenceType:
-      type: string
-      enum:
-      - recurring
-      - subscription
-      - one off
-      title: RecurrenceType
-    SortOrder:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortOrder
+      - code
+      - message
+      title: BankStatementError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
   securitySchemes:
     APIKeyHeader:
       type: apiKey

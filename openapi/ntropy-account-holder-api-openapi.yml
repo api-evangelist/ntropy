@@ -1,7 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder API
-  version: 1.0.0
+  title: Ntropy Transaction Account Holder API
+  contact:
+    name: API Support
+    url: https://ntropy.com/developers
+    email: api@ntropy.com
+  version: '2.0'
   description: Ledger operations
 servers:
 - url: https://api.ntropy.com
@@ -14,7 +18,7 @@ paths:
     post:
       tags:
       - Account Holder
-      summary: Create an account holder.
+      summary: Create an account holder
       description: Create an account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.
       operationId: create_account_holder_v2_account_holder_post
       security:
@@ -133,7 +137,7 @@ paths:
     put:
       tags:
       - Account Holder
-      summary: Replace an existing account holder.
+      summary: Replace an existing account holder
       description: Replace a existing account holder and start tracking its ledger. The account holder can be a consumer, business or unknown.
       operationId: replace_account_holder_v2_account_holder__account_holder_id__put
       security:
@@ -170,7 +174,7 @@ paths:
     get:
       tags:
       - Account Holder
-      summary: Retrieve the information of an account holder.
+      summary: Retrieve the information of an account holder
       description: Retrieve the information of an account holder.
       operationId: get_account_holder_v2_account_holder__account_holder_id__get
       security:
@@ -252,7 +256,7 @@ paths:
     delete:
       tags:
       - Account Holder
-      summary: Delete an account holder.
+      summary: Delete an account holder
       description: Delete an account holder and all of its ledger. This operation is permanent.
       operationId: delete_account_holder_v2_account_holder__account_holder_id__delete
       security:
@@ -302,7 +306,7 @@ paths:
     get:
       tags:
       - Account Holder
-      summary: List transactions of an account holder.
+      summary: List transactions of an account holder
       description: Fetch all the transactions in the transaction ledger of an account holder.
       operationId: get_account_holder_transactions_v2_account_holder__account_holder_id__transactions_get
       security:
@@ -377,7 +381,7 @@ paths:
     post:
       tags:
       - Account Holder
-      summary: Get transactions of an account holder by transaction id.
+      summary: Get transactions of an account holder by transaction id
       description: Fetch all the transactions matching given transaction ids in the transaction ledger of an account holder. Transactions returned will be in arbitrary order.
       operationId: get_account_holder_transactions_by_id_v2_account_holder__account_holder_id__transactions_post
       security:
@@ -461,7 +465,7 @@ paths:
     put:
       tags:
       - Account Holder
-      summary: Correct any property for multiple transactions.
+      summary: Correct any property for multiple transactions
       description: Provide a correction for any field of a set of previously enriched transactions by transaction_id.
       operationId: correct_transactions_v2_account_holder__account_holder_id__transactions_put
       security:
@@ -502,7 +506,7 @@ paths:
     put:
       tags:
       - Account Holder
-      summary: Correct any transaction property.
+      summary: Correct any transaction property
       description: Provide a correction for any field of a previously enriched transaction.
       operationId: correct_transaction_v2_account_holder__account_holder_id__transactions__transaction_id__put
       security:
@@ -546,7 +550,7 @@ paths:
     post:
       tags:
       - Account Holder
-      summary: Identify existing recurring payments for an account holder's transaction history.
+      summary: Identify existing recurring payments for an account holder's transaction history
       description: Given the history of transactions of an account holder, determines existing recurring payments and related properties such as the type (subscription or bill), amount, periodicity, etc...
       operationId: get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post
       security:
@@ -581,27 +585,67 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    Body_patch_account_holder_v2_account_holder__account_holder_id__patch:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Name
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - name
+      title: Body_patch_account_holder_v2_account_holder__account_holder_id__patch
+    EnrichedTransactionCorrectionList:
+      properties:
+        transaction_ids:
+          items:
+            type: string
+          type: array
+          title: Transaction Ids
+        corrections:
+          items:
+            $ref: '#/components/schemas/EnrichedTransactionCorrection'
+          type: array
+          title: Corrections
+      type: object
+      required:
+      - transaction_ids
+      - corrections
+      title: EnrichedTransactionCorrectionList
+    SortOrder:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortOrder
+    PayFrequency:
+      type: string
+      enum:
+      - daily
+      - weekly
+      - bi-weekly
+      - monthly
+      - bi-monthly
+      - quarterly
+      - semi-yearly
+      - yearly
+      - other
+      title: PayFrequency
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
     RecurringPaymentsGroup:
       properties:
         recurrence_group_id:
@@ -704,210 +748,33 @@ components:
       - entry_type
       title: RecurringPaymentsGroup
       description: Represents one recurring payments group for an account holder id
-    Body_patch_account_holder_v2_account_holder__account_holder_id__patch:
-      properties:
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - name
-      title: Body_patch_account_holder_v2_account_holder__account_holder_id__patch
-    PayFrequency:
-      type: string
-      enum:
-      - daily
-      - weekly
-      - bi-weekly
-      - monthly
-      - bi-monthly
-      - quarterly
-      - semi-yearly
-      - yearly
-      - other
-      title: PayFrequency
-    TransactionType:
-      type: string
-      enum:
-      - business
-      - consumer
-      - unknown
-      title: TransactionType
-    AccountHolderCompany:
-      properties:
-        loan_state:
-          $ref: '#/components/schemas/LoanState'
-        logo:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Logo
-      type: object
-      required:
-      - loan_state
-      title: AccountHolderCompany
-    SortOrder:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortOrder
     EntryType-Output:
       type: string
       enum:
       - incoming
       - outgoing
       title: EntryType
-    EnrichedTransactionCorrection:
+    ValidationError:
       properties:
-        logo:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Logo
-        website:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Website
-        location:
-          anyOf:
-          - type: string
-          - type: 'null'
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
           title: Location
-        location_structured:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Location Structured
-        merchant:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Merchant
-        labels:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Labels
-        recurrence:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Recurrence
-        person:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Person
-        transaction_type:
-          anyOf:
-          - {}
-          - type: 'null'
-          title: Transaction Type
-        intermediaries:
-          anyOf:
-          - items: {}
-            type: array
-          - type: 'null'
-          title: Intermediaries
-        review_state:
-          anyOf:
-          - $ref: '#/components/schemas/ReviewState'
-          - type: 'null'
-      additionalProperties: false
-      type: object
-      title: EnrichedTransactionCorrection
-    ReviewState:
-      type: string
-      enum:
-      - incomplete
-      - satisfied
-      - forced
-      title: ReviewState
-    LocationStructuredPublic:
-      properties:
-        address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Address
-        city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: City
-        state:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: State
-        postcode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Postcode
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        country_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country Name
-        latitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Latitude
-        longitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Longitude
-        google_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Google Maps Url
-        apple_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Apple Maps Url
-        store_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Store Number
-        house_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: House Number
-      type: object
-      title: LocationStructuredPublic
-    EnrichedTransactionCorrectionList:
-      properties:
-        transaction_ids:
-          items:
-            type: string
-          type: array
-          title: Transaction Ids
-        corrections:
-          items:
-            $ref: '#/components/schemas/EnrichedTransactionCorrection'
-          type: array
-          title: Corrections
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - transaction_ids
-      - corrections
-      title: EnrichedTransactionCorrectionList
+      - loc
+      - msg
+      - type
+      title: ValidationError
     EnrichedTransaction:
       properties:
         transaction_id:
@@ -1028,6 +895,67 @@ components:
         recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
         transaction_id: xbx8YP14g565Xk
         website: starbucks.com
+    LoanState:
+      type: string
+      enum:
+      - tbd
+      - ongoing
+      - done
+      title: LoanState
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    AccountHolderCreate:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+        id:
+          anyOf:
+          - type: string
+            maxLength: 256
+            minLength: 1
+          - type: 'null'
+          title: Id
+      type: object
+      required:
+      - type
+      title: AccountHolderCreate
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    ReviewState:
+      type: string
+      enum:
+      - incomplete
+      - satisfied
+      - forced
+      title: ReviewState
     PaginatedAccountHolderTransactions:
       properties:
         transactions:
@@ -1044,6 +972,33 @@ components:
           title: Pages
       type: object
       title: PaginatedAccountHolderTransactions
+    EmptyResponse:
+      properties:
+        status:
+          $ref: '#/components/schemas/Status'
+      type: object
+      required:
+      - status
+      title: EmptyResponse
+    AccountHolderCompany:
+      properties:
+        loan_state:
+          $ref: '#/components/schemas/LoanState'
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      required:
+      - loan_state
+      title: AccountHolderCompany
+    Status:
+      type: string
+      enum:
+      - success
+      - error
+      title: Status
     AccountHolderTransaction:
       properties:
         transaction_id:
@@ -1221,148 +1176,155 @@ components:
         recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
         transaction_id: xbx8YP14g565Xk
         website: starbucks.com
-    EntityOut:
+    RecurrenceGroup:
       properties:
         id:
+          type: string
+          title: Id
+        first_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: First Payment Date
+        latest_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Payment Date
+        total_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Amount
+        average_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Amount
+        periodicity_in_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Periodicity In Days
+        periodicity:
           anyOf:
           - type: string
           - type: 'null'
-          title: Id
+          title: Periodicity
+        confidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Confidence
+        transaction_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Transaction Ids
+          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+      type: object
+      required:
+      - id
+      title: RecurrenceGroup
+    AccountHolderWrite:
+      properties:
+        type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
         name:
           anyOf:
           - type: string
           - type: 'null'
           title: Name
+        industry:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Industry
         website:
           anyOf:
           - type: string
           - type: 'null'
           title: Website
+        company:
+          anyOf:
+          - $ref: '#/components/schemas/AccountHolderCompany'
+          - type: 'null'
+      type: object
+      required:
+      - type
+      title: AccountHolderWrite
+      examples:
+      - id: '67890'
+        industry: fintech
+        name: Ntropy Network Inc.
+        type: business
+        website: ntropy.com
+    EnrichedTransactionCorrection:
+      properties:
         logo:
           anyOf:
           - type: string
           - type: 'null'
           title: Logo
-      type: object
-      title: EntityOut
-    AccountHolderCreate:
-      properties:
-        type:
-          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        industry:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Industry
         website:
           anyOf:
           - type: string
           - type: 'null'
           title: Website
-        company:
-          anyOf:
-          - $ref: '#/components/schemas/AccountHolderCompany'
-          - type: 'null'
-        id:
+        location:
           anyOf:
           - type: string
-            maxLength: 256
-            minLength: 1
           - type: 'null'
-          title: Id
+          title: Location
+        location_structured:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Location Structured
+        merchant:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Merchant
+        labels:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Labels
+        recurrence:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Recurrence
+        person:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Person
+        transaction_type:
+          anyOf:
+          - {}
+          - type: 'null'
+          title: Transaction Type
+        intermediaries:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Intermediaries
+        review_state:
+          anyOf:
+          - $ref: '#/components/schemas/ReviewState'
+          - type: 'null'
+      additionalProperties: false
       type: object
-      required:
-      - type
-      title: AccountHolderCreate
-      examples:
-      - id: '67890'
-        industry: fintech
-        name: Ntropy Network Inc.
-        type: business
-        website: ntropy.com
-    ntropy_server__schemas__account_holder__AccountHolder:
-      properties:
-        type:
-          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        industry:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Industry
-        website:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Website
-        company:
-          anyOf:
-          - $ref: '#/components/schemas/AccountHolderCompany'
-          - type: 'null'
-        id:
-          type: string
-          title: Id
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        mean_labeler_confidence:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Mean Labeler Confidence
-        total_revenue:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Revenue
-        application_time:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Application Time
-        alerts:
-          additionalProperties: true
-          type: object
-          title: Alerts
-          default: {}
-        review_percentage:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Review Percentage
-      type: object
-      required:
-      - type
-      - id
-      title: AccountHolder
-      examples:
-      - id: '67890'
-        industry: fintech
-        name: Ntropy Network Inc.
-        type: business
-        website: ntropy.com
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: EnrichedTransactionCorrection
     AccountHolderWithCounts:
       properties:
         type:
@@ -1437,13 +1399,102 @@ components:
         name: Ntropy Network Inc.
         type: business
         website: ntropy.com
-    Status:
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
+      type: object
+      title: LocationStructuredPublic
+    EntityOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      title: EntityOut
+    TransactionType:
       type: string
       enum:
-      - success
-      - error
-      title: Status
-    AccountHolderWrite:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    ntropy_server__schemas__account_holder__AccountHolder:
       properties:
         type:
           $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
@@ -1466,99 +1517,52 @@ components:
           anyOf:
           - $ref: '#/components/schemas/AccountHolderCompany'
           - type: 'null'
+        id:
+          type: string
+          title: Id
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        mean_labeler_confidence:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Mean Labeler Confidence
+        total_revenue:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Revenue
+        application_time:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Application Time
+        alerts:
+          additionalProperties: true
+          type: object
+          title: Alerts
+          default: {}
+        review_percentage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Review Percentage
       type: object
       required:
       - type
-      title: AccountHolderWrite
+      - id
+      title: AccountHolder
       examples:
       - id: '67890'
         industry: fintech
         name: Ntropy Network Inc.
         type: business
         website: ntropy.com
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
-    RecurrenceGroup:
-      properties:
-        id:
-          type: string
-          title: Id
-        first_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: First Payment Date
-        latest_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Latest Payment Date
-        total_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Amount
-        average_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Average Amount
-        periodicity_in_days:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Periodicity In Days
-        periodicity:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Periodicity
-        confidence:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Confidence
-        transaction_ids:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Transaction Ids
-          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
-      type: object
-      required:
-      - id
-      title: RecurrenceGroup
-    LoanState:
-      type: string
-      enum:
-      - tbd
-      - ongoing
-      - done
-      title: LoanState
-    RecurrenceType:
-      type: string
-      enum:
-      - recurring
-      - subscription
-      - one off
-      title: RecurrenceType
-    EmptyResponse:
-      properties:
-        status:
-          $ref: '#/components/schemas/Status'
-      type: object
-      required:
-      - status
-      title: EmptyResponse
   securitySchemes:
     APIKeyHeader:
       type: apiKey

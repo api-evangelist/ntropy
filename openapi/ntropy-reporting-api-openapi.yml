@@ -1,8 +1,11 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder Reporting API
-  version: 1.0.0
-  description: Ledger operations
+  title: Ntropy Transaction Reporting API
+  contact:
+    name: API Support
+    url: https://ntropy.com/developers
+    email: api@ntropy.com
+  version: '2.0'
 servers:
 - url: https://api.ntropy.com
   description: Production server (uses live data).
@@ -13,7 +16,7 @@ paths:
     post:
       tags:
       - Reporting
-      summary: Report a wrongly classified transaction.
+      summary: Report a wrongly classified transaction
       description: Report a wrongly classified transaction specifying expected enrichment values.
       operationId: report_post_v2_v2_report_post
       security:
@@ -50,7 +53,7 @@ paths:
     get:
       tags:
       - Reporting
-      summary: List all submited reports (paginated and filterable).
+      summary: List all submited reports (paginated and filterable)
       description: Given a page size and page number, lists a specific page of previously submitted reports, optionally filtered by status and transaction_id.
       operationId: report_list_v2_report_get
       security:
@@ -146,6 +149,36 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     EnrichmentReportResponse:
       properties:
         id:
@@ -199,36 +232,6 @@ components:
       required:
       - transaction_id
       title: EnrichmentReport
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ReportStatus:
       type: string
       enum:

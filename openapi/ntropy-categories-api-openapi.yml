@@ -1,13 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder categories API
+  title: Reference Categories API
   version: 1.0.0
-  description: Ledger operations
 servers:
 - url: https://api.ntropy.com
   description: Production server (uses live data).
 tags:
-- name: categories
+- name: Categories
 paths:
   /v3/categories/{id}:
     post:
@@ -15,7 +14,7 @@ paths:
       summary: Set a custom set of categories
       description: Sets a custom set of categories. Transactions that don't match a category will be categorized `not enough information` regardless of whether it is present in the set.
       tags:
-      - categories
+      - Categories
       parameters:
       - name: id
         in: path
@@ -50,7 +49,7 @@ paths:
       summary: Retrieve category set
       description: Retrieves the set of categories. Category sets are different per account holder type.
       tags:
-      - categories
+      - Categories
       parameters:
       - name: id
         in: path
@@ -81,7 +80,7 @@ paths:
       summary: Reset category set to original values
       description: Resets the set of categories of the specified account holder type to the original values.
       tags:
-      - categories
+      - Categories
       parameters:
       - name: id
         in: path
@@ -115,14 +114,6 @@ components:
       - type: string
       - type: integer
       title: ValidationErrorLocItems
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
     ValidationError:
       type: object
       properties:
@@ -154,6 +145,21 @@ components:
       - incoming
       - outgoing
       title: CustomCategorySet
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    V3CategoriesIdResetPostResponsesContentApplicationJsonSchema:
+      oneOf:
+      - $ref: '#/components/schemas/CategorySet'
+      - type: object
+        additionalProperties:
+          description: Any type
+      title: V3CategoriesIdResetPostResponsesContentApplicationJsonSchema
     CategorySet:
       type: object
       properties:
@@ -176,13 +182,6 @@ components:
         additionalProperties:
           description: Any type
       title: Categories_get_category_set_v3_categories__id__get_Response_200
-    V3CategoriesIdResetPostResponsesContentApplicationJsonSchema:
-      oneOf:
-      - $ref: '#/components/schemas/CategorySet'
-      - type: object
-        additionalProperties:
-          description: Any type
-      title: V3CategoriesIdResetPostResponsesContentApplicationJsonSchema
   securitySchemes:
     APIKeyHeader:
       type: apiKey

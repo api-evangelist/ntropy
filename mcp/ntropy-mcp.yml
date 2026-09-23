@@ -1,10 +1,8 @@
 generated: '2026-08-14'
 method: probed
 status: published
-source: >-
-  https://github.com/ntropy-network/ntropy-mcp (README.md + src/ntropy_mcp/server.py),
-  https://pypi.org/project/ntropy-mcp/, live initialize + tools/list against
-  https://docs.ntropy.com/_mcp/server
+source: https://github.com/ntropy-network/ntropy-mcp (README.md + src/ntropy_mcp/server.py), https://pypi.org/project/ntropy-mcp/,
+  live initialize + tools/list against https://docs.ntropy.com/_mcp/server
 servers:
 - name: ntropy-mcp
   kind: api-operations
@@ -17,11 +15,10 @@ servers:
   install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
   official: true
   description: First-party MCP server for enriching banking data using the Ntropy API.
-  health: >-
-    Stale. 3 of its 11 tools call routes the live API does not serve as written —
-    GET /v3/status is 404 (check_connection, set_api_key) and PATCH /v3/account_holders/{id}
-    is 405 (update_account_holder); bulk_enrich_transactions calls an undocumented
-    POST /v3/transactions/bulk. Probed 2026-08-14; see mcp/ntropy-tool-crosswalk.yml.
+  health: Stale. 3 of its 11 tools call routes the live API does not serve as written — GET /v3/status
+    is 404 (check_connection, set_api_key) and PATCH /v3/account_holders/{id} is 405 (update_account_holder);
+    bulk_enrich_transactions calls an undocumented POST /v3/transactions/bulk. Probed 2026-08-14; see
+    mcp/ntropy-tool-crosswalk.yml.
   tools:
   - name: check_connection
     description: Verify connection to the Ntropy API.
@@ -66,31 +63,19 @@ servers:
   probed: '2026-08-14'
   tools:
   - name: searchDocs
-    description: Search the documentation at https://docs.ntropy.com. Returns relevant doc passages with source URLs.
+    description: Search the documentation at https://docs.ntropy.com. Returns relevant doc passages with
+      source URLs.
     input_schema:
       type: object
       properties:
         query:
           type: string
           description: The search query to run against the docs
-      required: [query]
+      required:
+      - query
       additionalProperties: false
 deployment:
-  mode: both
-  endpoint: https://docs.ntropy.com/_mcp/server
-  install: uvx ntropy-mcp --api-key YOUR_NTROPY_API_KEY
-  package: https://pypi.org/project/ntropy-mcp/
-  auth: api-key
-  verified: probed
-  checked: '2026-08-14'
-  source: >-
-    Remote: anonymous JSON-RPC initialize + tools/list against
-    https://docs.ntropy.com/_mcp/server returned HTTP 200 (text/event-stream) with
-    serverInfo fern-docs-mcp-server 1.0.0 and one tool, searchDocs. Local: uvx package
-    ntropy-mcp on PyPI, read from the provider's own repo and README.
-  note: >-
-    The two surfaces are not equivalent. The REMOTE endpoint (auth: none) only searches
-    documentation — it cannot call the Ntropy API. The API data plane is reachable only
-    through the LOCAL stdio package (auth: api-key), which a human must install first.
-    Recorded as `both` because both are genuinely shipped by Ntropy, but an agent given
-    only the remote URL can read docs and nothing else.
+  mode: local-stdio
+  verified: searched
+  checked: '2026-08-12'
+  source: catalog MCP census

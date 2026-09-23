@@ -1,21 +1,25 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder recurrence API
+  title: Reference Recurrence API
   version: 1.0.0
-  description: Ledger operations
 servers:
 - url: https://api.ntropy.com
   description: Production server (uses live data).
 tags:
-- name: recurrence
+- name: Recurrence
 paths:
   /v3/account_holders/{id}/recurring_groups:
     post:
       operationId: get-account-holder-recurring-payments-v-3-account-holders-id-recurring-groups-post
       summary: Find recurring groups in a transaction history
-      description: "Identifies and categorizes recurring patterns found in the transaction history of the account holder,\nsuch as periodic payments or subscriptions. These patterns are called recurrence groups. \n\nComplete guide: [Recurrence](../../../enrichment/recurrence)."
+      description: 'Identifies and categorizes recurring patterns found in the transaction history of the account holder,
+
+        such as periodic payments or subscriptions. These patterns are called recurrence groups.
+
+
+        Complete guide: Recurrence.'
       tags:
-      - recurrence
+      - Recurrence
       parameters:
       - name: id
         in: path
@@ -50,11 +54,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
     Counterparty:
       type: object
       properties:
@@ -121,14 +120,6 @@ components:
       - yearly
       - other
       title: RecurrencePeriodicity
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
     ValidationError:
       type: object
       properties:
@@ -145,12 +136,69 @@ components:
       - msg
       - type
       title: ValidationError
-    EntryType:
-      type: string
-      enum:
-      - incoming
-      - outgoing
-      title: EntryType
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    Categories:
+      type: object
+      properties:
+        general:
+          type:
+          - string
+          - 'null'
+          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
+        accounting:
+          oneOf:
+          - $ref: '#/components/schemas/AccountingCategory'
+          - type: 'null'
+          description: The corresponding accounting category. Only available for `business` transactions.
+      required:
+      - general
+      title: Categories
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     AccountingCategory:
       type: string
       enum:
@@ -224,56 +272,12 @@ components:
       - person
       - organization
       title: CounterpartyType
-    EntityParent:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-      title: EntityParent
-    Categories:
-      type: object
-      properties:
-        general:
-          type:
-          - string
-          - 'null'
-          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
-        accounting:
-          oneOf:
-          - $ref: '#/components/schemas/AccountingCategory'
-          - type: 'null'
-          description: The corresponding accounting category. Only available for `business` transactions.
-      required:
-      - general
-      title: Categories
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
   securitySchemes:
     APIKeyHeader:
       type: apiKey

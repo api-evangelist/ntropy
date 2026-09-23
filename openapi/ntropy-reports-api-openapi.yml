@@ -1,13 +1,12 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference Account Holder reports API
+  title: Reference Reports API
   version: 1.0.0
-  description: Ledger operations
 servers:
 - url: https://api.ntropy.com
   description: Production server (uses live data).
 tags:
-- name: reports
+- name: Reports
 paths:
   /v3/reports:
     post:
@@ -16,9 +15,9 @@ paths:
       description: 'Report a transaction with incorrect fields.
 
 
-        Complete guide: [Reports](../../../enrichment/reports).'
+        Complete guide: Reports.'
       tags:
-      - reports
+      - Reports
       parameters:
       - name: X-Api-Key
         in: header
@@ -46,9 +45,8 @@ paths:
     get:
       operationId: get-reports-v-3-reports-get
       summary: List all reports
-      description: List all reports
       tags:
-      - reports
+      - Reports
       parameters:
       - name: created_after
         in: query
@@ -113,9 +111,8 @@ paths:
     get:
       operationId: get-report-v-3-reports-id-get
       summary: Retrieve a report
-      description: Retrieve a report
       tags:
-      - reports
+      - Reports
       parameters:
       - name: id
         in: path
@@ -149,9 +146,8 @@ paths:
     delete:
       operationId: delete-report-v-3-reports-id-delete
       summary: Delete a report
-      description: Delete a report
       tags:
-      - reports
+      - Reports
       parameters:
       - name: id
         in: path
@@ -199,11 +195,40 @@ components:
       - next_cursor
       - data
       title: PagedResponse_Report_
+    Reports_delete_report_v3_reports__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Reports_delete_report_v3_reports__id__delete_Response_204
     ValidationErrorLocItems:
       oneOf:
       - type: string
       - type: integer
       title: ValidationErrorLocItems
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     Report:
       type: object
       properties:
@@ -250,30 +275,6 @@ components:
       - created_at
       - status
       title: Report
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ReportBase:
       type: object
       properties:
@@ -301,11 +302,6 @@ components:
       - resolved
       - rejected
       title: ReportStatus
-    Reports_delete_report_v3_reports__id__delete_Response_204:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: Reports_delete_report_v3_reports__id__delete_Response_204
   securitySchemes:
     APIKeyHeader:
       type: apiKey
