@@ -180,31 +180,14 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    PagedResponse_Report_:
+    HTTPValidationError:
       type: object
       properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-        data:
+        detail:
           type: array
           items:
-            $ref: '#/components/schemas/Report'
-      required:
-      - next_cursor
-      - data
-      title: PagedResponse_Report_
-    Reports_delete_report_v3_reports__id__delete_Response_204:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: Reports_delete_report_v3_reports__id__delete_Response_204
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     ValidationError:
       type: object
       properties:
@@ -221,14 +204,45 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    PagedResponse_Report_:
       type: object
       properties:
-        detail:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
+            $ref: '#/components/schemas/Report'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_Report_
+    ReportBase:
+      type: object
+      properties:
+        transaction_id:
+          type: string
+          description: The unique identifier of the transaction
+        description:
+          type: string
+          description: A description of what is wrong in the transaction
+        fields:
+          type: array
+          items:
+            type: string
+          description: A list of the fields that are incorrect
+      required:
+      - transaction_id
+      - description
+      - fields
+      title: ReportBase
     Report:
       type: object
       properties:
@@ -275,25 +289,6 @@ components:
       - created_at
       - status
       title: Report
-    ReportBase:
-      type: object
-      properties:
-        transaction_id:
-          type: string
-          description: The unique identifier of the transaction
-        description:
-          type: string
-          description: A description of what is wrong in the transaction
-        fields:
-          type: array
-          items:
-            type: string
-          description: A list of the fields that are incorrect
-      required:
-      - transaction_id
-      - description
-      - fields
-      title: ReportBase
     ReportStatus:
       type: string
       enum:
@@ -302,6 +297,11 @@ components:
       - resolved
       - rejected
       title: ReportStatus
+    Reports_delete_report_v3_reports__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Reports_delete_report_v3_reports__id__delete_Response_204
   securitySchemes:
     APIKeyHeader:
       type: apiKey

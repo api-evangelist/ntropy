@@ -149,6 +149,26 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    EnrichmentReport:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        webhook_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Webhook Url
+      additionalProperties: {}
+      type: object
+      required:
+      - transaction_id
+      title: EnrichmentReport
     ValidationError:
       properties:
         loc:
@@ -212,26 +232,6 @@ components:
       - status
       - transaction_id
       title: EnrichmentReportResponse
-    EnrichmentReport:
-      properties:
-        transaction_id:
-          type: string
-          title: Transaction Id
-        notes:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Notes
-        webhook_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Webhook Url
-      additionalProperties: {}
-      type: object
-      required:
-      - transaction_id
-      title: EnrichmentReport
     ReportStatus:
       type: string
       enum:

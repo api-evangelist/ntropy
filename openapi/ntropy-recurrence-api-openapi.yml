@@ -54,6 +54,41 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
     Counterparty:
       type: object
       properties:
@@ -107,40 +142,6 @@ components:
       required:
       - type
       title: Counterparty
-    RecurrencePeriodicity:
-      type: string
-      enum:
-      - daily
-      - weekly
-      - bi-weekly
-      - monthly
-      - bi-monthly
-      - quarterly
-      - semi-yearly
-      - yearly
-      - other
-      title: RecurrencePeriodicity
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
     EntityParent:
       type: object
       properties:
@@ -191,14 +192,6 @@ components:
       required:
       - general
       title: Categories
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
     AccountingCategory:
       type: string
       enum:
@@ -272,12 +265,19 @@ components:
       - person
       - organization
       title: CounterpartyType
-    EntryType:
+    RecurrencePeriodicity:
       type: string
       enum:
-      - incoming
-      - outgoing
-      title: EntryType
+      - daily
+      - weekly
+      - bi-weekly
+      - monthly
+      - bi-monthly
+      - quarterly
+      - semi-yearly
+      - yearly
+      - other
+      title: RecurrencePeriodicity
   securitySchemes:
     APIKeyHeader:
       type: apiKey

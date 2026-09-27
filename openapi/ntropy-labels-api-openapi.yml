@@ -139,23 +139,20 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    LlmHierarchy:
-      properties:
-        incoming:
-          items:
-            type: string
-          type: array
-          title: Incoming
-        outgoing:
-          items:
-            type: string
-          type: array
-          title: Outgoing
+    LabelsHierarchy:
+      properties: {}
+      additionalProperties: true
       type: object
-      required:
-      - incoming
-      - outgoing
-      title: LlmHierarchy
+      title: LabelsHierarchy
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -177,20 +174,23 @@ components:
       - msg
       - type
       title: ValidationError
-    LabelsHierarchy:
-      properties: {}
-      additionalProperties: true
-      type: object
-      title: LabelsHierarchy
-    HTTPValidationError:
+    LlmHierarchy:
       properties:
-        detail:
+        incoming:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            type: string
           type: array
-          title: Detail
+          title: Incoming
+        outgoing:
+          items:
+            type: string
+          type: array
+          title: Outgoing
       type: object
-      title: HTTPValidationError
+      required:
+      - incoming
+      - outgoing
+      title: LlmHierarchy
     ntropy_core__db__account_holder_type__AccountHolderType:
       type: string
       enum:

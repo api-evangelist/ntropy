@@ -126,7 +126,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-batches-api
-  name: Ntropy batches API
+  name: Ntropy Batches API
   description: The batches API from Ntropy — 3 operation(s) for batches.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -142,7 +142,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-categories-api
-  name: Ntropy categories API
+  name: Ntropy Categories API
   description: The categories API from Ntropy — 2 operation(s) for categories.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -172,7 +172,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-entities-api
-  name: Ntropy entities API
+  name: Ntropy Entities API
   description: The entities API from Ntropy — 4 operation(s) for entities.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -217,7 +217,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-personalization-api
-  name: Ntropy personalization API
+  name: Ntropy Personalization API
   description: The personalization API from Ntropy — 6 operation(s) for personalization.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -233,7 +233,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-recurrence-api
-  name: Ntropy recurrence API
+  name: Ntropy Recurrence API
   description: The recurrence API from Ntropy — 1 operation(s) for recurrence.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -263,7 +263,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-reports-api
-  name: Ntropy reports API
+  name: Ntropy Reports API
   description: The reports API from Ntropy — 2 operation(s) for reports.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -279,7 +279,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-transactions-api
-  name: Ntropy transactions API
+  name: Ntropy Transactions API
   description: The transactions API from Ntropy — 3 operation(s) for transactions.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
@@ -295,7 +295,7 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 - aid: ntropy:ntropy-webhooks-api
-  name: Ntropy webhooks API
+  name: Ntropy Webhooks API
   description: The webhooks API from Ntropy — 2 operation(s) for webhooks.
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com

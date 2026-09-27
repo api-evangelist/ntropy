@@ -335,11 +335,14 @@ components:
           - $ref: '#/components/schemas/Location'
           - type: 'null'
       title: EntityResponse
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     ValidationError:
       type: object
       properties:
@@ -356,25 +359,11 @@ components:
       - msg
       - type
       title: ValidationError
-    EntityQuery:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity to resolve
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website of the entity to resolve
-        location:
-          type:
-          - string
-          - 'null'
-          description: An unstructured location string of the entity to resolve
-      title: EntityQuery
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
     EntityParent:
       type: object
       properties:
@@ -409,6 +398,25 @@ components:
           - 'null'
           description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
       title: EntityParent
+    EntityQuery:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity to resolve
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website of the entity to resolve
+        location:
+          type:
+          - string
+          - 'null'
+          description: An unstructured location string of the entity to resolve
+      title: EntityQuery
     Location:
       type: object
       properties:
@@ -423,14 +431,6 @@ components:
           - type: 'null'
           description: When raw is set, a structured representation of it.
       title: Location
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
     ValidationError_2:
       properties:
         loc:
@@ -452,6 +452,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError_2:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError_2'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     LocationStructuredPublic:
       properties:
         address:
@@ -516,15 +525,6 @@ components:
           title: House Number
       type: object
       title: LocationStructuredPublic
-    HTTPValidationError_2:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError_2'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     EntitySearchOut:
       properties:
         id:

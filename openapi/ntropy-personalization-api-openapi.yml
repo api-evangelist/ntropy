@@ -385,144 +385,6 @@ paths:
       description: Production server (uses live data).
 components:
   schemas:
-    FnCall0:
-      type: object
-      properties:
-        '&&':
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - '&&'
-      title: FnCall0
-    ModifyLabels5:
-      type: object
-      properties:
-        set_mcc:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - set_mcc
-      title: ModifyLabels5
-    FnCall16:
-      type: object
-      properties:
-        to_lower:
-          $ref: '#/components/schemas/Expr'
-      required:
-      - to_lower
-      title: FnCall16
-    FnCall2:
-      type: object
-      properties:
-        ==:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - ==
-      title: FnCall2
-    FnCall14:
-      type: object
-      properties:
-        starts_with:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - starts_with
-      title: FnCall14
-    FnCall15:
-      type: object
-      properties:
-        ends_with:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - ends_with
-      title: FnCall15
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    ModifyLabels4:
-      type: object
-      properties:
-        remove_mcc:
-          $ref: '#/components/schemas/Expr'
-      required:
-      - remove_mcc
-      title: ModifyLabels4
-    ModifyLabels2:
-      type: object
-      properties:
-        set_labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - set_labels
-      title: ModifyLabels2
-    FnCall8:
-      type: object
-      properties:
-        <:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - <
-      title: FnCall8
-    FnCall1:
-      type: object
-      properties:
-        '||':
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - '||'
-      title: FnCall1
-    FnCall17:
-      type: object
-      properties:
-        to_upper:
-          $ref: '#/components/schemas/Expr'
-      required:
-      - to_upper
-      title: FnCall17
-    FnCall12:
-      type: object
-      properties:
-        '!':
-          $ref: '#/components/schemas/Expr'
-      required:
-      - '!'
-      title: FnCall12
-    FnCall20:
-      type: object
-      properties:
-        get:
-          $ref: '#/components/schemas/TxProp'
-      required:
-      - get
-      title: FnCall20
-    FnCall11:
-      type: object
-      properties:
-        '>=':
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - '>='
-      title: FnCall11
     ActionModelOutput:
       type: object
       properties:
@@ -531,6 +393,42 @@ components:
       required:
       - id
       title: ActionModelOutput
+    FnCall13:
+      type: object
+      properties:
+        is_substring:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - is_substring
+      title: FnCall13
+    FnCall10:
+      type: object
+      properties:
+        '>':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '>'
+      title: FnCall10
+    FnCall16:
+      type: object
+      properties:
+        to_lower:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - to_lower
+      title: FnCall16
+    ModifyLabels0:
+      type: object
+      properties:
+        add_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - add_label
+      title: ModifyLabels0
     ValidationError:
       type: object
       properties:
@@ -547,74 +445,33 @@ components:
       - msg
       - type
       title: ValidationError
-    TxProp:
-      type: string
-      enum:
-      - logo
-      - website
-      - merchant
-      - description
-      - merchant_id
-      - location
-      - person
-      - transaction_type
-      - amount
-      - entry_type
-      - account_holder_type
-      - account_holder_id
-      - account_holder_name
-      - country
-      title: TxProp
-    If:
+    Setter:
       type: object
       properties:
-        if:
-          $ref: '#/components/schemas/Expr'
-        then:
-          type: array
-          items:
-            $ref: '#/components/schemas/Action'
-        else:
-          type: array
-          items:
-            $ref: '#/components/schemas/Action'
-      required:
-      - if
-      title: If
-    Action:
-      oneOf:
-      - $ref: '#/components/schemas/If'
-      - $ref: '#/components/schemas/ModifyLabels'
-      - $ref: '#/components/schemas/Setter'
-      title: Action
-    FnCall3:
-      type: object
-      properties:
-        +:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - +
-      title: FnCall3
-    ModifyLabels0:
-      type: object
-      properties:
-        add_label:
+        set:
+          $ref: '#/components/schemas/EditableTxProp'
+        to:
           $ref: '#/components/schemas/Expr'
       required:
-      - add_label
-      title: ModifyLabels0
-    FnCall6:
+      - set
+      - to
+      title: Setter
+    FnCall19:
       type: object
       properties:
-        /:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
+        has_mcc:
+          $ref: '#/components/schemas/Expr'
       required:
-      - /
-      title: FnCall6
+      - has_mcc
+      title: FnCall19
+    ModifyLabels1:
+      type: object
+      properties:
+        remove_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - remove_label
+      title: ModifyLabels1
     EditableTxProp:
       type: string
       enum:
@@ -626,32 +483,22 @@ components:
       - person
       - transaction_type
       title: EditableTxProp
-    Expr:
-      oneOf:
-      - type: boolean
-      - type: string
-      - type: number
-        format: double
-      - $ref: '#/components/schemas/FnCall'
-      title: Expr
-    FnCall5:
+    ModifyLabels4:
       type: object
       properties:
-        '*':
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - '*'
-      title: FnCall5
-    FnCall18:
-      type: object
-      properties:
-        has_label:
+        remove_mcc:
           $ref: '#/components/schemas/Expr'
       required:
-      - has_label
-      title: FnCall18
+      - remove_mcc
+      title: ModifyLabels4
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     FnCall4:
       type: object
       properties:
@@ -662,61 +509,6 @@ components:
       required:
       - '-'
       title: FnCall4
-    ModifyLabels1:
-      type: object
-      properties:
-        remove_label:
-          $ref: '#/components/schemas/Expr'
-      required:
-      - remove_label
-      title: ModifyLabels1
-    FnCall13:
-      type: object
-      properties:
-        is_substring:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - is_substring
-      title: FnCall13
-    FnCall19:
-      type: object
-      properties:
-        has_mcc:
-          $ref: '#/components/schemas/Expr'
-      required:
-      - has_mcc
-      title: FnCall19
-    FnCall10:
-      type: object
-      properties:
-        '>':
-          type: array
-          items:
-            $ref: '#/components/schemas/Expr'
-      required:
-      - '>'
-      title: FnCall10
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    ModifyLabels:
-      oneOf:
-      - $ref: '#/components/schemas/ModifyLabels0'
-      - $ref: '#/components/schemas/ModifyLabels1'
-      - $ref: '#/components/schemas/ModifyLabels2'
-      - $ref: '#/components/schemas/ModifyLabels3'
-      - $ref: '#/components/schemas/ModifyLabels4'
-      - $ref: '#/components/schemas/ModifyLabels5'
-      title: ModifyLabels
-    FilterModel:
-      type: array
-      items:
-        $ref: '#/components/schemas/Action'
-      title: FilterModel
     FnCall:
       oneOf:
       - $ref: '#/components/schemas/FnCall0'
@@ -741,16 +533,85 @@ components:
       - $ref: '#/components/schemas/FnCall19'
       - $ref: '#/components/schemas/FnCall20'
       title: FnCall
-    FnCall9:
+    FnCall11:
       type: object
       properties:
-        <=:
+        '>=':
           type: array
           items:
             $ref: '#/components/schemas/Expr'
       required:
-      - <=
-      title: FnCall9
+      - '>='
+      title: FnCall11
+    FnCall12:
+      type: object
+      properties:
+        '!':
+          $ref: '#/components/schemas/Expr'
+      required:
+      - '!'
+      title: FnCall12
+    FnCall18:
+      type: object
+      properties:
+        has_label:
+          $ref: '#/components/schemas/Expr'
+      required:
+      - has_label
+      title: FnCall18
+    FnCall0:
+      type: object
+      properties:
+        '&&':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '&&'
+      title: FnCall0
+    FnCall20:
+      type: object
+      properties:
+        get:
+          $ref: '#/components/schemas/TxProp'
+      required:
+      - get
+      title: FnCall20
+    FilterModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/Action'
+      title: FilterModel
+    ModifyLabels:
+      oneOf:
+      - $ref: '#/components/schemas/ModifyLabels0'
+      - $ref: '#/components/schemas/ModifyLabels1'
+      - $ref: '#/components/schemas/ModifyLabels2'
+      - $ref: '#/components/schemas/ModifyLabels3'
+      - $ref: '#/components/schemas/ModifyLabels4'
+      - $ref: '#/components/schemas/ModifyLabels5'
+      title: ModifyLabels
+    FnCall3:
+      type: object
+      properties:
+        +:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - +
+      title: FnCall3
+    Action:
+      oneOf:
+      - $ref: '#/components/schemas/If'
+      - $ref: '#/components/schemas/ModifyLabels'
+      - $ref: '#/components/schemas/Setter'
+      title: Action
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
     ModifyLabels3:
       type: object
       properties:
@@ -769,17 +630,169 @@ components:
       required:
       - //
       title: FnCall7
-    Setter:
+    FnCall2:
       type: object
       properties:
-        set:
-          $ref: '#/components/schemas/EditableTxProp'
-        to:
+        ==:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - ==
+      title: FnCall2
+    FnCall5:
+      type: object
+      properties:
+        '*':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '*'
+      title: FnCall5
+    FnCall17:
+      type: object
+      properties:
+        to_upper:
           $ref: '#/components/schemas/Expr'
       required:
-      - set
-      - to
-      title: Setter
+      - to_upper
+      title: FnCall17
+    FnCall8:
+      type: object
+      properties:
+        <:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - <
+      title: FnCall8
+    TxProp:
+      type: string
+      enum:
+      - logo
+      - website
+      - merchant
+      - description
+      - merchant_id
+      - location
+      - person
+      - transaction_type
+      - amount
+      - entry_type
+      - account_holder_type
+      - account_holder_id
+      - account_holder_name
+      - country
+      title: TxProp
+    FnCall1:
+      type: object
+      properties:
+        '||':
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - '||'
+      title: FnCall1
+    ModifyLabels5:
+      type: object
+      properties:
+        set_mcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - set_mcc
+      title: ModifyLabels5
+    FnCall14:
+      type: object
+      properties:
+        starts_with:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - starts_with
+      title: FnCall14
+    FnCall6:
+      type: object
+      properties:
+        /:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - /
+      title: FnCall6
+    If:
+      type: object
+      properties:
+        if:
+          $ref: '#/components/schemas/Expr'
+        then:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+        else:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+      required:
+      - if
+      title: If
+    FnCall15:
+      type: object
+      properties:
+        ends_with:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - ends_with
+      title: FnCall15
+    FnCall9:
+      type: object
+      properties:
+        <=:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - <=
+      title: FnCall9
+    ModifyLabels2:
+      type: object
+      properties:
+        set_labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expr'
+      required:
+      - set_labels
+      title: ModifyLabels2
+    Expr:
+      oneOf:
+      - type: boolean
+      - type: string
+      - type: number
+        format: double
+      - $ref: '#/components/schemas/FnCall'
+      title: Expr
+    Action_2:
+      additionalProperties: true
+      type: object
+      title: Action
+    HTTPValidationError_2:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError_2'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError_2:
       properties:
         loc:
@@ -801,19 +814,6 @@ components:
       - msg
       - type
       title: ValidationError
-    Action_2:
-      additionalProperties: true
-      type: object
-      title: Action
-    HTTPValidationError_2:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError_2'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     FilterModel_2:
       items: {}
       type: array
