@@ -169,27 +169,6 @@ components:
       required:
       - transaction_id
       title: EnrichmentReport
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -199,6 +178,14 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ReportStatus:
+      type: string
+      enum:
+      - open
+      - resolved
+      - invalid
+      - pending
+      title: ReportStatus
     EnrichmentReportResponse:
       properties:
         id:
@@ -232,14 +219,27 @@ components:
       - status
       - transaction_id
       title: EnrichmentReportResponse
-    ReportStatus:
-      type: string
-      enum:
-      - open
-      - resolved
-      - invalid
-      - pending
-      title: ReportStatus
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

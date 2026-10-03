@@ -139,6 +139,23 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    LlmHierarchy:
+      properties:
+        incoming:
+          items:
+            type: string
+          type: array
+          title: Incoming
+        outgoing:
+          items:
+            type: string
+          type: array
+          title: Outgoing
+      type: object
+      required:
+      - incoming
+      - outgoing
+      title: LlmHierarchy
     LabelsHierarchy:
       properties: {}
       additionalProperties: true
@@ -153,6 +170,13 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
     ValidationError:
       properties:
         loc:
@@ -174,30 +198,6 @@ components:
       - msg
       - type
       title: ValidationError
-    LlmHierarchy:
-      properties:
-        incoming:
-          items:
-            type: string
-          type: array
-          title: Incoming
-        outgoing:
-          items:
-            type: string
-          type: array
-          title: Outgoing
-      type: object
-      required:
-      - incoming
-      - outgoing
-      title: LlmHierarchy
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -199,12 +199,335 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    EntryType:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    Intermediary:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
+          type: array
+          items:
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+      title: Intermediary
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    BatchResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the batch.
+        total:
+          type: integer
+          description: The total number of transactions in the batch result.
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: The current status of the batch job.
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnrichedTransaction'
+          description: A list containing the body of the responses of each request in the batch. The responses are returned in the same order they were submitted. The format of each response is given by the respective batch `operation`.
+      required:
+      - id
+      - total
+      - status
+      - results
+      description: 'The `BatchResult` object represents the result of a batch enrichment job, including its status and
+
+        enriched transactions.'
+      title: BatchResult
+    CounterpartyType:
       type: string
       enum:
-      - incoming
-      - outgoing
-      title: EntryType
+      - person
+      - organization
+      title: CounterpartyType
+    BatchOperation:
+      type: string
+      enum:
+      - POST /v3/transactions
+      title: BatchOperation
+    TransactionInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        account_holder_id:
+          type:
+          - string
+          - 'null'
+          description: The unique ID of the account holder. Unsetting it will disable [categorization](/enrichment/categories).
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/LocationInput'
+          - type: 'null'
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      title: TransactionInput
+    EnrichedTransaction:
+      type: object
+      properties:
+        entities:
+          oneOf:
+          - $ref: '#/components/schemas/Entities'
+          - type: 'null'
+        categories:
+          oneOf:
+          - $ref: '#/components/schemas/Categories'
+          - type: 'null'
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionError'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+        id:
+          type: string
+          description: A unique identifier for the transaction. If two transactions are submitted with the same `id` the most recent one will replace the previous one.
+      required:
+      - created_at
+      - id
+      title: EnrichedTransaction
+    Categories:
+      type: object
+      properties:
+        general:
+          type:
+          - string
+          - 'null'
+          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
+        accounting:
+          oneOf:
+          - $ref: '#/components/schemas/AccountingCategory'
+          - type: 'null'
+          description: The corresponding accounting category. Only available for `business` transactions.
+      required:
+      - general
+      title: Categories
+    LocationStructured:
+      type: object
+      properties:
+        street:
+          type:
+          - string
+          - 'null'
+          description: The street name of the location
+        city:
+          type:
+          - string
+          - 'null'
+          description: The city where the location is situated
+        state:
+          type:
+          - string
+          - 'null'
+          description: The state or region of the location
+        postcode:
+          type:
+          - string
+          - 'null'
+          description: The postal code or ZIP code of the location
+        country_code:
+          type:
+          - string
+          - 'null'
+          description: The country code of the location in ISO 3166-2 format
+        country:
+          type:
+          - string
+          - 'null'
+          description: The full name of the country
+        house_number:
+          type:
+          - string
+          - 'null'
+          description: The house number if, applicable
+        latitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The latitude coordinate of the location
+        longitude:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: The longitude coordinate of the location
+        google_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Google Maps
+        apple_maps_url:
+          type:
+          - string
+          - 'null'
+          description: A URL link to view the location on Apple Maps
+        store_number:
+          type:
+          - string
+          - 'null'
+          description: A unique identifier for a specific store or branch, if applicable
+      title: LocationStructured
+    PagedResponse_Batch:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Batch'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_Batch
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Entities:
+      type: object
+      properties:
+        counterparty:
+          oneOf:
+          - $ref: '#/components/schemas/Counterparty'
+          - type: 'null'
+        intermediaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intermediary'
+      description: Entities found by identity identification
+      title: Entities
     BatchStatus:
       type: string
       enum:
@@ -212,41 +535,6 @@ components:
       - completed
       - error
       title: BatchStatus
-    Batch:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the batch.
-        operation:
-          $ref: '#/components/schemas/BatchOperation'
-        status:
-          $ref: '#/components/schemas/BatchStatus'
-          description: The status of the batch. Results are not available for a batch with an error status.
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of when the batch was created.
-        updated_at:
-          type: string
-          format: date-time
-          description: The timestamp of when the batch was last updated.
-        progress:
-          type: integer
-          description: The number of transactions processed so far.
-        total:
-          type: integer
-          description: The total number of transactions in the batch.
-      required:
-      - id
-      - operation
-      - status
-      - created_at
-      - updated_at
-      - progress
-      - total
-      description: The `Batch` object represents the status and progress of an asynchronous batch enrichment job.
-      title: Batch
     Country:
       type: string
       enum:
@@ -495,75 +783,89 @@ components:
       - ZM
       - ZW
       title: Country
-    ValidationError:
+    Location:
       type: object
       properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Counterparty:
+        raw_address:
+          type:
+          - string
+          - 'null'
+          description: An unstructured string containing the address
+        structured:
+          oneOf:
+          - $ref: '#/components/schemas/LocationStructured'
+          - type: 'null'
+          description: When raw is set, a structured representation of it.
+      title: Location
+    LocationInput:
+      type: object
+      properties:
+        raw_address:
+          type:
+          - string
+          - 'null'
+          description: An unstructured string containing the address
+        country:
+          oneOf:
+          - $ref: '#/components/schemas/Country'
+          - type: 'null'
+          description: The country where the transaction was made in ISO 3166-2 format
+      description: 'Location of where the transaction has taken place. This can greatly improve entity identification, especially
+
+        under ambiguity.'
+      title: LocationInput
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    Batch:
       type: object
       properties:
         id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-        logo:
-          type:
-          - string
-          - 'null'
-          description: Logo's URL
-        mccs:
-          type: array
-          items:
-            type: integer
-          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
-        parent:
-          oneOf:
-          - $ref: '#/components/schemas/EntityParent'
-          - type: 'null'
-          description: The parent entity
-        type:
-          $ref: '#/components/schemas/CounterpartyType'
+          type: string
+          description: A unique identifier for the batch.
+        operation:
+          $ref: '#/components/schemas/BatchOperation'
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+          description: The status of the batch. Results are not available for a batch with an error status.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the batch was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the batch was last updated.
+        progress:
+          type: integer
+          description: The number of transactions processed so far.
+        total:
+          type: integer
+          description: The total number of transactions in the batch.
       required:
-      - type
-      title: Counterparty
+      - id
+      - operation
+      - status
+      - created_at
+      - updated_at
+      - progress
+      - total
+      description: The `Batch` object represents the status and progress of an asynchronous batch enrichment job.
+      title: Batch
+    TransactionError:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/TransactionErrorCode'
+        message:
+          type: string
+      required:
+      - code
+      - message
+      title: TransactionError
     Currency:
       type: string
       enum:
@@ -718,158 +1020,24 @@ components:
       - ZWL
       - HRK
       title: Currency
-    Location:
-      type: object
-      properties:
-        raw_address:
-          type:
-          - string
-          - 'null'
-          description: An unstructured string containing the address
-        structured:
-          oneOf:
-          - $ref: '#/components/schemas/LocationStructured'
-          - type: 'null'
-          description: When raw is set, a structured representation of it.
-      title: Location
-    CounterpartyType:
+    AccountingCategory:
       type: string
       enum:
-      - person
-      - organization
-      title: CounterpartyType
-    LocationStructured:
-      type: object
-      properties:
-        street:
-          type:
-          - string
-          - 'null'
-          description: The street name of the location
-        city:
-          type:
-          - string
-          - 'null'
-          description: The city where the location is situated
-        state:
-          type:
-          - string
-          - 'null'
-          description: The state or region of the location
-        postcode:
-          type:
-          - string
-          - 'null'
-          description: The postal code or ZIP code of the location
-        country_code:
-          type:
-          - string
-          - 'null'
-          description: The country code of the location in ISO 3166-2 format
-        country:
-          type:
-          - string
-          - 'null'
-          description: The full name of the country
-        house_number:
-          type:
-          - string
-          - 'null'
-          description: The house number if, applicable
-        latitude:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The latitude coordinate of the location
-        longitude:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: The longitude coordinate of the location
-        google_maps_url:
-          type:
-          - string
-          - 'null'
-          description: A URL link to view the location on Google Maps
-        apple_maps_url:
-          type:
-          - string
-          - 'null'
-          description: A URL link to view the location on Apple Maps
-        store_number:
-          type:
-          - string
-          - 'null'
-          description: A unique identifier for a specific store or branch, if applicable
-      title: LocationStructured
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
+      - operational expenses
+      - cost of goods sold
+      - revenue
+      - financing
+      - taxes
+      - investing
+      - not enough information
+      title: AccountingCategory
     TransactionErrorCode:
       type: string
       enum:
       - account_holder_not_found
       - internal_error
       title: TransactionErrorCode
-    LocationInput:
-      type: object
-      properties:
-        raw_address:
-          type:
-          - string
-          - 'null'
-          description: An unstructured string containing the address
-        country:
-          oneOf:
-          - $ref: '#/components/schemas/Country'
-          - type: 'null'
-          description: The country where the transaction was made in ISO 3166-2 format
-      description: 'Location of where the transaction has taken place. This can greatly improve entity identification, especially
-
-        under ambiguity.'
-      title: LocationInput
-    TransactionError:
-      type: object
-      properties:
-        code:
-          $ref: '#/components/schemas/TransactionErrorCode'
-        message:
-          type: string
-      required:
-      - code
-      - message
-      title: TransactionError
-    BatchOperation:
-      type: string
-      enum:
-      - POST /v3/transactions
-      title: BatchOperation
-    BatchInput:
-      type: object
-      properties:
-        operation:
-          $ref: '#/components/schemas/BatchOperation'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TransactionInput'
-      required:
-      - operation
-      - data
-      title: BatchInput
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    Intermediary:
+    Counterparty:
       type: object
       properties:
         id:
@@ -917,192 +1085,24 @@ components:
           - $ref: '#/components/schemas/EntityParent'
           - type: 'null'
           description: The parent entity
-      title: Intermediary
-    TransactionInput:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier of the transaction
-        description:
-          type: string
-          description: The description string of the transaction
-        date:
-          type: string
-          format: date
-          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
-        amount:
-          type: number
-          format: double
-          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
-        entry_type:
-          $ref: '#/components/schemas/EntryType'
-          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
-        currency:
-          $ref: '#/components/schemas/Currency'
-          description: The currency of the transaction in ISO 4217 format
-        account_holder_id:
-          type:
-          - string
-          - 'null'
-          description: The unique ID of the account holder. Unsetting it will disable [categorization](/enrichment/categories).
-        location:
-          oneOf:
-          - $ref: '#/components/schemas/LocationInput'
-          - type: 'null'
+        type:
+          $ref: '#/components/schemas/CounterpartyType'
       required:
-      - id
-      - description
-      - date
-      - amount
-      - entry_type
-      - currency
-      title: TransactionInput
-    Entities:
+      - type
+      title: Counterparty
+    BatchInput:
       type: object
       properties:
-        counterparty:
-          oneOf:
-          - $ref: '#/components/schemas/Counterparty'
-          - type: 'null'
-        intermediaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Intermediary'
-      description: Entities found by identity identification
-      title: Entities
-    BatchResult:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the batch.
-        total:
-          type: integer
-          description: The total number of transactions in the batch result.
-        status:
-          $ref: '#/components/schemas/BatchStatus'
-          description: The current status of the batch job.
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnrichedTransaction'
-          description: A list containing the body of the responses of each request in the batch. The responses are returned in the same order they were submitted. The format of each response is given by the respective batch `operation`.
-      required:
-      - id
-      - total
-      - status
-      - results
-      description: 'The `BatchResult` object represents the result of a batch enrichment job, including its status and
-
-        enriched transactions.'
-      title: BatchResult
-    EnrichedTransaction:
-      type: object
-      properties:
-        entities:
-          oneOf:
-          - $ref: '#/components/schemas/Entities'
-          - type: 'null'
-        categories:
-          oneOf:
-          - $ref: '#/components/schemas/Categories'
-          - type: 'null'
-        location:
-          oneOf:
-          - $ref: '#/components/schemas/Location'
-          - type: 'null'
-        error:
-          oneOf:
-          - $ref: '#/components/schemas/TransactionError'
-          - type: 'null'
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of when the account holder was created.
-        id:
-          type: string
-          description: A unique identifier for the transaction. If two transactions are submitted with the same `id` the most recent one will replace the previous one.
-      required:
-      - created_at
-      - id
-      title: EnrichedTransaction
-    PagedResponse_Batch:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
+        operation:
+          $ref: '#/components/schemas/BatchOperation'
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Batch'
+            $ref: '#/components/schemas/TransactionInput'
       required:
-      - next_cursor
+      - operation
       - data
-      title: PagedResponse_Batch
-    EntityParent:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-      title: EntityParent
-    Categories:
-      type: object
-      properties:
-        general:
-          type:
-          - string
-          - 'null'
-          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
-        accounting:
-          oneOf:
-          - $ref: '#/components/schemas/AccountingCategory'
-          - type: 'null'
-          description: The corresponding accounting category. Only available for `business` transactions.
-      required:
-      - general
-      title: Categories
-    AccountingCategory:
-      type: string
-      enum:
-      - operational expenses
-      - cost of goods sold
-      - revenue
-      - financing
-      - taxes
-      - investing
-      - not enough information
-      title: AccountingCategory
+      title: BatchInput
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -724,132 +724,35 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
+    Address:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+        street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Street
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    RecurrenceType:
-      type: string
-      enum:
-      - recurring
-      - subscription
-      - one off
-      title: RecurrenceType
-    BankStatementBankAccount:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        bank_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Bank Name
-        account_holder:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Holder
-        account_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Number
-      type: object
-      title: BankStatementBankAccount
-    SortOrder:
-      type: string
-      enum:
-      - asc
-      - desc
-      title: SortOrder
-    EntryType-Output:
-      type: string
-      enum:
-      - incoming
-      - outgoing
-      title: EntryType
-    Account:
-      properties:
-        type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Type
-        number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Number
-        opening_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Opening Balance
-        closing_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Closing Balance
-        iso_currency_code:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Iso Currency Code
-      type: object
-      title: Account
-    EntityOut:
-      properties:
-        id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        website:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Website
-        logo:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Logo
-      type: object
-      title: EntityOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      title: Address
     AccountHolderTransactionWithErrors:
       properties:
         transaction_id:
@@ -1037,27 +940,210 @@ components:
         recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
         transaction_id: xbx8YP14g565Xk
         website: starbucks.com
-    Body_patch_statement_datasources_bank_statements__uuid__patch:
+    BankStatementExternal:
       properties:
-        name:
+        id:
           type: string
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Name
+        size:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Size
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+        account_holder_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Holder Id
+        account_type:
+          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
+        status:
+          $ref: '#/components/schemas/DocumentStatus'
+        bank_accounts:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/BankStatementBankAccount'
+            type: array
+          - type: 'null'
+          title: Bank Accounts
+        statements:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/BankStatementStatement'
+            type: array
+          - type: 'null'
+          title: Statements
+        error_code:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Error Code
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        complete:
+          type: boolean
+          title: Complete
+        batch_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Batch Id
+        file:
+          $ref: '#/components/schemas/BankStatementFile'
       type: object
       required:
-      - name
-      title: Body_patch_statement_datasources_bank_statements__uuid__patch
-    Address:
+      - id
+      - account_type
+      - status
+      - complete
+      - file
+      title: BankStatementExternal
+    BankStatementResults:
       properties:
-        street:
+        accounts:
+          items:
+            $ref: '#/components/schemas/BankStatementAccount'
+          type: array
+          title: Accounts
+      type: object
+      required:
+      - accounts
+      title: BankStatementResults
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DocumentStatus:
+      type: string
+      enum:
+      - queued
+      - processing
+      - processed
+      - failed
+      title: DocumentStatus
+    BankStatementBankAccount:
+      properties:
+        name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Street
-        postcode:
+          title: Name
+        bank_name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Postcode
+          title: Bank Name
+        account_holder:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Holder
+        account_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Account Number
+      type: object
+      title: BankStatementBankAccount
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    BankStatementAccount:
+      properties:
+        number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Number
+        opening_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Opening Balance
+        closing_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Closing Balance
+        start_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Start Date
+        end_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: End Date
+        is_balance_reconciled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Balance Reconciled
+        transactions:
+          items:
+            $ref: '#/components/schemas/BankStatementTransaction'
+          type: array
+          title: Transactions
+        total_incoming:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Incoming
+        total_outgoing:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Outgoing
+      type: object
+      required:
+      - transactions
+      title: BankStatementAccount
+    BankStatementFile:
+      properties:
+        no_pages:
+          type: integer
+          title: No Pages
+        size:
+          type: integer
+          title: Size
+      type: object
+      required:
+      - no_pages
+      - size
+      title: BankStatementFile
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
         city:
           anyOf:
           - type: string
@@ -1068,13 +1154,166 @@ components:
           - type: string
           - type: 'null'
           title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
         country:
           anyOf:
           - type: string
           - type: 'null'
           title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
       type: object
-      title: Address
+      title: LocationStructuredPublic
+    Body_patch_statement_datasources_bank_statements__uuid__patch:
+      properties:
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - name
+      title: Body_patch_statement_datasources_bank_statements__uuid__patch
+    RecurrenceGroup:
+      properties:
+        id:
+          type: string
+          title: Id
+        first_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: First Payment Date
+        latest_payment_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Payment Date
+        total_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Total Amount
+        average_amount:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Average Amount
+        periodicity_in_days:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Periodicity In Days
+        periodicity:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Periodicity
+        confidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Confidence
+        transaction_ids:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Transaction Ids
+          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+      type: object
+      required:
+      - id
+      title: RecurrenceGroup
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Account:
+      properties:
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Number
+        opening_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Opening Balance
+        closing_balance:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Closing Balance
+        iso_currency_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Iso Currency Code
+      type: object
+      title: Account
     BankStatementStatement:
       properties:
         begin_date:
@@ -1167,226 +1406,6 @@ components:
         end_date: '2024-02-01'
         institution: Well's Fargo
         start_date: '2024-01-01'
-    DocumentStatus:
-      type: string
-      enum:
-      - queued
-      - processing
-      - processed
-      - failed
-      title: DocumentStatus
-    BankStatementAccount:
-      properties:
-        number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Number
-        opening_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Opening Balance
-        closing_balance:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Closing Balance
-        start_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Start Date
-        end_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: End Date
-        is_balance_reconciled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Balance Reconciled
-        transactions:
-          items:
-            $ref: '#/components/schemas/BankStatementTransaction'
-          type: array
-          title: Transactions
-        total_incoming:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Incoming
-        total_outgoing:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Outgoing
-      type: object
-      required:
-      - transactions
-      title: BankStatementAccount
-    AccountType:
-      type: string
-      enum:
-      - consumer
-      - business
-      title: AccountType
-    Body__post_bank_statement_datasources_bank_statements_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body__post_bank_statement_datasources_bank_statements_post
-    BankStatementExternal:
-      properties:
-        id:
-          type: string
-          title: Id
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        size:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Size
-        created_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Created At
-        account_holder_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Account Holder Id
-        account_type:
-          $ref: '#/components/schemas/ntropy_core__db__account_holder_type__AccountHolderType'
-        status:
-          $ref: '#/components/schemas/DocumentStatus'
-        bank_accounts:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/BankStatementBankAccount'
-            type: array
-          - type: 'null'
-          title: Bank Accounts
-        statements:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/BankStatementStatement'
-            type: array
-          - type: 'null'
-          title: Statements
-        error_code:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Error Code
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        complete:
-          type: boolean
-          title: Complete
-        batch_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Batch Id
-        file:
-          $ref: '#/components/schemas/BankStatementFile'
-      type: object
-      required:
-      - id
-      - account_type
-      - status
-      - complete
-      - file
-      title: BankStatementExternal
-    LocationStructuredPublic:
-      properties:
-        address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Address
-        city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: City
-        state:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: State
-        postcode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Postcode
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        country_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country Name
-        latitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Latitude
-        longitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Longitude
-        google_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Google Maps Url
-        apple_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Apple Maps Url
-        store_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Store Number
-        house_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: House Number
-      type: object
-      title: LocationStructuredPublic
-    TransactionType:
-      type: string
-      enum:
-      - business
-      - consumer
-      - unknown
-      title: TransactionType
     ntropy_core__db__statements__AccountHolder:
       properties:
         type:
@@ -1404,13 +1423,6 @@ components:
           - type: 'null'
       type: object
       title: AccountHolder
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
     BankStatementTransaction:
       properties:
         date:
@@ -1461,97 +1473,136 @@ components:
       - description
       - transaction_id
       title: BankStatementTransaction
-    BankStatementResults:
-      properties:
-        accounts:
-          items:
-            $ref: '#/components/schemas/BankStatementAccount'
-          type: array
-          title: Accounts
-      type: object
-      required:
-      - accounts
-      title: BankStatementResults
-    BankStatementFile:
-      properties:
-        no_pages:
-          type: integer
-          title: No Pages
-        size:
-          type: integer
-          title: Size
-      type: object
-      required:
-      - no_pages
-      - size
-      title: BankStatementFile
-    RecurrenceGroup:
+    SortOrder:
+      type: string
+      enum:
+      - asc
+      - desc
+      title: SortOrder
+    EntityOut:
       properties:
         id:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Id
-        first_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: First Payment Date
-        latest_payment_date:
-          anyOf:
-          - type: string
-            format: date
-          - type: 'null'
-          title: Latest Payment Date
-        total_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Total Amount
-        average_amount:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Average Amount
-        periodicity_in_days:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Periodicity In Days
-        periodicity:
+        name:
           anyOf:
           - type: string
           - type: 'null'
-          title: Periodicity
-        confidence:
+          title: Name
+        website:
           anyOf:
           - type: string
           - type: 'null'
-          title: Confidence
-        transaction_ids:
+          title: Website
+        logo:
           anyOf:
-          - items:
-              type: string
-            type: array
+          - type: string
           - type: 'null'
-          title: Transaction Ids
-          description: "IDs of transactions that belong to this group. Due to multiplicity constraints, these \n        are truncated to 100. To obtain the full list, please refer to \n        the [recurring payments API](#/Account%20Holder/get_account_holder_recurring_payments_v2_account_holder__account_holder_id__recurring_payments_post)\n"
+          title: Logo
+      type: object
+      title: EntityOut
+    TransactionType:
+      type: string
+      enum:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    Body__post_bank_statement_datasources_bank_statements_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
       type: object
       required:
-      - id
-      title: RecurrenceGroup
+      - file
+      title: Body__post_bank_statement_datasources_bank_statements_post
+    EntryType-Output:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
+    AccountType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountType
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
+    AccountHolder:
+      type: object
+      properties:
+        type:
+          oneOf:
+          - $ref: '#/components/schemas/AccountType'
+          - type: 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        address:
+          oneOf:
+          - $ref: '#/components/schemas/Address'
+          - type: 'null'
+      title: AccountHolder
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    BankStatementErrorCode:
+      type: string
+      enum:
+      - invalid_bank_statement
+      - internal_error
+      title: BankStatementErrorCode
+    Bank_statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204
+    PagedResponse_BankStatement:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankStatement'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_BankStatement
     EntryType:
       type: string
       enum:
       - incoming
       - outgoing
       title: EntryType
-    BankStatementStatus:
-      type: string
-      enum:
-      - processing
-      - completed
-      - error
-      title: BankStatementStatus
+    BankStatementError:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/BankStatementErrorCode'
+        message:
+          type: string
+      required:
+      - code
+      - message
+      title: BankStatementError
     Currency:
       type: string
       enum:
@@ -1706,17 +1757,6 @@ components:
       - ZWL
       - HRK
       title: Currency
-    BankStatementError:
-      type: object
-      properties:
-        code:
-          $ref: '#/components/schemas/BankStatementErrorCode'
-        message:
-          type: string
-      required:
-      - code
-      - message
-      title: BankStatementError
     BankStatement:
       type: object
       properties:
@@ -1749,53 +1789,13 @@ components:
       - file
       description: Represents a bank statement with details about the file and its status.
       title: BankStatement
-    Bank_statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: Bank statements_delete_bank_statement_v3_bank_statements__id__delete_Response_204
-    BankStatementErrorCode:
+    BankStatementStatus:
       type: string
       enum:
-      - invalid_bank_statement
-      - internal_error
-      title: BankStatementErrorCode
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    PagedResponse_BankStatement:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/BankStatement'
-      required:
-      - next_cursor
-      - data
-      title: PagedResponse_BankStatement
-    AccountHolder:
-      type: object
-      properties:
-        type:
-          oneOf:
-          - $ref: '#/components/schemas/AccountType'
-          - type: 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        address:
-          oneOf:
-          - $ref: '#/components/schemas/Address'
-          - type: 'null'
-      title: AccountHolder
+      - processing
+      - completed
+      - error
+      title: BankStatementStatus
   securitySchemes:
     APIKeyHeader:
       type: apiKey
