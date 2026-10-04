@@ -183,6 +183,33 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       title: HTTPValidationError
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountHolderType
     AccountHolderExternal:
       type: object
       properties:
@@ -249,38 +276,11 @@ components:
       - id
       - type
       title: AccountHolderCreate
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      title: AccountHolderType
     Account_Holders_delete_account_holder_v3_account_holders__id__delete_Response_204:
       type: object
       properties: {}
       description: Empty response body
       title: Account Holders_delete_account_holder_v3_account_holders__id__delete_Response_204
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

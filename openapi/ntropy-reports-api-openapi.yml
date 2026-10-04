@@ -180,11 +180,53 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Reports_delete_report_v3_reports__id__delete_Response_204:
+    HTTPValidationError:
       type: object
-      properties: {}
-      description: Empty response body
-      title: Reports_delete_report_v3_reports__id__delete_Response_204
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    PagedResponse_Report_:
+      type: object
+      properties:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+      required:
+      - next_cursor
+      - data
+      title: PagedResponse_Report_
+    ReportStatus:
+      type: string
+      enum:
+      - open
+      - pending
+      - resolved
+      - rejected
+      title: ReportStatus
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ReportBase:
       type: object
       properties:
@@ -250,58 +292,16 @@ components:
       - created_at
       - status
       title: Report
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    PagedResponse_Report_:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Report'
-      required:
-      - next_cursor
-      - data
-      title: PagedResponse_Report_
     ValidationErrorLocItems:
       oneOf:
       - type: string
       - type: integer
       title: ValidationErrorLocItems
-    ReportStatus:
-      type: string
-      enum:
-      - open
-      - pending
-      - resolved
-      - rejected
-      title: ReportStatus
-    ValidationError:
+    Reports_delete_report_v3_reports__id__delete_Response_204:
       type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      properties: {}
+      description: Empty response body
+      title: Reports_delete_report_v3_reports__id__delete_Response_204
   securitySchemes:
     APIKeyHeader:
       type: apiKey

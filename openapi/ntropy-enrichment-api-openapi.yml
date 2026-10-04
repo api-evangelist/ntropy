@@ -159,13 +159,6 @@ paths:
         source: "curl -X \"GET\" \\\n  \"https://api.ntropy.com/v2/transactions/async/{batch_id}\" \\\n  -H \"accept: application/json\" \\\n  -H \"X-API-KEY: $NTROPY_API_KEY\"\n"
 components:
   schemas:
-    BatchStatus:
-      type: string
-      enum:
-      - started
-      - finished
-      - error
-      title: BatchStatus
     EnrichedTransaction:
       properties:
         transaction_id:
@@ -286,6 +279,201 @@ components:
         recurrence_group_id: 3b0c689b-e123-30a6-9f53-878f3ebf46aa
         transaction_id: xbx8YP14g565Xk
         website: starbucks.com
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
+    EntityOut:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        website:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Website
+        logo:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Logo
+      type: object
+      title: EntityOut
+    MissingAccountHoldersError:
+      properties:
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+          description: Message of the error
+          examples:
+          - One or more account holders do not exist
+        missingIds:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Missingids
+          examples:
+          - db4591ed-0f65-417b-bc90-c2802f6a0aae
+          - 89b2e221-3d7c-40b1-8945-78456546a54e
+      type: object
+      title: MissingAccountHoldersError
+    TransactionError:
+      properties:
+        transaction_id:
+          type: string
+          title: Transaction Id
+          examples:
+          - 247ee045-3d04-4b3c-872b-a9160b810f33
+        error:
+          type: string
+          title: Error
+          examples:
+          - PROCESSING_ERROR
+        error_details:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: string
+          - type: 'null'
+          title: Error Details
+          examples:
+          - Failed to process transaction
+      type: object
+      required:
+      - transaction_id
+      - error
+      title: TransactionError
+      description: Transaction that returned with error.
+    RecurrenceType:
+      type: string
+      enum:
+      - recurring
+      - subscription
+      - one off
+      title: RecurrenceType
+    BatchStatus:
+      type: string
+      enum:
+      - started
+      - finished
+      - error
+      title: BatchStatus
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TransactionType:
+      type: string
+      enum:
+      - business
+      - consumer
+      - unknown
+      title: TransactionType
+    LocationStructuredPublic:
+      properties:
+        address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Address
+        city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: City
+        state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: State
+        postcode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Postcode
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+        country_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country Name
+        latitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latitude
+        longitude:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Longitude
+        google_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Google Maps Url
+        apple_maps_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Apple Maps Url
+        store_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Store Number
+        house_number:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: House Number
+      type: object
+      title: LocationStructuredPublic
     Transaction:
       properties:
         transaction_id:
@@ -385,94 +573,53 @@ components:
         entry_type: outgoing
         iso_currency_code: USD
         transaction_id: xbx8YP14g565Xk
-    TransactionError:
+    BatchResult:
       properties:
-        transaction_id:
+        status:
+          $ref: '#/components/schemas/BatchStatus'
+        created_at:
           type: string
-          title: Transaction Id
-          examples:
-          - 247ee045-3d04-4b3c-872b-a9160b810f33
-        error:
+          format: date-time
+          title: Created At
+        updated_at:
           type: string
-          title: Error
-          examples:
-          - PROCESSING_ERROR
-        error_details:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: string
-          - type: 'null'
-          title: Error Details
-          examples:
-          - Failed to process transaction
-      type: object
-      required:
-      - transaction_id
-      - error
-      title: TransactionError
-      description: Transaction that returned with error.
-    TransactionType:
-      type: string
-      enum:
-      - business
-      - consumer
-      - unknown
-      title: TransactionType
-    EntityOut:
-      properties:
+          format: date-time
+          title: Updated At
         id:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Id
-        name:
+        progress:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Name
-        website:
+          title: Progress
+        total:
           anyOf:
-          - type: string
+          - type: integer
           - type: 'null'
-          title: Website
-        logo:
+          title: Total
+        results:
           anyOf:
-          - type: string
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/EnrichedTransaction'
+              - $ref: '#/components/schemas/TransactionError'
+            type: array
           - type: 'null'
-          title: Logo
-      type: object
-      title: EntityOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Results
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - status
+      - created_at
+      - updated_at
+      - id
+      title: BatchResult
+      description: Batch transaction enrichment status.
+      examples:
+      - id: 247ee045-3d04-4b3c-872b-a9160b810f33
+        progress: 88
+        status: started
+        updated_at: '2019-11-30T18:32:28Z'
     RecurrenceGroup:
       properties:
         id:
@@ -527,153 +674,6 @@ components:
       required:
       - id
       title: RecurrenceGroup
-    RecurrenceType:
-      type: string
-      enum:
-      - recurring
-      - subscription
-      - one off
-      title: RecurrenceType
-    BatchResult:
-      properties:
-        status:
-          $ref: '#/components/schemas/BatchStatus'
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        updated_at:
-          type: string
-          format: date-time
-          title: Updated At
-        id:
-          type: string
-          title: Id
-        progress:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Progress
-        total:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Total
-        results:
-          anyOf:
-          - items:
-              anyOf:
-              - $ref: '#/components/schemas/EnrichedTransaction'
-              - $ref: '#/components/schemas/TransactionError'
-            type: array
-          - type: 'null'
-          title: Results
-      type: object
-      required:
-      - status
-      - created_at
-      - updated_at
-      - id
-      title: BatchResult
-      description: Batch transaction enrichment status.
-      examples:
-      - id: 247ee045-3d04-4b3c-872b-a9160b810f33
-        progress: 88
-        status: started
-        updated_at: '2019-11-30T18:32:28Z'
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
-    MissingAccountHoldersError:
-      properties:
-        detail:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Detail
-          description: Message of the error
-          examples:
-          - One or more account holders do not exist
-        missingIds:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Missingids
-          examples:
-          - db4591ed-0f65-417b-bc90-c2802f6a0aae
-          - 89b2e221-3d7c-40b1-8945-78456546a54e
-      type: object
-      title: MissingAccountHoldersError
-    LocationStructuredPublic:
-      properties:
-        address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Address
-        city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: City
-        state:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: State
-        postcode:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Postcode
-        country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country
-        country_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Country Name
-        latitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Latitude
-        longitude:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Longitude
-        google_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Google Maps Url
-        apple_maps_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Apple Maps Url
-        store_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Store Number
-        house_number:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: House Number
-      type: object
-      title: LocationStructuredPublic
   securitySchemes:
     APIKeyHeader:
       type: apiKey

@@ -231,14 +231,39 @@ paths:
               $ref: '#/components/schemas/Body_set_transaction_ah_v3_transactions__id__assign_post'
 components:
   schemas:
-    HTTPValidationError:
+    AccountingCategory:
+      type: string
+      enum:
+      - operational expenses
+      - cost of goods sold
+      - revenue
+      - financing
+      - taxes
+      - investing
+      - not enough information
+      title: AccountingCategory
+    CounterpartyType:
+      type: string
+      enum:
+      - person
+      - organization
+      title: CounterpartyType
+    ValidationError:
       type: object
       properties:
-        detail:
+        loc:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Intermediary:
       type: object
       properties:
@@ -293,175 +318,23 @@ components:
       properties: {}
       description: Empty response body
       title: Transactions_delete_transaction_v3_transactions__id__delete_Response_204
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    CounterpartyType:
-      type: string
-      enum:
-      - person
-      - organization
-      title: CounterpartyType
-    TransactionInput:
+    LocationInput:
       type: object
       properties:
-        id:
-          type: string
-          description: A unique identifier of the transaction
-        description:
-          type: string
-          description: The description string of the transaction
-        date:
-          type: string
-          format: date
-          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
-        amount:
-          type: number
-          format: double
-          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
-        entry_type:
-          $ref: '#/components/schemas/EntryType'
-          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
-        currency:
-          $ref: '#/components/schemas/Currency'
-          description: The currency of the transaction in ISO 4217 format
-        account_holder_id:
+        raw_address:
           type:
           - string
           - 'null'
-          description: The unique ID of the account holder. Unsetting it will disable [categorization](/enrichment/categories).
-        location:
+          description: An unstructured string containing the address
+        country:
           oneOf:
-          - $ref: '#/components/schemas/LocationInput'
+          - $ref: '#/components/schemas/Country'
           - type: 'null'
-      required:
-      - id
-      - description
-      - date
-      - amount
-      - entry_type
-      - currency
-      title: TransactionInput
-    EnrichedTransaction:
-      type: object
-      properties:
-        entities:
-          oneOf:
-          - $ref: '#/components/schemas/Entities'
-          - type: 'null'
-        categories:
-          oneOf:
-          - $ref: '#/components/schemas/Categories'
-          - type: 'null'
-        location:
-          oneOf:
-          - $ref: '#/components/schemas/Location'
-          - type: 'null'
-        error:
-          oneOf:
-          - $ref: '#/components/schemas/TransactionError'
-          - type: 'null'
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of when the account holder was created.
-        id:
-          type: string
-          description: A unique identifier for the transaction. If two transactions are submitted with the same `id` the most recent one will replace the previous one.
-      required:
-      - created_at
-      - id
-      title: EnrichedTransaction
-    Categories:
-      type: object
-      properties:
-        general:
-          type:
-          - string
-          - 'null'
-          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
-        accounting:
-          oneOf:
-          - $ref: '#/components/schemas/AccountingCategory'
-          - type: 'null'
-          description: The corresponding accounting category. Only available for `business` transactions.
-      required:
-      - general
-      title: Categories
-    Transaction:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier of the transaction
-        description:
-          type: string
-          description: The description string of the transaction
-        date:
-          type: string
-          format: date
-          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
-        amount:
-          type: number
-          format: double
-          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
-        entry_type:
-          $ref: '#/components/schemas/EntryType'
-          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
-        currency:
-          $ref: '#/components/schemas/Currency'
-          description: The currency of the transaction in ISO 4217 format
-        entities:
-          oneOf:
-          - $ref: '#/components/schemas/Entities'
-          - type: 'null'
-        categories:
-          oneOf:
-          - $ref: '#/components/schemas/Categories'
-          - type: 'null'
-        location:
-          oneOf:
-          - $ref: '#/components/schemas/Location'
-          - type: 'null'
-        error:
-          oneOf:
-          - $ref: '#/components/schemas/TransactionError'
-          - type: 'null'
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp of when the account holder was created.
-        account_holder_id:
-          type:
-          - string
-          - 'null'
-          description: The unique ID of the account holder of the transaction
-      required:
-      - id
-      - description
-      - date
-      - amount
-      - entry_type
-      - currency
-      - created_at
-      title: Transaction
-    PagedResponse_Transaction:
-      type: object
-      properties:
-        next_cursor:
-          type:
-          - string
-          - 'null'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Transaction'
-      required:
-      - next_cursor
-      - data
-      title: PagedResponse_Transaction
+          description: The country where the transaction was made in ISO 3166-2 format
+      description: 'Location of where the transaction has taken place. This can greatly improve entity identification, especially
+
+        under ambiguity.'
+      title: LocationInput
     LocationStructured:
       type: object
       properties:
@@ -528,40 +401,26 @@ components:
           - 'null'
           description: A unique identifier for a specific store or branch, if applicable
       title: LocationStructured
-    EntityParent:
+    Location:
       type: object
       properties:
-        id:
+        raw_address:
           type:
           - string
           - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-      title: EntityParent
+          description: An unstructured string containing the address
+        structured:
+          oneOf:
+          - $ref: '#/components/schemas/LocationStructured'
+          - type: 'null'
+          description: When raw is set, a structured representation of it.
+      title: Location
+    EntryType:
+      type: string
+      enum:
+      - incoming
+      - outgoing
+      title: EntryType
     Body_set_transaction_ah_v3_transactions__id__assign_post:
       type: object
       properties:
@@ -570,35 +429,42 @@ components:
       required:
       - account_holder_id
       title: Body_set_transaction_ah_v3_transactions__id__assign_post
-    ValidationError:
+    PagedResponse_Transaction:
       type: object
       properties:
-        loc:
+        next_cursor:
+          type:
+          - string
+          - 'null'
+        data:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
+            $ref: '#/components/schemas/Transaction'
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Entities:
+      - next_cursor
+      - data
+      title: PagedResponse_Transaction
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    Categories:
       type: object
       properties:
-        counterparty:
+        general:
+          type:
+          - string
+          - 'null'
+          description: The category of the transaction. View the valid set of categories for your key [here](../../../categories).
+        accounting:
           oneOf:
-          - $ref: '#/components/schemas/Counterparty'
+          - $ref: '#/components/schemas/AccountingCategory'
           - type: 'null'
-        intermediaries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Intermediary'
-      description: Entities found by identity identification
-      title: Entities
+          description: The corresponding accounting category. Only available for `business` transactions.
+      required:
+      - general
+      title: Categories
     Country:
       type: string
       enum:
@@ -847,43 +713,84 @@ components:
       - ZM
       - ZW
       title: Country
-    Location:
+    HTTPValidationError:
       type: object
       properties:
-        raw_address:
-          type:
-          - string
-          - 'null'
-          description: An unstructured string containing the address
-        structured:
-          oneOf:
-          - $ref: '#/components/schemas/LocationStructured'
-          - type: 'null'
-          description: When raw is set, a structured representation of it.
-      title: Location
-    LocationInput:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    EnrichedTransaction:
       type: object
       properties:
-        raw_address:
-          type:
-          - string
-          - 'null'
-          description: An unstructured string containing the address
-        country:
+        entities:
           oneOf:
-          - $ref: '#/components/schemas/Country'
+          - $ref: '#/components/schemas/Entities'
           - type: 'null'
-          description: The country where the transaction was made in ISO 3166-2 format
-      description: 'Location of where the transaction has taken place. This can greatly improve entity identification, especially
-
-        under ambiguity.'
-      title: LocationInput
-    EntryType:
+        categories:
+          oneOf:
+          - $ref: '#/components/schemas/Categories'
+          - type: 'null'
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionError'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+        id:
+          type: string
+          description: A unique identifier for the transaction. If two transactions are submitted with the same `id` the most recent one will replace the previous one.
+      required:
+      - created_at
+      - id
+      title: EnrichedTransaction
+    TransactionErrorCode:
       type: string
       enum:
-      - incoming
-      - outgoing
-      title: EntryType
+      - account_holder_not_found
+      - internal_error
+      title: TransactionErrorCode
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
     TransactionError:
       type: object
       properties:
@@ -895,6 +802,19 @@ components:
       - code
       - message
       title: TransactionError
+    Entities:
+      type: object
+      properties:
+        counterparty:
+          oneOf:
+          - $ref: '#/components/schemas/Counterparty'
+          - type: 'null'
+        intermediaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intermediary'
+      description: Entities found by identity identification
+      title: Entities
     Currency:
       type: string
       enum:
@@ -1049,23 +969,103 @@ components:
       - ZWL
       - HRK
       title: Currency
-    AccountingCategory:
-      type: string
-      enum:
-      - operational expenses
-      - cost of goods sold
-      - revenue
-      - financing
-      - taxes
-      - investing
-      - not enough information
-      title: AccountingCategory
-    TransactionErrorCode:
-      type: string
-      enum:
-      - account_holder_not_found
-      - internal_error
-      title: TransactionErrorCode
+    TransactionInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        account_holder_id:
+          type:
+          - string
+          - 'null'
+          description: The unique ID of the account holder. Unsetting it will disable [categorization](/enrichment/categories).
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/LocationInput'
+          - type: 'null'
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      title: TransactionInput
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier of the transaction
+        description:
+          type: string
+          description: The description string of the transaction
+        date:
+          type: string
+          format: date
+          description: The date that the transaction was posted. Uses ISO 8601 format (YYYY-MM-DD)
+        amount:
+          type: number
+          format: double
+          description: The amount of the transaction in the `currency`. Must be a positive value. For example, if the `currency` is USD, then it's the amount in dollars.
+        entry_type:
+          $ref: '#/components/schemas/EntryType'
+          description: The direction of the flow of the money from the perspective of the account holder. `outgoing` to represent money leaving the account, such as purchases or fees, while `incoming` represents money entering the account, such as income or refunds.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The currency of the transaction in ISO 4217 format
+        entities:
+          oneOf:
+          - $ref: '#/components/schemas/Entities'
+          - type: 'null'
+        categories:
+          oneOf:
+          - $ref: '#/components/schemas/Categories'
+          - type: 'null'
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+        error:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionError'
+          - type: 'null'
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp of when the account holder was created.
+        account_holder_id:
+          type:
+          - string
+          - 'null'
+          description: The unique ID of the account holder of the transaction
+      required:
+      - id
+      - description
+      - date
+      - amount
+      - entry_type
+      - currency
+      - created_at
+      title: Transaction
     Counterparty:
       type: object
       properties:

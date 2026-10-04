@@ -216,6 +216,117 @@ paths:
       description: Production server (uses live data).
 components:
   schemas:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    EntityResponse:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
+          type: array
+          items:
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+        location:
+          oneOf:
+          - $ref: '#/components/schemas/Location'
+          - type: 'null'
+      title: EntityResponse
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     EntityQuery:
       type: object
       properties:
@@ -235,6 +346,11 @@ components:
           - 'null'
           description: An unstructured location string of the entity to resolve
       title: EntityQuery
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
     LocationStructured:
       type: object
       properties:
@@ -301,14 +417,6 @@ components:
           - 'null'
           description: A unique identifier for a specific store or branch, if applicable
       title: LocationStructured
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
     Location:
       type: object
       properties:
@@ -323,109 +431,31 @@ components:
           - type: 'null'
           description: When raw is set, a structured representation of it.
       title: Location
-    EntityParent:
-      type: object
+    HTTPValidationError_2:
       properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-      title: EntityParent
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    EntityResponse:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-        logo:
-          type:
-          - string
-          - 'null'
-          description: Logo's URL
-        mccs:
-          type: array
+        detail:
           items:
-            type: integer
-          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
-        parent:
-          oneOf:
-          - $ref: '#/components/schemas/EntityParent'
-          - type: 'null'
-          description: The parent entity
-        location:
-          oneOf:
-          - $ref: '#/components/schemas/Location'
-          - type: 'null'
-      title: EntityResponse
-    ValidationError:
+            $ref: '#/components/schemas/ValidationError_2'
+          type: array
+          title: Detail
       type: object
+      title: HTTPValidationError
+    ValidationError_2:
       properties:
         loc:
-          type: array
           items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
         msg:
           type: string
+          title: Message
         type:
           type: string
+          title: Error Type
+      type: object
       required:
       - loc
       - msg
@@ -533,36 +563,6 @@ components:
           title: House Number
       type: object
       title: LocationStructuredPublic
-    HTTPValidationError_2:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError_2'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError_2:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

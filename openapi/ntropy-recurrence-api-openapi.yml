@@ -54,19 +54,92 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    RecurrencePeriodicity:
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    EntryType:
       type: string
       enum:
-      - daily
-      - weekly
-      - bi-weekly
-      - monthly
-      - bi-monthly
-      - quarterly
-      - semi-yearly
-      - yearly
-      - other
-      title: RecurrencePeriodicity
+      - incoming
+      - outgoing
+      title: EntryType
+    CounterpartyType:
+      type: string
+      enum:
+      - person
+      - organization
+      title: CounterpartyType
+    EntityParent:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+      title: EntityParent
+    AccountingCategory:
+      type: string
+      enum:
+      - operational expenses
+      - cost of goods sold
+      - revenue
+      - financing
+      - taxes
+      - investing
+      - not enough information
+      title: AccountingCategory
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
     Categories:
       type: object
       properties:
@@ -83,36 +156,72 @@ components:
       required:
       - general
       title: Categories
-    HTTPValidationError:
+    RecurrencePeriodicity:
+      type: string
+      enum:
+      - daily
+      - weekly
+      - bi-weekly
+      - monthly
+      - bi-monthly
+      - quarterly
+      - semi-yearly
+      - yearly
+      - other
+      title: RecurrencePeriodicity
+    Counterparty:
       type: object
       properties:
-        detail:
+        id:
+          type:
+          - string
+          - 'null'
+          description: The unique UUID identifier of the entity
+        name:
+          type:
+          - string
+          - 'null'
+          description: The name of the entity
+        website:
+          type:
+          - string
+          - 'null'
+          description: The website URL of the entity
+        phone_number:
+          type:
+          - string
+          - 'null'
+          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
+        tax_number:
+          type:
+          - string
+          - 'null'
+          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
+        naics2017:
+          type:
+          - string
+          - 'null'
+          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: Logo's URL
+        mccs:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    AccountingCategory:
-      type: string
-      enum:
-      - operational expenses
-      - cost of goods sold
-      - revenue
-      - financing
-      - taxes
-      - investing
-      - not enough information
-      title: AccountingCategory
-    EntryType:
-      type: string
-      enum:
-      - incoming
-      - outgoing
-      title: EntryType
+            type: integer
+          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
+        parent:
+          oneOf:
+          - $ref: '#/components/schemas/EntityParent'
+          - type: 'null'
+          description: The parent entity
+        type:
+          $ref: '#/components/schemas/CounterpartyType'
+      required:
+      - type
+      title: Counterparty
     RecurrenceGroup:
       type: object
       properties:
@@ -169,115 +278,6 @@ components:
       - transaction_ids
       - entry_type
       title: RecurrenceGroup
-    EntityParent:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-      title: EntityParent
-    CounterpartyType:
-      type: string
-      enum:
-      - person
-      - organization
-      title: CounterpartyType
-    Counterparty:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: The unique UUID identifier of the entity
-        name:
-          type:
-          - string
-          - 'null'
-          description: The name of the entity
-        website:
-          type:
-          - string
-          - 'null'
-          description: The website URL of the entity
-        phone_number:
-          type:
-          - string
-          - 'null'
-          description: The phone number of the entity. This is a premium feature, please contact support to enable it.
-        tax_number:
-          type:
-          - string
-          - 'null'
-          description: The tax number of the entity. This is a premium feature, please contact support to enable it.
-        naics2017:
-          type:
-          - string
-          - 'null'
-          description: The 2017 NAICS code of the entity. This is a premium feature, please contact support to enable it.
-        logo:
-          type:
-          - string
-          - 'null'
-          description: Logo's URL
-        mccs:
-          type: array
-          items:
-            type: integer
-          description: A list of [Merchant Category Codes](https://en.wikipedia.org/wiki/Merchant_category_code)
-        parent:
-          oneOf:
-          - $ref: '#/components/schemas/EntityParent'
-          - type: 'null'
-          description: The parent entity
-        type:
-          $ref: '#/components/schemas/CounterpartyType'
-      required:
-      - type
-      title: Counterparty
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

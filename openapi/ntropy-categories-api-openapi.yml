@@ -109,28 +109,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    V3CategoriesIdResetPostResponsesContentApplicationJsonSchema:
-      oneOf:
-      - $ref: '#/components/schemas/CategorySet'
-      - type: object
-        additionalProperties:
-          description: Any type
-      title: V3CategoriesIdResetPostResponsesContentApplicationJsonSchema
-    CustomCategorySet:
-      type: object
-      properties:
-        incoming:
-          type: array
-          items:
-            type: string
-        outgoing:
-          type: array
-          items:
-            type: string
-      required:
-      - incoming
-      - outgoing
-      title: CustomCategorySet
     HTTPValidationError:
       type: object
       properties:
@@ -139,33 +117,6 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       title: HTTPValidationError
-    CategorySet:
-      type: object
-      properties:
-        incoming:
-          type: array
-          items:
-            type: string
-        outgoing:
-          type: array
-          items:
-            type: string
-      required:
-      - incoming
-      - outgoing
-      title: CategorySet
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    Categories_get_category_set_v3_categories__id__get_Response_200:
-      oneOf:
-      - $ref: '#/components/schemas/CategorySet'
-      - type: object
-        additionalProperties:
-          description: Any type
-      title: Categories_get_category_set_v3_categories__id__get_Response_200
     ValidationError:
       type: object
       properties:
@@ -182,6 +133,55 @@ components:
       - msg
       - type
       title: ValidationError
+    Categories_get_category_set_v3_categories__id__get_Response_200:
+      oneOf:
+      - $ref: '#/components/schemas/CategorySet'
+      - type: object
+        additionalProperties:
+          description: Any type
+      title: Categories_get_category_set_v3_categories__id__get_Response_200
+    V3CategoriesIdResetPostResponsesContentApplicationJsonSchema:
+      oneOf:
+      - $ref: '#/components/schemas/CategorySet'
+      - type: object
+        additionalProperties:
+          description: Any type
+      title: V3CategoriesIdResetPostResponsesContentApplicationJsonSchema
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    CustomCategorySet:
+      type: object
+      properties:
+        incoming:
+          type: array
+          items:
+            type: string
+        outgoing:
+          type: array
+          items:
+            type: string
+      required:
+      - incoming
+      - outgoing
+      title: CustomCategorySet
+    CategorySet:
+      type: object
+      properties:
+        incoming:
+          type: array
+          items:
+            type: string
+        outgoing:
+          type: array
+          items:
+            type: string
+      required:
+      - incoming
+      - outgoing
+      title: CategorySet
   securitySchemes:
     APIKeyHeader:
       type: apiKey
