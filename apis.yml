@@ -325,6 +325,9 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 common:
+- type: CapabilityMap
+  url: capabilities/ntropy-capability-edges.yml
+  name: Ntropy Business Capability Map
 - type: License
   name: MIT
   url: https://github.com/ntropy-network/ntropy-sdk/blob/main/LICENSE
