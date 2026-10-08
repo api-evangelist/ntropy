@@ -325,6 +325,10 @@ apis:
   - type: APIReference
     url: https://docs.ntropy.com/documentation/api
 common:
+- type: Plans
+  url: plans/ntropy-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/ntropy-rate-limits.yml
 - type: CapabilityMap
   url: capabilities/ntropy-capability-edges.yml
   name: Ntropy Business Capability Map
