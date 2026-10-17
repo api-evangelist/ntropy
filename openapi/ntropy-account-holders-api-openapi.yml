@@ -175,41 +175,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      title: AccountHolderType
     AccountHolderExternal:
       type: object
       properties:
@@ -238,6 +203,14 @@ components:
       - type
       - created_at
       title: AccountHolderExternal
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     PagedResponse_AccountHolderExternal:
       type: object
       properties:
@@ -276,11 +249,38 @@ components:
       - id
       - type
       title: AccountHolderCreate
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Account_Holders_delete_account_holder_v3_account_holders__id__delete_Response_204:
       type: object
       properties: {}
       description: Empty response body
       title: Account Holders_delete_account_holder_v3_account_holders__id__delete_Response_204
+    AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      title: AccountHolderType
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
   securitySchemes:
     APIKeyHeader:
       type: apiKey

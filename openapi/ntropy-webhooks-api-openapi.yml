@@ -168,36 +168,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    WebhookBaseEventsItems:
-      type: string
-      enum:
-      - reports.resolved
-      - reports.rejected
-      - reports.pending
-      - bank_statements.completed
-      - bank_statements.error
-      - batches.completed
-      - batches.error
-      title: WebhookBaseEventsItems
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    WebhookEventsItems:
-      type: string
-      enum:
-      - reports.resolved
-      - reports.rejected
-      - reports.pending
-      - bank_statements.completed
-      - bank_statements.error
-      - batches.completed
-      - batches.error
-      title: WebhookEventsItems
     PagedResponse_Webhook:
       type: object
       properties:
@@ -213,6 +183,93 @@ components:
       - next_cursor
       - data
       title: PagedResponse_Webhook
+    WebhookEventsItems:
+      type: string
+      enum:
+      - reports.resolved
+      - reports.rejected
+      - reports.pending
+      - bank_statements.completed
+      - bank_statements.error
+      - batches.completed
+      - batches.error
+      title: WebhookEventsItems
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    WebhookPatchEventsItems:
+      type: string
+      enum:
+      - reports.resolved
+      - reports.rejected
+      - reports.pending
+      - bank_statements.completed
+      - bank_statements.error
+      - batches.completed
+      - batches.error
+      title: WebhookPatchEventsItems
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    WebhookBaseEventsItems:
+      type: string
+      enum:
+      - reports.resolved
+      - reports.rejected
+      - reports.pending
+      - bank_statements.completed
+      - bank_statements.error
+      - batches.completed
+      - batches.error
+      title: WebhookBaseEventsItems
+    WebhookPatch:
+      type: object
+      properties:
+        url:
+          oneOf:
+          - $ref: '#/components/schemas/WebhookUrl'
+          - type: 'null'
+          description: The URL of the webhook
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/WebhookPatchEventsItems'
+          description: A list of events that this webhook subscribes to
+        token:
+          type:
+          - string
+          - 'null'
+          description: A secret string used to authenticate the webhook. This value will be included in the `X-Ntropy-Token` header when sending requests to the webhook
+        enabled:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the webhook is enabled or not.
+      title: WebhookPatch
+    WebhookUrl:
+      type: string
+      format: uri
+      title: WebhookUrl
     WebhookBase:
       type: object
       properties:
@@ -233,47 +290,6 @@ components:
       - url
       - events
       title: WebhookBase
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    WebhookUrl:
-      type: string
-      format: uri
-      title: WebhookUrl
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    WebhookPatchEventsItems:
-      type: string
-      enum:
-      - reports.resolved
-      - reports.rejected
-      - reports.pending
-      - bank_statements.completed
-      - bank_statements.error
-      - batches.completed
-      - batches.error
-      title: WebhookPatchEventsItems
-    Webhooks_delete_webhook_v3_webhooks__id__delete_Response_204:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: Webhooks_delete_webhook_v3_webhooks__id__delete_Response_204
     Webhook:
       type: object
       properties:
@@ -307,32 +323,16 @@ components:
       - created_at
       - enabled
       title: Webhook
-    WebhookPatch:
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    Webhooks_delete_webhook_v3_webhooks__id__delete_Response_204:
       type: object
-      properties:
-        url:
-          oneOf:
-          - $ref: '#/components/schemas/WebhookUrl'
-          - type: 'null'
-          description: The URL of the webhook
-        events:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/WebhookPatchEventsItems'
-          description: A list of events that this webhook subscribes to
-        token:
-          type:
-          - string
-          - 'null'
-          description: A secret string used to authenticate the webhook. This value will be included in the `X-Ntropy-Token` header when sending requests to the webhook
-        enabled:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the webhook is enabled or not.
-      title: WebhookPatch
+      properties: {}
+      description: Empty response body
+      title: Webhooks_delete_webhook_v3_webhooks__id__delete_Response_204
   securitySchemes:
     APIKeyHeader:
       type: apiKey

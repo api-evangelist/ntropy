@@ -180,14 +180,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ReportStatus:
+      type: string
+      enum:
+      - open
+      - pending
+      - resolved
+      - rejected
+      title: ReportStatus
+    Reports_delete_report_v3_reports__id__delete_Response_204:
       type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
+      properties: {}
+      description: Empty response body
+      title: Reports_delete_report_v3_reports__id__delete_Response_204
     PagedResponse_Report_:
       type: object
       properties:
@@ -203,14 +208,14 @@ components:
       - next_cursor
       - data
       title: PagedResponse_Report_
-    ReportStatus:
-      type: string
-      enum:
-      - open
-      - pending
-      - resolved
-      - rejected
-      title: ReportStatus
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     ValidationError:
       type: object
       properties:
@@ -227,25 +232,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ReportBase:
-      type: object
-      properties:
-        transaction_id:
-          type: string
-          description: The unique identifier of the transaction
-        description:
-          type: string
-          description: A description of what is wrong in the transaction
-        fields:
-          type: array
-          items:
-            type: string
-          description: A list of the fields that are incorrect
-      required:
-      - transaction_id
-      - description
-      - fields
-      title: ReportBase
     Report:
       type: object
       properties:
@@ -297,11 +283,25 @@ components:
       - type: string
       - type: integer
       title: ValidationErrorLocItems
-    Reports_delete_report_v3_reports__id__delete_Response_204:
+    ReportBase:
       type: object
-      properties: {}
-      description: Empty response body
-      title: Reports_delete_report_v3_reports__id__delete_Response_204
+      properties:
+        transaction_id:
+          type: string
+          description: The unique identifier of the transaction
+        description:
+          type: string
+          description: A description of what is wrong in the transaction
+        fields:
+          type: array
+          items:
+            type: string
+          description: A list of the fields that are incorrect
+      required:
+      - transaction_id
+      - description
+      - fields
+      title: ReportBase
   securitySchemes:
     APIKeyHeader:
       type: apiKey

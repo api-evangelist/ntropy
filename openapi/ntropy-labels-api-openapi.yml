@@ -148,13 +148,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ntropy_core__db__account_holder_type__AccountHolderType:
-      type: string
-      enum:
-      - consumer
-      - business
-      - unknown
-      title: AccountHolderType
     LlmHierarchy:
       properties:
         incoming:
@@ -172,6 +165,11 @@ components:
       - incoming
       - outgoing
       title: LlmHierarchy
+    LabelsHierarchy:
+      properties: {}
+      additionalProperties: true
+      type: object
+      title: LabelsHierarchy
     ValidationError:
       properties:
         loc:
@@ -193,11 +191,13 @@ components:
       - msg
       - type
       title: ValidationError
-    LabelsHierarchy:
-      properties: {}
-      additionalProperties: true
-      type: object
-      title: LabelsHierarchy
+    ntropy_core__db__account_holder_type__AccountHolderType:
+      type: string
+      enum:
+      - consumer
+      - business
+      - unknown
+      title: AccountHolderType
   securitySchemes:
     APIKeyHeader:
       type: apiKey
