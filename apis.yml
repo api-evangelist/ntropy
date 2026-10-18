@@ -163,6 +163,8 @@ apis:
   humanURL: https://docs.ntropy.com/
   baseURL: https://api.ntropy.com
   tags:
+  - Data Enrichment
+  tags_raw:
   - Enrichment
   properties:
   - type: OpenAPI
