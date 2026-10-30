@@ -64,6 +64,175 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Ntropy is a company surfaced as a portfolio company of qed-investors and added to the API Evangelist network as a stub for enrichment. Sector: fintech. This profile is a lead awaiting the enrichment pipeline.
+Ntropy provides a financial data standardization and enrichment API that turns raw bank transactions and bank-statement PDFs into structured, contextual data. Its products cover transaction enrichment (categorization, entity/merchant identification and recurring-payment detection), bank-statement OCR and extraction, account-holder ledgers, entity resolution, personalization rules, and event webhooks. The v3 REST API (base https://api.ntropy.com) uses API-key header auth, cursor pagination, and a credit-based rate model, and is used for underwriting, transaction approval, personal finance, customer retention and accounting. Ntropy is a fintech company backed by QED Investors; it ships an official Python SDK and a first-party MCP server.
 
-Backed by: qed-investors — https://ntropy.network/
+**Areas:** Company · Fintech · Transaction Enrichment · Financial Data · Data Enrichment · Bank Statements · Categorization · Underwriting
+
+## Ntropy on APIs.io
+
+Everything profiled for Ntropy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ntropy/](https://apis.io/providers/ntropy/)** — or go straight to one of the APIs or properties below.
+
+### APIs (15)
+
+- [Ntropy Account Holder API](https://apis.io/apis/ntropy/ntropy-account-holder-api/) — Ledger operations
+- [Ntropy Bank statements API](https://apis.io/apis/ntropy/ntropy-bank-statements-api/) — The bank statements API allows you to view and enrich transactions found in bank statements. Below is a table with the description of each of the statuses…
+- [Ntropy Batches API](https://apis.io/apis/ntropy/ntropy-batches-api/) — The batches API from Ntropy — 3 operation(s) for batches.
+- [Ntropy Categories API](https://apis.io/apis/ntropy/ntropy-categories-api/) — The categories API from Ntropy — 2 operation(s) for categories.
+- [Ntropy Enrichment API](https://apis.io/apis/ntropy/ntropy-enrichment-api/) — Transaction enrichment.
+- [Ntropy Entities API](https://apis.io/apis/ntropy/ntropy-entities-api/) — The entities API from Ntropy — 4 operation(s) for entities.
+- [Ntropy Labels API](https://apis.io/apis/ntropy/ntropy-labels-api/) — The Labels API from Ntropy — 2 operation(s) for labels.
+- [Ntropy Misc API](https://apis.io/apis/ntropy/ntropy-misc-api/) — Miscellaneous endpoint.
+- [Ntropy Personalization API](https://apis.io/apis/ntropy/ntropy-personalization-api/) — The personalization API from Ntropy — 6 operation(s) for personalization.
+- [Ntropy Recurrence API](https://apis.io/apis/ntropy/ntropy-recurrence-api/) — The recurrence API from Ntropy — 1 operation(s) for recurrence.
+- [Ntropy Reporting API](https://apis.io/apis/ntropy/ntropy-reporting-api/) — The Reporting API from Ntropy — 2 operation(s) for reporting.
+- [Ntropy Reports API](https://apis.io/apis/ntropy/ntropy-reports-api/) — The reports API from Ntropy — 2 operation(s) for reports.
+- [Ntropy Transactions API](https://apis.io/apis/ntropy/ntropy-transactions-api/) — The transactions API from Ntropy — 3 operation(s) for transactions.
+- [Ntropy Webhooks API](https://apis.io/apis/ntropy/ntropy-webhooks-api/) — The webhooks API from Ntropy — 2 operation(s) for webhooks.
+- [Ntropy Account Holders API](https://apis.io/apis/ntropy/ntropy-account-holders-api/) — The Account Holders API from Ntropy — 2 operation(s) for account holders.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Ntropy Webhooks](https://apis.io/asyncapis/ntropy/ntropy-webhooks-asyncapi/)
+
+#### Event channels (1)
+
+Individual events and webhooks the provider emits.
+
+- [/](https://apis.io/channels/ntropy/webhook/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [ntropy-mcp.yml](https://apis.io/servers/ntropy/ntropy-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Ntropy Agentic Access](https://apis.io/agentic-access/ntropy/ntropy-agentic-access/)
+
+#### Collections (16)
+
+Postman and Open Collection request collections.
+
+- [API Reference Account Holder API](https://apis.io/collections/ntropy/open-ntropy-account-holder-api/)
+- [API Reference Account Holder accountHolders API](https://apis.io/collections/ntropy/open-ntropy-accountholders-api/)
+- [API Reference Account Holder Bank statements API](https://apis.io/collections/ntropy/open-ntropy-bank-statements-api/)
+- [API Reference Account Holder bankStatements API](https://apis.io/collections/ntropy/open-ntropy-bankstatements-api/)
+- [API Reference Account Holder batches API](https://apis.io/collections/ntropy/open-ntropy-batches-api/)
+- [API Reference Account Holder categories API](https://apis.io/collections/ntropy/open-ntropy-categories-api/)
+- [API Reference Account Holder Enrichment API](https://apis.io/collections/ntropy/open-ntropy-enrichment-api/)
+- [API Reference Account Holder entities API](https://apis.io/collections/ntropy/open-ntropy-entities-api/)
+- [API Reference Account Holder Labels API](https://apis.io/collections/ntropy/open-ntropy-labels-api/)
+- [API Reference Account Holder Misc API](https://apis.io/collections/ntropy/open-ntropy-misc-api/)
+- [API Reference Account Holder personalization API](https://apis.io/collections/ntropy/open-ntropy-personalization-api/)
+- [API Reference Account Holder recurrence API](https://apis.io/collections/ntropy/open-ntropy-recurrence-api/)
+- [API Reference Account Holder Reporting API](https://apis.io/collections/ntropy/open-ntropy-reporting-api/)
+- [API Reference Account Holder reports API](https://apis.io/collections/ntropy/open-ntropy-reports-api/)
+- [API Reference Account Holder transactions API](https://apis.io/collections/ntropy/open-ntropy-transactions-api/)
+- [API Reference Account Holder webhooks API](https://apis.io/collections/ntropy/open-ntropy-webhooks-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Ntropy Api V3 Overlay](https://apis.io/overlays/ntropy/ntropy-api-v3-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Ntropy Authentication](https://apis.io/security/ntropy/ntropy-authentication/)
+- [Ntropy Domain Security](https://apis.io/security/ntropy/ntropy-domain-security/)
+- [Ntropy Trust Center](https://apis.io/security/ntropy/ntropy-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Ntropy Plans Pricing](https://apis.io/plans/ntropy/ntropy-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Ntropy Rate Limits](https://apis.io/rate-limits/ntropy/ntropy-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://ntropy.com/)
+- [Documentation](https://docs.ntropy.com/)
+- [Getting started](https://docs.ntropy.com/onboarding)
+- [API reference](https://docs.ntropy.com/documentation/api)
+- [Sign up](https://dashboard.ntropy.com/)
+- [Support](https://docs.ntropy.com/support)
+- [Blog](https://ntropy.com/blog)
+- [Compliance](https://trust.ntropy.com/)
+- [Terms of service](https://ntropy.com/terms)
+- [Privacy policy](https://ntropy.com/privacy)
+- [GitHub](https://github.com/ntropy-network)
+- [Status](https://status.ntropy.com/)
+
+## API Evangelist rating
+
+**Kin Score 55.9** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 58.6 |
+| Contract governance | 18.2 |
+| Operational transparency | 65.8 |
+| Developer ergonomics | 70.8 |
+| Access clarity | 42.1 |
+
+**Agent readiness 34.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 26.3** — Insurance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ntropy/](https://apis.io/providers/ntropy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Ntropy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ntropy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
